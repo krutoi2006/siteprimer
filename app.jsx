@@ -192,7 +192,7 @@ export default function App() {
         >
           <div className={`transform transition-all duration-[3000ms] ease-out ${isFadingOut ? 'scale-105 blur-sm' : 'scale-100 blur-0'}`}>
             <img 
-              src="/public/image/logo.webp" 
+              src="image/logo.webp" 
               alt="Santilli Architecture Logo" 
               className="w-64 md:w-96 object-contain"
             />
