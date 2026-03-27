@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowRight, ChevronDown, Wind, Shield, Clock } from 'lucide-react';
+import { X, ArrowRight, ChevronDown, Wind, Shield, Clock } from 'lucide-react';
 
 // --- ХУКИ И ВСПОМОГАТЕЛЬНЫЕ КОМПОНЕНТЫ ---
 
@@ -127,7 +127,7 @@ export default function App() {
 
   // Блокировка скролла при открытом модальном окне
   useEffect(() => {
-    if (isModalOpen && !isLoading) {
+    if ((isModalOpen || isMenuOpen) && !isLoading) {
       document.body.style.overflow = 'hidden';
     } else if (!isLoading) {
       document.body.style.overflow = 'unset';
@@ -136,7 +136,7 @@ export default function App() {
     return () => {
       if (!isLoading) document.body.style.overflow = 'unset';
     };
-  }, [isModalOpen, isLoading]);
+  }, [isModalOpen, isMenuOpen, isLoading]);
 
   // Автоматическое перелистывание карусели
   useEffect(() => {
@@ -174,7 +174,7 @@ export default function App() {
   };
 
   const navItems = [
-    { label: 'Видение', id: 'vision' },
+    { label: 'Введение', id: 'vision' },
     { label: 'Технологии', id: 'technology' },
     { label: 'Проекты', id: 'projects' },
     { label: 'Студия', id: 'studio' }
@@ -287,9 +287,14 @@ export default function App() {
       </div>
 
       {/* Навигация */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white/80 backdrop-blur-lg py-4' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed w-full ${isMenuOpen ? 'z-[70]' : 'z-50'} transition-all duration-500 ${scrollY > 50 ? 'bg-white/80 backdrop-blur-lg py-4' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          <div className="flex items-center gap-2 cursor-pointer group" onClick={(e) => scrollToSection(e, 'hero')}>
+          <div
+            className={`flex items-center gap-2 cursor-pointer group transition-opacity duration-300 ${
+              isMenuOpen ? 'opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto' : 'opacity-100'
+            }`}
+            onClick={(e) => scrollToSection(e, 'hero')}
+          >
             <div className="w-8 h-8 bg-stone-900 flex items-center justify-center transition-transform duration-500 group-hover:rotate-90">
               <div className="w-3 h-3 border border-white"></div>
             </div>
@@ -316,28 +321,66 @@ export default function App() {
             </button>
           </div>
 
-          <button className={`md:hidden ${scrollY > 50 ? 'text-stone-900' : 'text-white'}`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <button
+            type="button"
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            className={`relative z-[60] flex h-11 w-11 items-center justify-center rounded-full text-stone-900 transition-all duration-300 md:hidden ${
+              scrollY > 50
+                ? 'bg-white shadow-sm ring-1 ring-stone-200/80 hover:bg-white'
+                : 'bg-transparent shadow-none ring-0 hover:bg-transparent'
+            }`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span
+              className={`absolute h-[2px] w-5 rounded-full bg-current transition-all duration-500 ease-out ${
+                isMenuOpen ? 'translate-y-0 rotate-45' : '-translate-y-[7px]'
+              }`}
+            />
+            <span
+              className={`absolute h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out ${
+                isMenuOpen ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100'
+              }`}
+            />
+            <span
+              className={`absolute h-[2px] w-5 rounded-full bg-current transition-all duration-500 ease-out ${
+                isMenuOpen ? 'translate-y-0 -rotate-45' : 'translate-y-[7px]'
+              }`}
+            />
           </button>
         </div>
       </nav>
 
       {/* Мобильное меню */}
-      <div className={`fixed inset-0 bg-stone-50 z-40 transition-transform duration-500 ease-in-out md:hidden ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'} pt-32 px-6`}>
-        <div className="flex flex-col gap-8 text-2xl font-light tracking-tight">
+      <div
+        className={`fixed inset-0 z-[55] bg-stone-50 px-6 pt-28 pb-8 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden ${
+          isMenuOpen ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-full opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="flex min-h-full flex-col gap-6 text-xl font-light tracking-tight sm:text-2xl">
+          <div className="hidden items-center justify-end">
+            <button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-stone-500 transition-colors hover:text-stone-900"
+            >
+              <X size={18} strokeWidth={1.75} />
+              Закрыть
+            </button>
+          </div>
           {navItems.map((item) => (
             <a 
               key={item.id} 
               href={`#${item.id}`} 
               onClick={(e) => scrollToSection(e, item.id)} 
-              className="border-b border-stone-200 pb-4 text-stone-900"
+              className="border-b border-stone-300 pb-4 text-2xl font-medium leading-tight text-stone-950 sm:text-[2rem]"
             >
               {item.label}
             </a>
           ))}
           <button 
             onClick={() => { setIsMenuOpen(false); setIsModalOpen(true); }}
-            className="mt-8 text-sm font-medium bg-stone-900 text-white px-6 py-4 flex items-center justify-center gap-2"
+            className="mt-auto flex w-full items-center justify-center gap-2 bg-stone-900 px-6 py-4 text-sm font-medium text-white"
           >
             Начать проект
           </button>
@@ -386,7 +429,7 @@ export default function App() {
 
         <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 via-stone-900/30 to-stone-900/80 z-30" />
         
-        <div className="relative z-40 h-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-end pb-24 md:pb-32">
+        <div className="relative z-40 h-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-end pb-20 sm:pb-24 md:pb-32">
           <Reveal isReady={appReady} delay={200}>
             <div className="flex items-center gap-4 mb-6">
               <div className="h-[1px] w-12 bg-white"></div>
@@ -395,7 +438,7 @@ export default function App() {
           </Reveal>
           
           <Reveal isReady={appReady} delay={400}>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white tracking-tighter leading-[1.1] mb-8 max-w-4xl">
+            <h1 className="max-w-4xl text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-light text-white tracking-tighter leading-[1.1] mb-6 sm:mb-8">
               Архитектурная чистота.<br />
               <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">Инженерия на века.</span>
             </h1>
@@ -403,7 +446,7 @@ export default function App() {
 
           <Reveal isReady={appReady} delay={600}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <button onClick={(e) => scrollToSection(e, 'technology')} className="bg-white text-stone-900 px-8 py-4 text-sm font-medium hover:bg-stone-100 transition-colors flex items-center gap-2 group">
+              <button onClick={(e) => scrollToSection(e, 'technology')} className="flex w-full items-center justify-center gap-2 bg-white px-8 py-4 text-sm font-medium text-stone-900 hover:bg-stone-100 transition-colors group sm:w-auto">
                 Изучить технологию SCIP
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </button>
