@@ -160,7 +160,7 @@ const ScipVisualization = React.memo(function ScipVisualization() {
 
 // --- ГЛАВНОЕ ПРИЛОЖЕНИЕ ---
 
-const HeritageSection = React.memo(function HeritageSection() {
+const HeritageSection = React.memo(function HeritageSection({ isMobile = false }) {
   const [hoveredEpoch, setHoveredEpoch] = useState(null);
   const [supportsHover, setSupportsHover] = useState(false);
 
@@ -179,7 +179,10 @@ const HeritageSection = React.memo(function HeritageSection() {
   };
 
   return (
-    <section className="py-24 bg-stone-50 overflow-hidden relative border-t border-stone-200">
+    <section
+      className="py-24 bg-stone-50 overflow-hidden relative border-t border-stone-200"
+      style={isMobile ? { contentVisibility: 'auto', containIntrinsicSize: '700px' } : undefined}
+    >
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 text-center">
         <h2 className="text-3xl md:text-5xl font-light tracking-tighter bronze-text leading-[1.18] pt-[0.06em] pb-[0.16em] overflow-visible">
           От монументальности прошлого <span className="font-medium italic">к технологиям будущего.</span>
@@ -541,6 +544,8 @@ export default function App() {
   ];
 
   const [activeBriefId, setActiveBriefId] = useState(null);
+  const deferredSectionStyle = isMobile ? { contentVisibility: 'auto', containIntrinsicSize: '900px' } : undefined;
+  const deferredLargeSectionStyle = isMobile ? { contentVisibility: 'auto', containIntrinsicSize: '1200px' } : undefined;
 
   const toggleBrief = (id) => {
     setActiveBriefId((prev) => (prev === id ? null : id));
@@ -624,6 +629,21 @@ export default function App() {
 
         .float-card {
           animation: softFloatCard 7s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+          .bronze-text,
+          .bronze-text-light,
+          .float-card {
+            animation: none;
+          }
+
+          .backdrop-blur-sm,
+          .backdrop-blur-md,
+          .backdrop-blur-lg {
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
+          }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -877,7 +897,7 @@ export default function App() {
                 style={{ zIndex, clipPath, transition }}
               >
                 <div
-                  className="absolute inset-0 w-full h-full scale-105 will-change-transform"
+                  className={`absolute inset-0 w-full h-full scale-105 ${isMobile ? '' : 'will-change-transform'}`}
                   style={{
                     transform: 'scale(1.05)',
                     backgroundImage: `url(${src})`,
@@ -939,7 +959,7 @@ export default function App() {
       </section>
 
       {/* Секция Видение */}
-      <HeritageSection />
+      <HeritageSection isMobile={isMobile} />
 
       <section id="vision" className="py-32 md:py-48 bg-stone-50 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -975,10 +995,10 @@ export default function App() {
       </section>
 
       {/* Демонстрация Технологии */}
-      <section className="relative overflow-hidden bg-stone-950 text-stone-900">
+      <section className="relative overflow-hidden bg-stone-950 text-stone-900" style={deferredSectionStyle}>
         <div className="absolute inset-0">
           <div
-            className="absolute inset-x-0 -top-24 -bottom-24 scale-[1.08] will-change-transform"
+            className={`absolute inset-x-0 -top-24 -bottom-24 scale-[1.08] ${isMobile ? '' : 'will-change-transform'}`}
             style={{
               transform: isMobile ? 'scale(1.08)' : 'translateY(var(--technology-parallax)) scale(1.08)',
               backgroundImage: 'url(/image/dom2.webp)',
@@ -1216,7 +1236,7 @@ export default function App() {
         </div>
       </section>
 
-      <section id="technology" className="py-32 bg-white relative overflow-hidden border-y border-stone-200">
+      <section id="technology" className="py-32 bg-white relative overflow-hidden border-y border-stone-200" style={deferredLargeSectionStyle}>
         <div className="absolute top-0 right-0 w-1/2 h-full bg-stone-50/50 -z-10 hidden lg:block"></div>
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           
@@ -1424,14 +1444,14 @@ export default function App() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-stone-950 text-stone-50">
+      <section className="relative overflow-hidden bg-stone-950 text-stone-50" style={deferredSectionStyle}>
         <div className="absolute inset-0">
           <img
             src="/image/dom7.webp"
             alt=""
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover scale-[1.08] will-change-transform"
+            className={`absolute inset-0 h-full w-full object-cover scale-[1.08] ${isMobile ? '' : 'will-change-transform'}`}
             style={{ transform: isMobile ? 'scale(1.08)' : 'translateY(var(--construction-parallax)) scale(1.08)' }}
           />
         </div>
@@ -1472,7 +1492,7 @@ export default function App() {
         </div>
       </section>
 
-      <section id="projects" className="py-32 bg-stone-900 text-stone-50 relative min-h-[100vh] md:min-h-0 flex items-center md:block overflow-hidden">
+      <section id="projects" className="py-32 bg-stone-900 text-stone-50 relative min-h-[100vh] md:min-h-0 flex items-center md:block overflow-hidden" style={deferredLargeSectionStyle}>
         {isMobilePortrait ? (
           <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center">
             <img
@@ -1614,7 +1634,7 @@ export default function App() {
       </section>
 
       {/* CTA Секция (Студия) */}
-      <section className="py-32 bg-white relative overflow-hidden border-b border-stone-200">
+      <section className="py-32 bg-white relative overflow-hidden border-b border-stone-200" style={deferredSectionStyle}>
         <div className="absolute top-0 right-0 h-[420px] w-[420px] rounded-full bg-stone-100 blur-3xl opacity-80" />
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-start">
@@ -1695,7 +1715,7 @@ export default function App() {
         </div>
       </section>
 
-      <section id="studio" className="py-32 bg-stone-50 relative overflow-hidden">
+      <section id="studio" className="py-32 bg-stone-50 relative overflow-hidden" style={deferredSectionStyle}>
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-stone-200/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 opacity-50"></div>
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-stone-200/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 opacity-50"></div>
         
@@ -1719,7 +1739,7 @@ export default function App() {
       </section>
 
       {/* Подвал */}
-      <footer className="bg-stone-950 text-stone-400 py-20 border-t border-stone-900">
+      <footer className="bg-stone-950 text-stone-400 py-20 border-t border-stone-900" style={deferredSectionStyle}>
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-16">
             <div className="col-span-1 md:col-span-2">
