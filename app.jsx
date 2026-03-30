@@ -3,14 +3,47 @@ import { X, ArrowRight, ChevronDown, Wind, Shield, Clock, Smartphone } from 'luc
 
 // --- ХУКИ И ВСПОМОГАТЕЛЬНЫЕ КОМПОНЕНТЫ ---
 
-const useScroll = () => {
-  const [scrollY, setScrollY] = useState(0);
+const useScrollEffects = (rootRef, threshold = 50) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
+    let frameId = 0;
+    let lastScrolled = window.scrollY > threshold;
+
+    const applyScrollEffects = () => {
+      frameId = 0;
+
+      const currentScrollY = window.scrollY;
+      const root = rootRef.current;
+
+      if (root) {
+        root.style.setProperty('--hero-parallax', `${currentScrollY * 0.4}px`);
+        root.style.setProperty('--technology-parallax', `${currentScrollY * 0.03}px`);
+        root.style.setProperty('--construction-parallax', `${currentScrollY * 0.02}px`);
+      }
+
+      const nextScrolled = currentScrollY > threshold;
+      if (nextScrolled !== lastScrolled) {
+        lastScrolled = nextScrolled;
+        setIsScrolled(nextScrolled);
+      }
+    };
+
+    const handleScroll = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(applyScrollEffects);
+    };
+
+    applyScrollEffects();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  return scrollY;
+
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [rootRef, threshold]);
+
+  return isScrolled;
 };
 
 const useMobileOrientation = () => {
@@ -64,7 +97,7 @@ const Reveal = ({ children, delay = 0, direction = 'up', isReady = true }) => {
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translate(0)' : transform,
-        transition: `all 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${delay}ms`,
+        transition: `opacity 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${delay}ms, transform 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${delay}ms`,
       }}
     >
       {children}
@@ -73,7 +106,7 @@ const Reveal = ({ children, delay = 0, direction = 'up', isReady = true }) => {
 };
 
 // Интерактивная 3D визуализация технологии
-const ScipVisualization = () => {
+const ScipVisualization = React.memo(function ScipVisualization() {
   return (
     <div className="relative w-full aspect-square md:h-[600px] flex items-center justify-center group cursor-pointer" style={{ perspective: '1200px' }}>
       <div 
@@ -99,14 +132,97 @@ const ScipVisualization = () => {
       </div>
     </div>
   );
-};
+});
 
 
 // --- ГЛАВНОЕ ПРИЛОЖЕНИЕ ---
 
+const HeritageSection = () => {
+  const [hoveredEpoch, setHoveredEpoch] = useState(null);
+
+  return (
+    <section className="py-24 bg-stone-50 overflow-hidden relative border-t border-stone-200">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 text-center">
+        <h2 className="text-3xl md:text-5xl font-light tracking-tighter bronze-text leading-[1.18] pt-[0.06em] pb-[0.16em] overflow-visible">
+          От монументальности прошлого <span className="font-medium italic">к технологиям будущего.</span>
+        </h2>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 h-[600px] md:h-[700px]">
+        <div className="w-full h-full flex flex-col md:flex-row gap-[2px] bg-stone-300 overflow-hidden shadow-2xl">
+          <div
+            className="relative h-full overflow-hidden cursor-pointer bg-stone-900"
+            style={{
+              flex: hoveredEpoch === 'old' ? 2 : hoveredEpoch === 'new' ? 0.6 : 1,
+              transition: 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
+            }}
+            onMouseEnter={() => setHoveredEpoch('old')}
+            onMouseLeave={() => setHoveredEpoch(null)}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('/image/zamok.webp')` }}
+            />
+            <div className={`absolute inset-0 transition-colors duration-700 ${hoveredEpoch === 'old' ? 'bg-stone-900/40' : 'bg-stone-900/60'}`} />
+
+            <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+              <div className={`transition-all duration-700 transform ${hoveredEpoch === 'old' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80'}`}>
+                <div className="text-[#dcb589] text-xs font-bold tracking-[0.2em] uppercase mb-3">~ 1000 г. н.э.</div>
+                <h3 className="text-3xl md:text-4xl font-light text-white mb-2 whitespace-nowrap">Каменные замки</h3>
+
+                <div className={`grid transition-all duration-700 ease-in-out ${hoveredEpoch === 'old' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                  <div className="overflow-hidden">
+                    <p className="text-stone-300 font-light max-w-sm text-sm md:text-base pt-4">
+                      Вершина инженерии своего времени. Технологии, создавшие эталон долговечности и надежности.
+                      Мы отдаем дань уважения их монументальности.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="relative h-full overflow-hidden cursor-pointer bg-stone-900"
+            style={{
+              flex: hoveredEpoch === 'new' ? 2 : hoveredEpoch === 'old' ? 0.6 : 1,
+              transition: 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
+            }}
+            onMouseEnter={() => setHoveredEpoch('new')}
+            onMouseLeave={() => setHoveredEpoch(null)}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url('/image/dom1.webp')` }}
+            />
+            <div className={`absolute inset-0 transition-colors duration-700 ${hoveredEpoch === 'new' ? 'bg-stone-900/40' : 'bg-stone-900/60'}`} />
+
+            <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+              <div className={`transition-all duration-700 transform ${hoveredEpoch === 'new' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80'}`}>
+                <div className="text-[#dcb589] text-xs font-bold tracking-[0.2em] uppercase mb-3">Наши дни</div>
+                <h3 className="text-3xl md:text-4xl font-light text-white mb-2 whitespace-nowrap">CLT и SCIP</h3>
+
+                <div className={`grid transition-all duration-700 ease-in-out ${hoveredEpoch === 'new' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                  <div className="overflow-hidden">
+                    <p className="text-stone-300 font-light max-w-sm text-sm md:text-base pt-4">
+                      Эволюция прочности. Мы переносим надежность прошлого в наше время, наделяя ее
+                      абсолютным комфортом и интеллектом современных материалов.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function App() {
+  const rootRef = useRef(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const scrollY = useScroll();
+  const isScrolled = useScrollEffects(rootRef);
   const { isMobilePortrait, isMobile } = useMobileOrientation();
 
   // Состояния для экрана загрузки
@@ -119,9 +235,9 @@ export default function App() {
 
   // Изображения для карусели главного экрана
   const heroImages = [
-    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80',
-    'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80',
-    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2850&q=80'
+    '/image/dom5.webp',
+    '/image/dom4.webp',
+    '/image/dom7.webp'
   ];
 
   const [heroIndices, setHeroIndices] = useState({ prev: heroImages.length - 1, current: 0 });
@@ -171,7 +287,7 @@ export default function App() {
     }, 6000);
     
     return () => clearInterval(timer);
-  }, [heroIndices.current, appReady]);
+  }, [appReady, heroImages.length]);
 
   const handleManualSlide = (index) => {
     if (index === heroIndices.current) return;
@@ -395,7 +511,15 @@ export default function App() {
   );
 
   return (
-    <div className="font-sans text-stone-900 bg-stone-50 min-h-screen overflow-x-hidden selection:bg-stone-300 selection:text-stone-900">
+    <div
+      ref={rootRef}
+      style={{
+        '--hero-parallax': '0px',
+        '--technology-parallax': '0px',
+        '--construction-parallax': '0px',
+      }}
+      className="font-sans text-stone-900 bg-stone-50 min-h-screen overflow-x-hidden selection:bg-stone-300 selection:text-stone-900"
+    >
       <style dangerouslySetInnerHTML={{ __html: `
         .bronze-text {
           background: linear-gradient(-45deg, #4a3320 0%, #a67c52 25%, #dcb589 50%, #a67c52 75%, #4a3320 100%);
@@ -432,8 +556,23 @@ export default function App() {
           100% { opacity: 1; transform: translateY(0); }
         }
 
+        @keyframes softFloatCard {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+
         .animate-projects-reveal {
           animation: slideDownProjects 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .float-card {
+          animation: softFloatCard 7s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .float-card {
+            animation: none;
+          }
         }
       ` }} />
       
@@ -541,7 +680,7 @@ export default function App() {
       </div>
 
       {/* Навигация */}
-      <nav className={`fixed w-full ${isMenuOpen ? 'z-[70]' : 'z-50'} transition-all duration-500 ${scrollY > 50 ? 'bg-white/80 backdrop-blur-lg py-4' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed w-full ${isMenuOpen ? 'z-[70]' : 'z-50'} transition-all duration-500 ${isScrolled ? 'bg-white/80 backdrop-blur-lg py-4' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           <div
             className={`flex items-center gap-2 cursor-pointer group transition-opacity duration-300 ${
@@ -552,7 +691,20 @@ export default function App() {
             <div className="w-8 h-8 bg-stone-900 flex items-center justify-center transition-transform duration-500 group-hover:rotate-90">
               <div className="w-3 h-3 border border-white"></div>
             </div>
-            <span className={`text-xl font-medium tracking-tight transition-colors duration-500 ${scrollY > 50 ? 'bronze-text' : 'bronze-text-light'}`}>SANTILLI</span>
+            <span className={`text-xl font-medium tracking-tight transition-colors duration-500 ${isScrolled ? 'bronze-text' : 'bronze-text-light'}`}>SANTILLI</span>
+            <div
+              className={`overflow-hidden rounded-full border transition-all duration-500 ${
+                isScrolled
+                  ? 'border-stone-200 bg-white/90 shadow-[0_8px_24px_rgba(28,25,23,0.08)]'
+                  : 'border-white/15 bg-white/10 backdrop-blur-sm'
+              }`}
+            >
+              <img
+                src="/image/23.webp"
+                alt="Italy and Russia"
+                className="h-9 w-16 object-contain"
+              />
+            </div>
           </div>
           
           <div className="hidden md:flex items-center gap-10">
@@ -561,14 +713,14 @@ export default function App() {
                 key={item.id} 
                 href={`#${item.id}`} 
                 onClick={(e) => scrollToSection(e, item.id)}
-                className={`text-sm font-medium transition-colors duration-300 hover:text-stone-400 ${scrollY > 50 ? 'text-stone-600 hover:text-stone-900' : 'text-stone-300 hover:text-white'}`}
+                className={`text-sm font-medium transition-colors duration-300 hover:text-stone-400 ${isScrolled ? 'text-stone-600 hover:text-stone-900' : 'text-stone-300 hover:text-white'}`}
               >
                 {item.label}
               </a>
             ))}
             <button 
               onClick={() => setIsModalOpen(true)}
-              className={`text-sm font-medium px-6 py-2.5 transition-all duration-300 flex items-center gap-2 group ${scrollY > 50 ? 'bg-stone-900 text-white hover:bg-stone-800' : 'bg-white text-stone-900 hover:bg-stone-200'}`}
+              className={`text-sm font-medium px-6 py-2.5 transition-all duration-300 flex items-center gap-2 group ${isScrolled ? 'bg-stone-900 text-white hover:bg-stone-800' : 'bg-white text-stone-900 hover:bg-stone-200'}`}
             >
               Связаться
               <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
@@ -579,7 +731,7 @@ export default function App() {
             type="button"
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             className={`relative z-[60] flex h-11 w-11 items-center justify-center rounded-full text-stone-900 transition-all duration-300 md:hidden ${
-              scrollY > 50
+              isScrolled
                 ? 'bg-white shadow-sm ring-1 ring-stone-200/80 hover:bg-white'
                 : 'bg-transparent shadow-none ring-0 hover:bg-transparent'
             }`}
@@ -668,9 +820,9 @@ export default function App() {
                 style={{ zIndex, clipPath, transition }}
               >
                 <div
-                  className="absolute inset-0 w-full h-full scale-105"
+                  className="absolute inset-0 w-full h-full scale-105 will-change-transform"
                   style={{
-                    transform: `translateY(${scrollY * 0.4}px) scale(1.05)`,
+                    transform: 'scale(1.05)',
                     backgroundImage: `url(${src})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
@@ -730,6 +882,8 @@ export default function App() {
       </section>
 
       {/* Секция Видение */}
+      <HeritageSection />
+
       <section id="vision" className="py-32 md:py-48 bg-stone-50 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
@@ -767,10 +921,10 @@ export default function App() {
       <section className="relative overflow-hidden bg-stone-950 text-stone-900">
         <div className="absolute inset-0">
           <div
-            className="absolute inset-0 scale-[1.08]"
+            className="absolute inset-x-0 -top-24 -bottom-24 scale-[1.08] will-change-transform"
             style={{
-              transform: `translateY(${scrollY * 0.03}px) scale(1.08)`,
-              backgroundImage: 'url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2200&q=80)',
+              transform: isMobile ? 'scale(1.08)' : 'translateY(var(--technology-parallax)) scale(1.08)',
+              backgroundImage: 'url(/image/dom2.webp)',
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}
@@ -799,7 +953,7 @@ export default function App() {
             </div>
 
             <div className="lg:col-span-4 lg:col-start-9">
-              <div className="grid gap-4">
+              <div className="grid gap-4" style={{ overflowAnchor: 'none' }}>
                 {contactHighlights.map((item, idx) => (
                   <Reveal key={item.title} delay={idx * 120}>
                     <button
@@ -1027,6 +1181,30 @@ export default function App() {
               <Reveal direction="none">
                 <ScipVisualization />
               </Reveal>
+              <Reveal delay={180}>
+                <div className="relative z-10 mx-auto -mt-2 w-full max-w-[300px] sm:max-w-[340px] lg:ml-28 lg:translate-x-[20px]">
+                  <div className="float-card group border border-stone-200/90 bg-white/85 p-4 shadow-[0_30px_80px_rgba(28,25,23,0.12)] backdrop-blur-md transition-shadow duration-700 hover:shadow-[0_40px_90px_rgba(28,25,23,0.16)]">
+                    <div className="mb-3 flex items-center gap-4">
+                      <span className="text-[10px] font-bold tracking-[0.2em] text-stone-400 uppercase whitespace-nowrap">
+                        Сечение SCIP
+                      </span>
+                      <div className="h-px flex-1 bg-gradient-to-r from-stone-200 to-transparent" />
+                    </div>
+                    <div className="overflow-hidden border border-stone-100 bg-stone-50">
+                      <img
+                        src="/image/i222.webp"
+                        alt="Сечение SCIP панели"
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full bg-white object-contain transition-transform duration-700 group-hover:scale-[1.015]"
+                      />
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-stone-500">
+                      Реальный срез панели показывает логику слоев, армирования и изоляции в той последовательности, в которой система работает в доме.
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
             </div>
 
             <div className="order-1 lg:order-2 flex flex-col gap-12">
@@ -1192,35 +1370,35 @@ export default function App() {
       <section className="relative overflow-hidden bg-stone-950 text-stone-50">
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?ixlib=rb-4.0.3&auto=format&fit=crop&w=2200&q=80"
+            src="/image/dom7.webp"
             alt=""
-            className="absolute inset-0 h-full w-full object-cover scale-[1.08]"
-            style={{ transform: isMobile ? 'scale(1.08)' : `translateY(${scrollY * 0.02}px) scale(1.08)` }}
+            className="absolute inset-0 h-full w-full object-cover scale-[1.08] will-change-transform"
+            style={{ transform: isMobile ? 'scale(1.08)' : 'translateY(var(--construction-parallax)) scale(1.08)' }}
           />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-40">
-          <div className="max-w-3xl w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-20 sm:py-24 md:py-40">
+          <div className="max-w-[320px] sm:max-w-3xl w-full">
             <Reveal>
-              <div className="max-w-2xl border border-white/15 bg-white/5 px-6 py-7 backdrop-blur-sm sm:px-8 sm:py-9">
+              <div className="max-w-[320px] sm:max-w-2xl border border-white/30 bg-white/60 px-5 py-6 backdrop-blur-md sm:px-8 sm:py-9">
                 <div className="text-xs font-bold tracking-[0.2em] text-stone-900 uppercase mb-4">Реализация</div>
-                <h2 className="text-3xl sm:text-4xl md:text-6xl font-light tracking-tighter text-stone-950 leading-[1.08] break-words mb-6">
+                <h2 className="text-2xl sm:text-4xl md:text-6xl font-light tracking-tighter text-stone-950 leading-[1.08] break-words mb-5 sm:mb-6">
                   Строительство и монтаж
                 </h2>
-                <p className="text-base sm:text-lg text-stone-900 leading-relaxed break-words">
+                <p className="text-sm sm:text-lg text-stone-900 leading-relaxed break-words">
                   Реализация идет по ясной последовательности: фундамент, сборка CLT или SCIP, кровля, фасады, инженерия, отделка и точное доведение дома до готовности.
                 </p>
               </div>
             </Reveal>
 
-            <div className="mt-10 grid max-w-3xl grid-cols-1 gap-3">
+            <div className="mt-8 sm:mt-10 grid max-w-[320px] sm:max-w-3xl grid-cols-1 gap-2 sm:gap-3" style={{ overflowAnchor: 'none' }}>
               {constructionStages.map((stage, idx) => (
                 <Reveal key={stage.title} delay={idx * 90}>
                   <button
                     type="button"
                     onClick={() => toggleBrief(`construction-${idx}`)}
                     aria-expanded={Boolean(activeBriefs[`construction-${idx}`])}
-                    className="h-full w-full border border-white/15 bg-white/5 px-5 py-3 text-left text-sm font-medium text-stone-900 backdrop-blur-sm transition-colors duration-300 hover:bg-white/10"
+                    className="h-full w-full border border-white/30 bg-white/55 px-4 py-3 text-left text-sm font-medium text-stone-900 backdrop-blur-md transition-colors duration-300 hover:bg-white/70 sm:px-5"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <span className="pr-3 leading-snug">{stage.title}</span>
@@ -1243,14 +1421,17 @@ export default function App() {
               alt="Project Background"
               className="absolute inset-0 w-full h-full object-cover opacity-20"
             />
-            <div className="absolute inset-0 bg-stone-900/60 backdrop-blur-md"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.58)_0%,rgba(255,255,255,0.32)_36%,rgba(245,245,244,0.16)_64%,rgba(28,25,23,0.06)_100%)] backdrop-blur-sm"></div>
 
             <div className="relative z-10 flex max-w-sm flex-col items-center justify-center p-8 text-center">
-              <img
-                src="image/logo.webp"
-                alt="Brand Logo"
-                className="mb-12 w-48 opacity-30 mix-blend-screen"
-              />
+              <div className="relative mb-12">
+                <div className="absolute inset-x-6 inset-y-5 rounded-full bg-white/24 blur-2xl" />
+                <img
+                  src="image/logo2.webp"
+                  alt="Brand Logo2"
+                  className="relative w-52 opacity-90 drop-shadow-[0_18px_40px_rgba(255,255,255,0.18)]"
+                />
+              </div>
               <div className="relative mb-6 flex h-24 w-24 items-center justify-center">
                 <Smartphone size={56} strokeWidth={1} className="absolute text-[#f8d5a6]" style={{ animation: 'phoneRotate 2.5s ease-in-out infinite' }} />
               </div>
@@ -1282,7 +1463,7 @@ export default function App() {
                 <Reveal>
                   <div className="relative overflow-hidden aspect-[21/9] bg-stone-800">
                     <img 
-                      src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+                      src="/image/dom1.webp" 
                       alt="Современная Вилла" 
                       className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
@@ -1304,7 +1485,7 @@ export default function App() {
                 <Reveal delay={200}>
                   <div className="relative overflow-hidden aspect-[4/5] bg-stone-800">
                     <img 
-                      src="https://images.unsplash.com/photo-1600607686527-6fb886090705?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                      src="/image/dom2.webp" 
                       alt="Прибрежный Дом" 
                       className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
@@ -1323,7 +1504,7 @@ export default function App() {
                 <Reveal delay={400}>
                   <div className="relative overflow-hidden aspect-[4/5] bg-stone-800">
                     <img 
-                      src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                      src="/image/dom4.webp" 
                       alt="Урбанистический Минимализм" 
                       className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
