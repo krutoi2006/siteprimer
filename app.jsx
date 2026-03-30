@@ -9,6 +9,8 @@ const useScrollEffects = (rootRef, threshold = 50) => {
   useEffect(() => {
     let frameId = 0;
     let lastScrolled = window.scrollY > threshold;
+    let lastTechnologyParallax = '';
+    let lastConstructionParallax = '';
 
     const applyScrollEffects = () => {
       frameId = 0;
@@ -17,9 +19,18 @@ const useScrollEffects = (rootRef, threshold = 50) => {
       const root = rootRef.current;
 
       if (root) {
-        root.style.setProperty('--hero-parallax', `${currentScrollY * 0.4}px`);
-        root.style.setProperty('--technology-parallax', `${currentScrollY * 0.03}px`);
-        root.style.setProperty('--construction-parallax', `${currentScrollY * 0.02}px`);
+        const nextTechnologyParallax = window.innerWidth > 768 ? `${currentScrollY * 0.03}px` : '0px';
+        const nextConstructionParallax = window.innerWidth > 768 ? `${currentScrollY * 0.02}px` : '0px';
+
+        if (nextTechnologyParallax !== lastTechnologyParallax) {
+          lastTechnologyParallax = nextTechnologyParallax;
+          root.style.setProperty('--technology-parallax', nextTechnologyParallax);
+        }
+
+        if (nextConstructionParallax !== lastConstructionParallax) {
+          lastConstructionParallax = nextConstructionParallax;
+          root.style.setProperty('--construction-parallax', nextConstructionParallax);
+        }
       }
 
       const nextScrolled = currentScrollY > threshold;
@@ -51,16 +62,28 @@ const useMobileOrientation = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    let frameId = 0;
+
     const checkOrientation = () => {
       const mobileCheck = window.innerWidth <= 768;
-      setIsMobile(mobileCheck);
-      setIsMobilePortrait(mobileCheck && window.innerHeight > window.innerWidth);
+      const nextPortrait = mobileCheck && window.innerHeight > window.innerWidth;
+
+      setIsMobile((prev) => (prev === mobileCheck ? prev : mobileCheck));
+      setIsMobilePortrait((prev) => (prev === nextPortrait ? prev : nextPortrait));
+    };
+
+    const handleResize = () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(checkOrientation);
     };
 
     checkOrientation();
-    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', checkOrientation);
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return { isMobilePortrait, isMobile };
@@ -137,8 +160,23 @@ const ScipVisualization = React.memo(function ScipVisualization() {
 
 // --- ГЛАВНОЕ ПРИЛОЖЕНИЕ ---
 
-const HeritageSection = () => {
+const HeritageSection = React.memo(function HeritageSection() {
   const [hoveredEpoch, setHoveredEpoch] = useState(null);
+  const [supportsHover, setSupportsHover] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const updateHoverSupport = () => setSupportsHover(mediaQuery.matches);
+
+    updateHoverSupport();
+    mediaQuery.addEventListener('change', updateHoverSupport);
+
+    return () => mediaQuery.removeEventListener('change', updateHoverSupport);
+  }, []);
+
+  const activateEpoch = (epoch) => {
+    setHoveredEpoch(epoch);
+  };
 
   return (
     <section className="py-24 bg-stone-50 overflow-hidden relative border-t border-stone-200">
@@ -151,13 +189,23 @@ const HeritageSection = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 h-[600px] md:h-[700px]">
         <div className="w-full h-full flex flex-col md:flex-row gap-[2px] bg-stone-300 overflow-hidden shadow-2xl">
           <div
-            className="relative h-full overflow-hidden cursor-pointer bg-stone-900"
+            className="relative h-full overflow-hidden cursor-pointer touch-manipulation bg-stone-900"
             style={{
               flex: hoveredEpoch === 'old' ? 2 : hoveredEpoch === 'new' ? 0.6 : 1,
               transition: 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
             }}
-            onMouseEnter={() => setHoveredEpoch('old')}
-            onMouseLeave={() => setHoveredEpoch(null)}
+            role="button"
+            tabIndex={0}
+            aria-expanded={hoveredEpoch === 'old'}
+            onMouseEnter={supportsHover ? () => setHoveredEpoch('old') : undefined}
+            onMouseLeave={supportsHover ? () => setHoveredEpoch(null) : undefined}
+            onClick={() => activateEpoch('old')}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                activateEpoch('old');
+              }
+            }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -183,13 +231,23 @@ const HeritageSection = () => {
           </div>
 
           <div
-            className="relative h-full overflow-hidden cursor-pointer bg-stone-900"
+            className="relative h-full overflow-hidden cursor-pointer touch-manipulation bg-stone-900"
             style={{
               flex: hoveredEpoch === 'new' ? 2 : hoveredEpoch === 'old' ? 0.6 : 1,
               transition: 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
             }}
-            onMouseEnter={() => setHoveredEpoch('new')}
-            onMouseLeave={() => setHoveredEpoch(null)}
+            role="button"
+            tabIndex={0}
+            aria-expanded={hoveredEpoch === 'new'}
+            onMouseEnter={supportsHover ? () => setHoveredEpoch('new') : undefined}
+            onMouseLeave={supportsHover ? () => setHoveredEpoch(null) : undefined}
+            onClick={() => activateEpoch('new')}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                activateEpoch('new');
+              }
+            }}
           >
             <div
               className="absolute inset-0 bg-cover bg-center"
@@ -217,7 +275,7 @@ const HeritageSection = () => {
       </div>
     </section>
   );
-};
+});
 
 export default function App() {
   const rootRef = useRef(null);
@@ -482,22 +540,22 @@ export default function App() {
     }
   ];
 
-  const [activeBriefs, setActiveBriefs] = useState({});
+  const [activeBriefId, setActiveBriefId] = useState(null);
 
   const toggleBrief = (id) => {
-    setActiveBriefs((prev) => (prev[id] ? {} : { [id]: true }));
+    setActiveBriefId((prev) => (prev === id ? null : id));
   };
 
   const renderBrief = (id, content, theme = 'light') => (
     <div
       className={`grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        activeBriefs[id] ? 'mt-4 grid-rows-[1fr] opacity-100' : 'mt-0 grid-rows-[0fr] opacity-0'
+        activeBriefId === id ? 'mt-4 grid-rows-[1fr] opacity-100' : 'mt-0 grid-rows-[0fr] opacity-0'
       }`}
     >
       <div className="overflow-hidden">
         <div
           className={`text-left transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-            activeBriefs[id] ? 'translate-y-0 scale-100' : '-translate-y-2 scale-[0.985]'
+            activeBriefId === id ? 'translate-y-0 scale-100' : '-translate-y-2 scale-[0.985]'
           } ${
             theme === 'dark'
               ? 'border border-white/15 bg-white/10 px-5 py-4 text-sm leading-7 text-stone-200 backdrop-blur-sm sm:pr-8'
@@ -514,7 +572,6 @@ export default function App() {
     <div
       ref={rootRef}
       style={{
-        '--hero-parallax': '0px',
         '--technology-parallax': '0px',
         '--construction-parallax': '0px',
       }}
@@ -959,7 +1016,7 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => toggleBrief(`contact-${idx}`)}
-                      aria-expanded={Boolean(activeBriefs[`contact-${idx}`])}
+                      aria-expanded={activeBriefId === `contact-${idx}`}
                       className="group w-full border border-white/10 bg-white/5 p-6 text-left backdrop-blur-md transition-all duration-500 hover:bg-white/10 hover:border-white/20"
                     >
                       <div className="flex items-start justify-between gap-4">
@@ -969,7 +1026,7 @@ export default function App() {
                           </div>
                           <h3 className="text-xl font-medium leading-snug text-white">{item.title}</h3>
                         </div>
-                        <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-300 transition-transform duration-300 ${activeBriefs[`contact-${idx}`] ? 'rotate-180' : ''}`} />
+                        <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-300 transition-transform duration-300 ${activeBriefId === `contact-${idx}` ? 'rotate-180' : ''}`} />
                       </div>
                       {renderBrief(`contact-${idx}`, item.desc, 'dark')}
                     </button>
@@ -1012,7 +1069,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => toggleBrief(`site-${idx}`)}
-                    aria-expanded={Boolean(activeBriefs[`site-${idx}`])}
+                    aria-expanded={activeBriefId === `site-${idx}`}
                     className="group w-full border border-stone-200 bg-white p-6 text-left backdrop-blur-md transition-all duration-500 hover:bg-stone-50 hover:border-stone-300 md:p-7"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -1022,7 +1079,7 @@ export default function App() {
                         </div>
                         <h3 className="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
                       </div>
-                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`site-${idx}`] ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `site-${idx}` ? 'rotate-180' : ''}`} />
                     </div>
                     {renderBrief(`site-${idx}`, item.desc)}
                   </button>
@@ -1055,12 +1112,12 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => toggleBrief(`concept-${idx}`)}
-                      aria-expanded={Boolean(activeBriefs[`concept-${idx}`])}
+                      aria-expanded={activeBriefId === `concept-${idx}`}
                       className="w-full border border-stone-200 bg-stone-50 px-5 py-6 text-left transition-colors duration-300 hover:bg-stone-100"
                     >
                       <div className="flex items-start justify-between gap-4">
                         <p className="pr-3 text-sm font-medium leading-relaxed text-stone-700">{point.title}</p>
-                        <ChevronDown size={16} className={`mt-0.5 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`concept-${idx}`] ? 'rotate-180' : ''}`} />
+                        <ChevronDown size={16} className={`mt-0.5 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `concept-${idx}` ? 'rotate-180' : ''}`} />
                       </div>
                       {renderBrief(`concept-${idx}`, point.desc)}
                     </button>
@@ -1083,12 +1140,12 @@ export default function App() {
                         key={item.title}
                         type="button"
                         onClick={() => toggleBrief(`architecture-${idx}`)}
-                        aria-expanded={Boolean(activeBriefs[`architecture-${idx}`])}
+                        aria-expanded={activeBriefId === `architecture-${idx}`}
                         className="w-full border border-stone-200 bg-white p-5 text-left backdrop-blur-md transition-all duration-500 hover:bg-stone-50 hover:border-stone-300"
                       >
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 pr-3 text-xs font-bold tracking-[0.18em] text-stone-400 uppercase">{item.title}</div>
-                          <ChevronDown size={16} className={`shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`architecture-${idx}`] ? 'rotate-180' : ''}`} />
+                          <ChevronDown size={16} className={`shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `architecture-${idx}` ? 'rotate-180' : ''}`} />
                         </div>
                         {renderBrief(`architecture-${idx}`, item.desc)}
                       </button>
@@ -1134,7 +1191,7 @@ export default function App() {
                         key={item.title}
                         type="button"
                         onClick={() => toggleBrief(`design-${idx}`)}
-                        aria-expanded={Boolean(activeBriefs[`design-${idx}`])}
+                        aria-expanded={activeBriefId === `design-${idx}`}
                         className="w-full border-b border-white/10 pb-4 text-left last:border-b-0 last:pb-0"
                       >
                         <div className="flex items-start gap-4">
@@ -1144,7 +1201,7 @@ export default function App() {
                           <div className="flex-1">
                             <div className="flex items-start justify-between gap-4">
                               <p className="pr-3 text-lg leading-relaxed text-stone-200">{item.title}</p>
-                              <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-300 transition-transform duration-300 ${activeBriefs[`design-${idx}`] ? 'rotate-180' : ''}`} />
+                              <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-300 transition-transform duration-300 ${activeBriefId === `design-${idx}` ? 'rotate-180' : ''}`} />
                             </div>
                             {renderBrief(`design-${idx}`, item.desc, 'dark')}
                           </div>
@@ -1268,7 +1325,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => toggleBrief(`engineering-${idx}`)}
-                    aria-expanded={Boolean(activeBriefs[`engineering-${idx}`])}
+                    aria-expanded={activeBriefId === `engineering-${idx}`}
                     className="group w-full border border-stone-200 bg-white p-6 text-left backdrop-blur-md transition-all duration-500 hover:bg-stone-50 hover:border-stone-300 md:p-7"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -1278,7 +1335,7 @@ export default function App() {
                         </div>
                         <h3 className="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
                       </div>
-                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`engineering-${idx}`] ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `engineering-${idx}` ? 'rotate-180' : ''}`} />
                     </div>
                     {renderBrief(`engineering-${idx}`, item.desc)}
                   </button>
@@ -1306,14 +1363,14 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => toggleBrief(`budget-${idx}`)}
-                    aria-expanded={Boolean(activeBriefs[`budget-${idx}`])}
+                    aria-expanded={activeBriefId === `budget-${idx}`}
                     className="group w-full border border-stone-200 bg-white px-6 py-5 text-left transition-all duration-500 hover:border-stone-300 hover:shadow-[0_18px_50px_rgba(28,25,23,0.06)]"
                   >
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div className="flex-1 pr-3">
                         <h3 className="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
                       </div>
-                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`budget-${idx}`] ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `budget-${idx}` ? 'rotate-180' : ''}`} />
                     </div>
                     {renderBrief(`budget-${idx}`, item.desc)}
                   </button>
@@ -1346,7 +1403,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => toggleBrief(`supervision-${idx}`)}
-                    aria-expanded={Boolean(activeBriefs[`supervision-${idx}`])}
+                    aria-expanded={activeBriefId === `supervision-${idx}`}
                     className="w-full border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm md:p-7 transition-all duration-500 hover:bg-white/[0.07]"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -1356,7 +1413,7 @@ export default function App() {
                         </div>
                         <h3 className="text-xl font-medium leading-snug text-white">{item.title}</h3>
                       </div>
-                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-300 transition-transform duration-300 ${activeBriefs[`supervision-${idx}`] ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-300 transition-transform duration-300 ${activeBriefId === `supervision-${idx}` ? 'rotate-180' : ''}`} />
                     </div>
                     {renderBrief(`supervision-${idx}`, item.desc, 'dark')}
                   </button>
@@ -1372,6 +1429,8 @@ export default function App() {
           <img
             src="/image/dom7.webp"
             alt=""
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover scale-[1.08] will-change-transform"
             style={{ transform: isMobile ? 'scale(1.08)' : 'translateY(var(--construction-parallax)) scale(1.08)' }}
           />
@@ -1397,12 +1456,12 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => toggleBrief(`construction-${idx}`)}
-                    aria-expanded={Boolean(activeBriefs[`construction-${idx}`])}
+                    aria-expanded={activeBriefId === `construction-${idx}`}
                     className="h-full w-full border border-white/30 bg-white/55 px-4 py-3 text-left text-sm font-medium text-stone-900 backdrop-blur-md transition-colors duration-300 hover:bg-white/70 sm:px-5"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <span className="pr-3 leading-snug">{stage.title}</span>
-                      <ChevronDown size={14} className={`transition-transform duration-300 ${activeBriefs[`construction-${idx}`] ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={14} className={`transition-transform duration-300 ${activeBriefId === `construction-${idx}` ? 'rotate-180' : ''}`} />
                     </div>
                     {renderBrief(`construction-${idx}`, stage.desc, 'light')}
                   </button>
@@ -1419,6 +1478,8 @@ export default function App() {
             <img
               src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
               alt="Project Background"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover opacity-20"
             />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.58)_0%,rgba(255,255,255,0.32)_36%,rgba(245,245,244,0.16)_64%,rgba(28,25,23,0.06)_100%)] backdrop-blur-sm"></div>
@@ -1429,6 +1490,8 @@ export default function App() {
                 <img
                   src="image/logo2.webp"
                   alt="Brand Logo2"
+                  loading="lazy"
+                  decoding="async"
                   className="relative w-52 opacity-90 drop-shadow-[0_18px_40px_rgba(255,255,255,0.18)]"
                 />
               </div>
@@ -1464,6 +1527,8 @@ export default function App() {
                   <div className="relative overflow-hidden aspect-[21/9] bg-stone-800">
                     <img 
                       src="/image/dom1.webp" 
+                      loading="lazy"
+                      decoding="async"
                       alt="Современная Вилла" 
                       className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
@@ -1486,6 +1551,8 @@ export default function App() {
                   <div className="relative overflow-hidden aspect-[4/5] bg-stone-800">
                     <img 
                       src="/image/dom2.webp" 
+                      loading="lazy"
+                      decoding="async"
                       alt="Прибрежный Дом" 
                       className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
@@ -1505,6 +1572,8 @@ export default function App() {
                   <div className="relative overflow-hidden aspect-[4/5] bg-stone-800">
                     <img 
                       src="/image/dom4.webp" 
+                      loading="lazy"
+                      decoding="async"
                       alt="Урбанистический Минимализм" 
                       className="object-cover w-full h-full transition-transform duration-1000 ease-out group-hover:scale-105 opacity-80 group-hover:opacity-100"
                     />
@@ -1567,7 +1636,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => toggleBrief(`handover-${idx}`)}
-                    aria-expanded={Boolean(activeBriefs[`handover-${idx}`])}
+                    aria-expanded={activeBriefId === `handover-${idx}`}
                     className="group w-full border border-stone-200 bg-stone-50 p-6 text-left backdrop-blur-md transition-all duration-500 hover:bg-white hover:border-stone-300 md:p-7"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -1577,7 +1646,7 @@ export default function App() {
                         </div>
                         <p className="text-lg leading-relaxed text-stone-700">{item.title}</p>
                       </div>
-                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`handover-${idx}`] ? 'rotate-180' : ''}`} />
+                      <ChevronDown size={16} className={`mt-1 shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `handover-${idx}` ? 'rotate-180' : ''}`} />
                     </div>
                     {renderBrief(`handover-${idx}`, item.desc)}
                   </button>
@@ -1608,12 +1677,12 @@ export default function App() {
                         key={item.title}
                         type="button"
                         onClick={() => toggleBrief(`support-${idx}`)}
-                        aria-expanded={Boolean(activeBriefs[`support-${idx}`])}
+                        aria-expanded={activeBriefId === `support-${idx}`}
                         className="w-full border border-stone-200 bg-white p-5 text-left backdrop-blur-md transition-all duration-500 hover:bg-stone-50 hover:border-stone-300"
                       >
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 pr-3 text-xs font-bold tracking-[0.18em] text-stone-400 uppercase">{item.title}</div>
-                          <ChevronDown size={16} className={`shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefs[`support-${idx}`] ? 'rotate-180' : ''}`} />
+                          <ChevronDown size={16} className={`shrink-0 text-stone-400 transition-transform duration-300 ${activeBriefId === `support-${idx}` ? 'rotate-180' : ''}`} />
                         </div>
                         {renderBrief(`support-${idx}`, item.desc)}
                       </button>
