@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  @apply bg-stone-50 text-stone-900 antialiased;
+}
+
+.bronze-text {
+  background: linear-gradient(-45deg, #4a3320 0%, #a67c52 25%, #dcb589 50%, #a67c52 75%, #4a3320 100%);
+  background-size: 300% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine 6s linear infinite;
+  text-shadow: 0 4px 20px rgba(166, 124, 82, 0.2);
+}
+
+.bronze-text-light {
+  background: linear-gradient(-45deg, #b88a58 0%, #f8d5a6 25%, #ffffff 50%, #f8d5a6 75%, #b88a58 100%);
+  background-size: 300% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine 6s linear infinite;
+  text-shadow: 0 4px 20px rgba(248, 213, 166, 0.3);
+}
+
+.animate-projects-reveal {
+  animation: slideDownProjects 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.float-card {
+  animation: softFloatCard 7s ease-in-out infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 300% center;
+  }
+}
+
+@keyframes phoneRotate {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+
+  50%,
+  70% {
+    transform: rotate(-90deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes slideDownProjects {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes softFloatCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (max-width: 768px) {
+  .bronze-text,
+  .bronze-text-light,
+  .float-card {
+    animation: none;
+  }
+
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-card {
+    animation: none;
+  }
+}
