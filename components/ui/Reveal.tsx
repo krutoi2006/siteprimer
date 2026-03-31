@@ -125,7 +125,7 @@ export default defineComponent({
       };
 
       return (
-        <div ref={elementRef} style={style}>
+        <div ref={elementRef} style={style} class="reveal-motion">
           {slots.default?.()}
         </div>
       );

@@ -1,5 +1,5 @@
 import { useSeoMeta } from '#imports';
-import { ArrowRight, ChevronDown, Clock, Shield, Smartphone, Wind, X } from 'lucide-vue-next';
+import { ArrowRight, Clock, Shield, Smartphone, Wind, X } from 'lucide-vue-next';
 import {
   defineComponent,
   onBeforeUnmount,
@@ -11,7 +11,9 @@ import {
 import HeritageSection from '~/components/sections/HeritageSection';
 import HeroSection from '~/components/sections/HeroSection';
 import ScipVisualization from '~/components/sections/ScipVisualization';
+import BriefAccordionItem from '~/components/ui/BriefAccordionItem';
 import Reveal from '~/components/ui/Reveal';
+import { useDeviceProfile } from '~/composables/useDeviceProfile';
 import { useMobileOrientation } from '~/composables/useMobileOrientation';
 import { useScrollEffects } from '~/composables/useScrollEffects';
 import {
@@ -32,8 +34,6 @@ import {
   supervisionCards,
   supportCards,
 } from '~/data/siteContent';
-
-type BriefTheme = 'light' | 'dark';
 
 const technologyFeatures = [
   {
@@ -70,6 +70,7 @@ export default defineComponent({
     const activeBriefId = ref<string | null>(null);
 
     const isScrolled = useScrollEffects(rootRef);
+    const { isWeakDevice } = useDeviceProfile();
     const { isMobilePortrait, isMobile } = useMobileOrientation();
 
     let fadeTimer: number | undefined;
@@ -104,29 +105,6 @@ export default defineComponent({
 
       isMenuOpen.value = false;
     };
-
-    const renderBrief = (id: string, content: string, theme: BriefTheme = 'light') => (
-      <div
-        class={[
-          'grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]',
-          activeBriefId.value === id ? 'mt-4 grid-rows-[1fr] opacity-100' : 'mt-0 grid-rows-[0fr] opacity-0',
-        ]}
-      >
-        <div class="overflow-hidden">
-          <div
-            class={[
-              'text-left transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]',
-              activeBriefId.value === id ? 'translate-y-0 scale-100' : '-translate-y-2 scale-[0.985]',
-              theme === 'dark'
-                ? 'border border-white/15 bg-white/10 px-5 py-4 text-sm leading-7 text-stone-200 backdrop-blur-sm sm:pr-8'
-                : 'border border-stone-200 bg-white/80 px-5 py-4 text-sm leading-7 text-stone-600 backdrop-blur-sm sm:pr-8',
-            ]}
-          >
-            {content}
-          </div>
-        </div>
-      </div>
-    );
 
     const getDeferredSectionStyle = (size: '900px' | '1200px'): CSSProperties | undefined =>
       isMobile.value ? ({ contentVisibility: 'auto', containIntrinsicSize: size } as CSSProperties) : undefined;
@@ -186,12 +164,16 @@ export default defineComponent({
       const isFadingOutValue = isFadingOut.value;
       const isMobileValue = isMobile.value;
       const isMobilePortraitValue = isMobilePortrait.value;
+      const isWeakDeviceValue = isWeakDevice.value;
 
       return (
         <div
           ref={rootRef}
           style={rootStyle}
-          class="min-h-screen overflow-x-hidden bg-stone-50 font-sans text-stone-900 selection:bg-stone-300 selection:text-stone-900"
+          class={[
+            'min-h-screen overflow-x-hidden bg-stone-50 font-sans text-stone-900 selection:bg-stone-300 selection:text-stone-900',
+            isWeakDeviceValue ? 'device-weak' : '',
+          ]}
         >
           {isLoadingValue ? (
             <div
@@ -422,7 +404,12 @@ export default defineComponent({
             </div>
           </div>
 
-          <HeroSection isMobile={isMobileValue} isLoading={isLoadingValue} navigateToSection={scrollToSection} />
+          <HeroSection
+            isMobile={isMobileValue}
+            isWeakDevice={isWeakDeviceValue}
+            isLoading={isLoadingValue}
+            navigateToSection={scrollToSection}
+          />
 
           <HeritageSection isMobile={isMobileValue} />
 
@@ -501,24 +488,21 @@ export default defineComponent({
                   <div class="grid gap-4" style={{ overflowAnchor: 'none' }}>
                     {contactHighlights.map((item, index) => (
                       <Reveal key={item.title} delay={index * 120}>
-                        <button
-                          type="button"
-                          onClick={() => toggleBrief(`contact-${index}`)}
-                          aria-expanded={activeBriefId.value === `contact-${index}`}
-                          class="group w-full border border-white/10 bg-white/5 p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-white/10"
-                        >
-                          <div class="flex items-start justify-between gap-4">
+                        <BriefAccordionItem
+                          id={`contact-${index}`}
+                          activeId={activeBriefId}
+                          onToggle={toggleBrief}
+                          brief={item.desc}
+                          briefTheme="dark"
+                          buttonClass="group w-full border border-white/10 bg-white/5 p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-white/20 hover:bg-white/10"
+                          iconClass="mt-1 shrink-0 text-stone-300"
+                          renderHeader={() => (
                             <div class="flex-1 pr-3">
                               <div class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-300">{String(index + 1).padStart(2, '0')}</div>
                               <h3 class="text-xl font-medium leading-snug text-white">{item.title}</h3>
                             </div>
-                            <ChevronDown
-                              size={16}
-                              class={['mt-1 shrink-0 text-stone-300 transition-transform duration-300', activeBriefId.value === `contact-${index}` ? 'rotate-180' : '']}
-                            />
-                          </div>
-                          {renderBrief(`contact-${index}`, item.desc, 'dark')}
-                        </button>
+                          )}
+                        />
                       </Reveal>
                     ))}
                   </div>
@@ -528,7 +512,7 @@ export default defineComponent({
           </section>
 
           <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-32">
-            <div class="absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-stone-200/50 opacity-70 blur-3xl" />
+            <div class="ambient-orb absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-stone-200/50 opacity-70 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
               <div class="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5">
@@ -554,24 +538,20 @@ export default defineComponent({
                 <div class="grid gap-4 lg:col-span-6 lg:col-start-7">
                   {siteInsights.map((item, index) => (
                     <Reveal key={item.title} delay={index * 120}>
-                      <button
-                        type="button"
-                        onClick={() => toggleBrief(`site-${index}`)}
-                        aria-expanded={activeBriefId.value === `site-${index}`}
-                        class="group w-full border border-stone-200 bg-white p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50 md:p-7"
-                      >
-                        <div class="flex items-start justify-between gap-4">
+                      <BriefAccordionItem
+                        id={`site-${index}`}
+                        activeId={activeBriefId}
+                        onToggle={toggleBrief}
+                        brief={item.desc}
+                        buttonClass="group w-full border border-stone-200 bg-white p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50 md:p-7"
+                        iconClass="mt-1 shrink-0 text-stone-400"
+                        renderHeader={() => (
                           <div class="flex-1 pr-3">
                             <div class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{String(index + 1).padStart(2, '0')}</div>
                             <h3 class="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
                           </div>
-                          <ChevronDown
-                            size={16}
-                            class={['mt-1 shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `site-${index}` ? 'rotate-180' : '']}
-                          />
-                        </div>
-                        {renderBrief(`site-${index}`, item.desc)}
-                      </button>
+                        )}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -599,21 +579,15 @@ export default defineComponent({
                   <div class="grid gap-4">
                     {conceptPoints.map((point, index) => (
                       <Reveal key={point.title} delay={index * 100}>
-                        <button
-                          type="button"
-                          onClick={() => toggleBrief(`concept-${index}`)}
-                          aria-expanded={activeBriefId.value === `concept-${index}`}
-                          class="w-full border border-stone-200 bg-stone-50 px-5 py-6 text-left transition-colors duration-300 hover:bg-stone-100"
-                        >
-                          <div class="flex items-start justify-between gap-4">
-                            <p class="pr-3 text-sm font-medium leading-relaxed text-stone-700">{point.title}</p>
-                            <ChevronDown
-                              size={16}
-                              class={['mt-0.5 shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `concept-${index}` ? 'rotate-180' : '']}
-                            />
-                          </div>
-                          {renderBrief(`concept-${index}`, point.desc)}
-                        </button>
+                        <BriefAccordionItem
+                          id={`concept-${index}`}
+                          activeId={activeBriefId}
+                          onToggle={toggleBrief}
+                          brief={point.desc}
+                          buttonClass="w-full border border-stone-200 bg-stone-50 px-5 py-6 text-left transition-colors duration-300 hover:bg-stone-100"
+                          iconClass="mt-0.5 shrink-0 text-stone-400"
+                          renderHeader={() => <p class="pr-3 text-sm font-medium leading-relaxed text-stone-700">{point.title}</p>}
+                        />
                       </Reveal>
                     ))}
                   </div>
@@ -628,22 +602,16 @@ export default defineComponent({
                       </p>
                       <div class="grid gap-4">
                         {architectureCards.map((item, index) => (
-                          <button
+                          <BriefAccordionItem
                             key={item.title}
-                            type="button"
-                            onClick={() => toggleBrief(`architecture-${index}`)}
-                            aria-expanded={activeBriefId.value === `architecture-${index}`}
-                            class="w-full border border-stone-200 bg-white p-5 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50"
-                          >
-                            <div class="flex items-start justify-between gap-4">
-                              <div class="flex-1 pr-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{item.title}</div>
-                              <ChevronDown
-                                size={16}
-                                class={['shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `architecture-${index}` ? 'rotate-180' : '']}
-                              />
-                            </div>
-                            {renderBrief(`architecture-${index}`, item.desc)}
-                          </button>
+                            id={`architecture-${index}`}
+                            activeId={activeBriefId}
+                            onToggle={toggleBrief}
+                            brief={item.desc}
+                            buttonClass="w-full border border-stone-200 bg-white p-5 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50"
+                            iconClass="shrink-0 text-stone-400"
+                            renderHeader={() => <div class="flex-1 pr-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{item.title}</div>}
+                          />
                         ))}
                       </div>
                     </div>
@@ -654,8 +622,8 @@ export default defineComponent({
           </section>
 
           <section class="relative overflow-hidden bg-stone-900 py-32 text-stone-50">
-            <div class="absolute -top-20 left-0 h-[420px] w-[420px] rounded-full bg-[#b88a58]/15 blur-3xl" />
-            <div class="absolute -bottom-20 right-0 h-[420px] w-[420px] rounded-full bg-white/5 blur-3xl" />
+            <div class="ambient-orb absolute -top-20 left-0 h-[420px] w-[420px] rounded-full bg-[#b88a58]/15 blur-3xl" />
+            <div class="ambient-orb absolute -bottom-20 right-0 h-[420px] w-[420px] rounded-full bg-white/5 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
               <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
                 <div class="lg:col-span-6">
@@ -681,27 +649,22 @@ export default defineComponent({
                       <div class="absolute -inset-4 border border-white/10" />
                       <div class="relative space-y-4 border border-white/10 bg-white/5 p-8 backdrop-blur-md">
                         {designLayers.map((item, index) => (
-                          <button
+                          <BriefAccordionItem
                             key={item.title}
-                            type="button"
-                            onClick={() => toggleBrief(`design-${index}`)}
-                            aria-expanded={activeBriefId.value === `design-${index}`}
-                            class="w-full border-b border-white/10 pb-4 text-left last:border-b-0 last:pb-0"
-                          >
-                            <div class="flex items-start gap-4">
-                              <div class="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{String(index + 1).padStart(2, '0')}</div>
-                              <div class="flex-1">
-                                <div class="flex items-start justify-between gap-4">
-                                  <p class="pr-3 text-lg leading-relaxed text-stone-200">{item.title}</p>
-                                  <ChevronDown
-                                    size={16}
-                                    class={['mt-1 shrink-0 text-stone-300 transition-transform duration-300', activeBriefId.value === `design-${index}` ? 'rotate-180' : '']}
-                                  />
-                                </div>
-                                {renderBrief(`design-${index}`, item.desc, 'dark')}
+                            id={`design-${index}`}
+                            activeId={activeBriefId}
+                            onToggle={toggleBrief}
+                            brief={item.desc}
+                            briefTheme="dark"
+                            buttonClass="w-full border-b border-white/10 pb-4 text-left last:border-b-0 last:pb-0"
+                            iconClass="mt-1 shrink-0 text-stone-300"
+                            renderHeader={() => (
+                              <div class="flex items-start gap-4">
+                                <div class="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{String(index + 1).padStart(2, '0')}</div>
+                                <p class="pr-3 text-lg leading-relaxed text-stone-200">{item.title}</p>
                               </div>
-                            </div>
-                          </button>
+                            )}
+                          />
                         ))}
                       </div>
                     </div>
@@ -728,9 +691,9 @@ export default defineComponent({
               </div>
 
               <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-                <div class="relative order-2 lg:order-1">
+                <div class="relative order-2 overflow-visible lg:order-1">
                   <Reveal direction="none">
-                    <ScipVisualization />
+                    <ScipVisualization isMobile={isMobileValue} />
                   </Reveal>
                   <Reveal delay={180}>
                     <div class="relative z-10 mx-auto -mt-2 w-full max-w-[300px] sm:max-w-[340px] lg:ml-28 lg:translate-x-[20px]">
@@ -777,7 +740,7 @@ export default defineComponent({
           </section>
 
           <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-32">
-            <div class="absolute left-0 top-0 h-[360px] w-[360px] rounded-full bg-stone-200/40 blur-3xl" />
+            <div class="ambient-orb absolute left-0 top-0 h-[360px] w-[360px] rounded-full bg-stone-200/40 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
               <div class="mb-20 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-4">
@@ -795,24 +758,20 @@ export default defineComponent({
                 <div class="grid gap-4 lg:col-span-8">
                   {engineeringCards.map((item, index) => (
                     <Reveal key={item.title} delay={index * 110}>
-                      <button
-                        type="button"
-                        onClick={() => toggleBrief(`engineering-${index}`)}
-                        aria-expanded={activeBriefId.value === `engineering-${index}`}
-                        class="group w-full border border-stone-200 bg-white p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50 md:p-7"
-                      >
-                        <div class="flex items-start justify-between gap-4">
+                      <BriefAccordionItem
+                        id={`engineering-${index}`}
+                        activeId={activeBriefId}
+                        onToggle={toggleBrief}
+                        brief={item.desc}
+                        buttonClass="group w-full border border-stone-200 bg-white p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50 md:p-7"
+                        iconClass="mt-1 shrink-0 text-stone-400"
+                        renderHeader={() => (
                           <div class="flex-1 pr-3">
                             <div class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{String(index + 1).padStart(2, '0')}</div>
                             <h3 class="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
                           </div>
-                          <ChevronDown
-                            size={16}
-                            class={['mt-1 shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `engineering-${index}` ? 'rotate-180' : '']}
-                          />
-                        </div>
-                        {renderBrief(`engineering-${index}`, item.desc)}
-                      </button>
+                        )}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -834,23 +793,20 @@ export default defineComponent({
                 <div class="space-y-4 lg:col-span-8">
                   {budgetCards.map((item, index) => (
                     <Reveal key={item.title} delay={index * 100}>
-                      <button
-                        type="button"
-                        onClick={() => toggleBrief(`budget-${index}`)}
-                        aria-expanded={activeBriefId.value === `budget-${index}`}
-                        class="group w-full border border-stone-200 bg-white px-6 py-5 text-left transition-all duration-500 hover:border-stone-300 hover:shadow-[0_18px_50px_rgba(28,25,23,0.06)]"
-                      >
-                        <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                      <BriefAccordionItem
+                        id={`budget-${index}`}
+                        activeId={activeBriefId}
+                        onToggle={toggleBrief}
+                        brief={item.desc}
+                        buttonClass="group w-full border border-stone-200 bg-white px-6 py-5 text-left transition-all duration-500 hover:border-stone-300 hover:shadow-[0_18px_50px_rgba(28,25,23,0.06)]"
+                        headerClass="flex flex-col gap-3 md:flex-row md:items-start md:justify-between"
+                        iconClass="mt-1 shrink-0 text-stone-400"
+                        renderHeader={() => (
                           <div class="flex-1 pr-3">
                             <h3 class="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
                           </div>
-                          <ChevronDown
-                            size={16}
-                            class={['mt-1 shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `budget-${index}` ? 'rotate-180' : '']}
-                          />
-                        </div>
-                        {renderBrief(`budget-${index}`, item.desc)}
-                      </button>
+                        )}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -878,24 +834,21 @@ export default defineComponent({
                 <div class="grid gap-4 lg:col-span-6 lg:col-start-7">
                   {supervisionCards.map((item, index) => (
                     <Reveal key={item.title} delay={index * 120}>
-                      <button
-                        type="button"
-                        onClick={() => toggleBrief(`supervision-${index}`)}
-                        aria-expanded={activeBriefId.value === `supervision-${index}`}
-                        class="w-full border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm transition-all duration-500 hover:bg-white/[0.07] md:p-7"
-                      >
-                        <div class="flex items-start justify-between gap-4">
+                      <BriefAccordionItem
+                        id={`supervision-${index}`}
+                        activeId={activeBriefId}
+                        onToggle={toggleBrief}
+                        brief={item.desc}
+                        briefTheme="dark"
+                        buttonClass="w-full border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm transition-all duration-500 hover:bg-white/[0.07] md:p-7"
+                        iconClass="mt-1 shrink-0 text-stone-300"
+                        renderHeader={() => (
                           <div class="flex-1 pr-3">
                             <div class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{String(index + 1).padStart(2, '0')}</div>
                             <h3 class="text-xl font-medium leading-snug text-white">{item.title}</h3>
                           </div>
-                          <ChevronDown
-                            size={16}
-                            class={['mt-1 shrink-0 text-stone-300 transition-transform duration-300', activeBriefId.value === `supervision-${index}` ? 'rotate-180' : '']}
-                          />
-                        </div>
-                        {renderBrief(`supervision-${index}`, item.desc, 'dark')}
-                      </button>
+                        )}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -933,21 +886,17 @@ export default defineComponent({
                 <div class="mt-8 grid max-w-[320px] grid-cols-1 gap-2 sm:mt-10 sm:max-w-3xl sm:gap-3" style={{ overflowAnchor: 'none' }}>
                   {constructionStages.map((stage, index) => (
                     <Reveal key={stage.title} delay={index * 90}>
-                      <button
-                        type="button"
-                        onClick={() => toggleBrief(`construction-${index}`)}
-                        aria-expanded={activeBriefId.value === `construction-${index}`}
-                        class="h-full w-full border border-white/30 bg-white/55 px-4 py-3 text-left text-sm font-medium text-stone-900 backdrop-blur-md transition-colors duration-300 hover:bg-white/70 sm:px-5"
-                      >
-                        <div class="flex items-center justify-between gap-3">
-                          <span class="pr-3 leading-snug">{stage.title}</span>
-                          <ChevronDown
-                            size={14}
-                            class={['transition-transform duration-300', activeBriefId.value === `construction-${index}` ? 'rotate-180' : '']}
-                          />
-                        </div>
-                        {renderBrief(`construction-${index}`, stage.desc)}
-                      </button>
+                      <BriefAccordionItem
+                        id={`construction-${index}`}
+                        activeId={activeBriefId}
+                        onToggle={toggleBrief}
+                        brief={stage.desc}
+                        buttonClass="h-full w-full border border-white/30 bg-white/55 px-4 py-3 text-left text-sm font-medium text-stone-900 backdrop-blur-md transition-colors duration-300 hover:bg-white/70 sm:px-5"
+                        headerClass="flex items-center justify-between gap-3"
+                        iconClass=""
+                        iconSize={14}
+                        renderHeader={() => <span class="pr-3 leading-snug">{stage.title}</span>}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -973,7 +922,7 @@ export default defineComponent({
 
                 <div class="relative z-10 flex max-w-sm flex-col items-center justify-center p-8 text-center">
                   <div class="relative mb-12">
-                    <div class="absolute inset-x-6 inset-y-5 rounded-full bg-white/24 blur-2xl" />
+                    <div class="ambient-orb absolute inset-x-6 inset-y-5 rounded-full bg-white/24 blur-2xl" />
                     <img
                       src="/image/logo2.webp"
                       alt="Brand Logo2"
@@ -983,7 +932,12 @@ export default defineComponent({
                     />
                   </div>
                   <div class="relative mb-6 flex h-24 w-24 items-center justify-center">
-                    <Smartphone size={56} strokeWidth={1} class="absolute text-[#f8d5a6]" style={{ animation: 'phoneRotate 2.5s ease-in-out infinite' }} />
+                    <Smartphone
+                      size={56}
+                      strokeWidth={1}
+                      class="device-weak-spin absolute text-[#f8d5a6]"
+                      style={{ animation: 'phoneRotate 2.5s ease-in-out infinite' }}
+                    />
                   </div>
                   <h3 class="bronze-text-light mb-4 text-2xl font-light uppercase tracking-widest">Переверните экран</h3>
                   <p class="text-sm font-light leading-relaxed text-stone-400">
@@ -1057,7 +1011,7 @@ export default defineComponent({
           </section>
 
           <section class="relative overflow-hidden border-b border-stone-200 bg-white py-32" style={getDeferredSectionStyle('900px')}>
-            <div class="absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-stone-100 opacity-80 blur-3xl" />
+            <div class="ambient-orb absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-stone-100 opacity-80 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
               <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-4">
@@ -1076,24 +1030,20 @@ export default defineComponent({
                 <div class="grid gap-4 lg:col-span-8">
                   {handoverDocs.map((item, index) => (
                     <Reveal key={item.title} delay={index * 110}>
-                      <button
-                        type="button"
-                        onClick={() => toggleBrief(`handover-${index}`)}
-                        aria-expanded={activeBriefId.value === `handover-${index}`}
-                        class="group w-full border border-stone-200 bg-stone-50 p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-white md:p-7"
-                      >
-                        <div class="flex items-start justify-between gap-4">
+                      <BriefAccordionItem
+                        id={`handover-${index}`}
+                        activeId={activeBriefId}
+                        onToggle={toggleBrief}
+                        brief={item.desc}
+                        buttonClass="group w-full border border-stone-200 bg-stone-50 p-6 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-white md:p-7"
+                        iconClass="mt-1 shrink-0 text-stone-400"
+                        renderHeader={() => (
                           <div class="flex-1 pr-3">
                             <div class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{String(index + 1).padStart(2, '0')}</div>
                             <p class="text-lg leading-relaxed text-stone-700">{item.title}</p>
                           </div>
-                          <ChevronDown
-                            size={16}
-                            class={['mt-1 shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `handover-${index}` ? 'rotate-180' : '']}
-                          />
-                        </div>
-                        {renderBrief(`handover-${index}`, item.desc)}
-                      </button>
+                        )}
+                      />
                     </Reveal>
                   ))}
                 </div>
@@ -1116,22 +1066,16 @@ export default defineComponent({
                     <Reveal delay={160}>
                       <div class="grid gap-4">
                         {supportCards.map((item, index) => (
-                          <button
+                          <BriefAccordionItem
                             key={item.title}
-                            type="button"
-                            onClick={() => toggleBrief(`support-${index}`)}
-                            aria-expanded={activeBriefId.value === `support-${index}`}
-                            class="w-full border border-stone-200 bg-white p-5 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50"
-                          >
-                            <div class="flex items-start justify-between gap-4">
-                              <div class="flex-1 pr-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{item.title}</div>
-                              <ChevronDown
-                                size={16}
-                                class={['shrink-0 text-stone-400 transition-transform duration-300', activeBriefId.value === `support-${index}` ? 'rotate-180' : '']}
-                              />
-                            </div>
-                            {renderBrief(`support-${index}`, item.desc)}
-                          </button>
+                            id={`support-${index}`}
+                            activeId={activeBriefId}
+                            onToggle={toggleBrief}
+                            brief={item.desc}
+                            buttonClass="w-full border border-stone-200 bg-white p-5 text-left backdrop-blur-md transition-all duration-500 hover:border-stone-300 hover:bg-stone-50"
+                            iconClass="shrink-0 text-stone-400"
+                            renderHeader={() => <div class="flex-1 pr-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">{item.title}</div>}
+                          />
                         ))}
                       </div>
                     </Reveal>
@@ -1142,8 +1086,8 @@ export default defineComponent({
           </section>
 
           <section id="studio" class="relative overflow-hidden bg-stone-50 py-32" style={getDeferredSectionStyle('900px')}>
-            <div class="absolute right-0 top-0 h-[800px] w-[800px] translate-x-1/3 -translate-y-1/2 rounded-full bg-stone-200/50 opacity-50 blur-3xl" />
-            <div class="absolute bottom-0 left-0 h-[600px] w-[600px] -translate-x-1/3 translate-y-1/2 rounded-full bg-stone-200/50 opacity-50 blur-3xl" />
+            <div class="ambient-orb absolute right-0 top-0 h-[800px] w-[800px] translate-x-1/3 -translate-y-1/2 rounded-full bg-stone-200/50 opacity-50 blur-3xl" />
+            <div class="ambient-orb absolute bottom-0 left-0 h-[600px] w-[600px] -translate-x-1/3 translate-y-1/2 rounded-full bg-stone-200/50 opacity-50 blur-3xl" />
 
             <div class="relative z-10 mx-auto max-w-4xl px-6 text-center">
               <Reveal>

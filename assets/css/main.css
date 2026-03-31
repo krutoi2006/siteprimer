@@ -38,6 +38,51 @@ body {
   animation: softFloatCard 7s ease-in-out infinite;
 }
 
+.brief-panel {
+  contain: layout paint;
+  transform: translateZ(0);
+}
+
+.brief-panel-inner {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.reveal-motion {
+  contain: paint;
+}
+
+.ambient-orb {
+  pointer-events: none;
+}
+
+.device-weak .backdrop-blur-sm,
+.device-weak .backdrop-blur-md,
+.device-weak .backdrop-blur-lg {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.device-weak .animate-bounce,
+.device-weak .device-weak-spin,
+.device-weak .bronze-text,
+.device-weak .bronze-text-light,
+.device-weak .float-card {
+  animation: none !important;
+}
+
+.device-weak .will-change-transform,
+.device-weak .brief-panel,
+.device-weak .brief-panel-inner,
+.device-weak .reveal-motion {
+  will-change: auto !important;
+}
+
+.device-weak .ambient-orb {
+  filter: blur(40px) !important;
+  opacity: 0.28 !important;
+}
+
 @keyframes shine {
   to {
     background-position: 300% center;
@@ -88,6 +133,14 @@ body {
   .bronze-text-light,
   .float-card {
     animation: none;
+  }
+
+  .brief-panel {
+    will-change: opacity, margin-top;
+  }
+
+  .brief-panel-inner {
+    will-change: opacity, transform;
   }
 
   .backdrop-blur-sm,

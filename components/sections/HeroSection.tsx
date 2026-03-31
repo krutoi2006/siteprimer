@@ -15,6 +15,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    isWeakDevice: {
+      type: Boolean,
+      default: false,
+    },
     navigateToSection: {
       type: Function as PropType<(event: Event | MouseEvent, id: string) => void>,
       required: true,
@@ -56,12 +60,13 @@ export default defineComponent({
 
         isReady.value = true;
 
+        const autoplayDelay = props.isWeakDevice ? 9000 : 6000;
         const timer = window.setInterval(() => {
           heroSlide.value = {
             prev: heroSlide.value.current,
             current: (heroSlide.value.current + 1) % heroImages.length,
           };
-        }, 6000);
+        }, autoplayDelay);
 
         onCleanup(() => {
           window.clearInterval(timer);
@@ -96,7 +101,7 @@ export default defineComponent({
               return (
                 <div key={src} class="absolute inset-0 h-full w-full" style={{ zIndex, clipPath, transition }}>
                   <div
-                    class={['absolute inset-0 h-full w-full scale-105', props.isMobile ? '' : 'will-change-transform']}
+                    class={['absolute inset-0 h-full w-full scale-105', props.isMobile || props.isWeakDevice ? '' : 'will-change-transform']}
                     style={{
                       transform: 'scale(1.05)',
                       backgroundImage: `url(${src})`,
