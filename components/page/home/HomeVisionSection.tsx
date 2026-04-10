@@ -5,19 +5,19 @@ export default defineComponent({
   name: 'HomeVisionSection',
   setup() {
     return () => (
-      <section id="vision" class="relative bg-stone-50 py-32 md:py-48">
-        <div class="mx-auto max-w-7xl px-6 md:px-12">
-          <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-8">
+      <section id="vision" class="relative bg-stone-50 py-20 sm:py-24 md:py-32 lg:py-48">
+        <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+          <div class="grid grid-cols-1 gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-8">
             <div class="lg:col-span-5">
               <Reveal>
-                <h2 class="bronze-text overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter md:text-5xl">
+                <h2 class="bronze-text overflow-visible pb-[0.16em] pt-[0.06em] text-2xl font-light leading-[1.18] tracking-tighter sm:text-3xl md:text-5xl">
                   Мы не просто строим дома
                   <br />
                   <span class="font-medium">Мы создаем устойчивые убежища</span>
                 </h2>
               </Reveal>
             </div>
-            <div class="flex flex-col gap-8 text-lg leading-relaxed text-stone-600 lg:col-span-6 lg:col-start-7">
+            <div class="flex flex-col gap-6 text-base leading-relaxed text-stone-600 sm:gap-8 sm:text-lg lg:col-span-6 lg:col-start-7">
               <Reveal delay={200}>
                 <p>
                   SANTILLI представляет собой сдвиг парадигмы в развитии недвижимости. Объединяя высококлассный архитектурный дизайн с
@@ -32,12 +32,7 @@ export default defineComponent({
                   — и все это при сокращении сроков строительства до 40%.
                 </p>
               </Reveal>
-              <Reveal delay={600}>
-                <div class="group flex w-max cursor-pointer items-center gap-4 font-medium text-stone-900">
-                  <span>Читать наш манифест</span>
-                  <div class="h-[1px] w-8 bg-stone-900 transition-all duration-300 group-hover:w-12" />
-                </div>
-              </Reveal>
+
             </div>
           </div>
         </div>

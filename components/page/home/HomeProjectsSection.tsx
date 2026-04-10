@@ -170,14 +170,21 @@ export default defineComponent({
           )}
         </section>
 
-        <section class="border-b border-stone-200 bg-stone-100 py-24">
-          <div class="mx-auto max-w-7xl px-6 md:px-12">
-            <div class="grid grid-cols-2 gap-12 divide-x divide-stone-200 md:grid-cols-4">
+        <section class="border-b border-stone-200 bg-stone-100 py-16 sm:py-20 md:py-24">
+          <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+            <div class="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 md:gap-12 md:divide-x md:divide-stone-200">
               {stats.map((stat, index) => (
-                <div key={stat.label} class="flex flex-col items-center px-4 text-center">
+                <div
+                  key={stat.label}
+                  class={[
+                    'flex flex-col items-center text-center',
+                    index % 2 === 1 ? 'border-l border-stone-200 pl-6 sm:pl-8 md:border-l-0 md:pl-4' : 'pr-2 md:px-4',
+                    index >= 2 ? 'border-t border-stone-200 pt-6 sm:pt-8 md:border-t-0 md:pt-0' : 'pb-2 md:pb-0',
+                  ]}
+                >
                   <Reveal delay={index * 100}>
-                    <div class="mb-2 text-3xl font-light text-stone-900 md:text-5xl">{stat.value}</div>
-                    <div class="text-xs font-bold uppercase tracking-[0.1em] text-stone-500">{stat.label}</div>
+                    <div class="mb-2 text-2xl font-light text-stone-900 sm:text-3xl md:text-5xl">{stat.value}</div>
+                    <div class="text-[10px] font-bold uppercase tracking-[0.1em] text-stone-500 sm:text-xs">{stat.label}</div>
                   </Reveal>
                 </div>
               ))}

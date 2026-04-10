@@ -1,4 +1,4 @@
-﻿import { useSeoMeta } from '#imports';
+import { useSeoMeta } from '#imports';
 import { ArrowRight, X } from 'lucide-vue-next';
 import {
   defineAsyncComponent,
@@ -163,7 +163,7 @@ export default defineComponent({
 
           <div
             class={[
-              'fixed inset-0 z-[200] flex items-center justify-center p-4 transition-all duration-500 sm:p-6',
+              'fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto p-3 transition-all duration-500 sm:p-6',
               isModalOpenValue ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0',
             ]}
           >
@@ -171,7 +171,7 @@ export default defineComponent({
 
             <div
               class={[
-                'relative w-full max-w-lg bg-white p-8 shadow-2xl transition-all duration-500 ease-out md:p-12',
+                'relative w-full max-w-lg bg-white p-5 shadow-2xl transition-all duration-500 ease-out sm:p-8 md:p-12',
                 isModalOpenValue ? 'translate-y-0 scale-100' : 'translate-y-8 scale-95',
               ]}
             >
@@ -179,9 +179,9 @@ export default defineComponent({
                 <X size={24} strokeWidth={1.5} />
               </button>
 
-              <div class="mb-10">
-                <h3 class="bronze-text mb-3 text-3xl font-light tracking-tight">Частная консультация</h3>
-                <p class="text-sm leading-relaxed text-stone-500">
+              <div class="mb-6 sm:mb-10">
+                <h3 class="bronze-text mb-2 text-2xl font-light tracking-tight sm:mb-3 sm:text-3xl">Частная консультация</h3>
+                <p class="text-xs leading-relaxed text-stone-500 sm:text-sm">
                   Оставьте свои контактные данные, и наш ведущий архитектор свяжется с вами для обсуждения вашего проекта.
                 </p>
               </div>
@@ -240,7 +240,7 @@ export default defineComponent({
                   />
                 </div>
 
-                <button type="submit" class="mt-8 w-full bg-stone-900 px-8 py-4 text-sm font-medium text-white transition-colors hover:bg-stone-800">
+                <button type="submit" class="mt-5 w-full bg-stone-900 px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-stone-800 active:bg-stone-700 sm:mt-8 sm:py-4">
                   Отправить запрос
                 </button>
                 <p class="mt-4 text-center text-[10px] uppercase tracking-widest text-stone-400">Ваши данные надежно защищены</p>
@@ -252,10 +252,10 @@ export default defineComponent({
             class={[
               'fixed w-full transition-all duration-500',
               isMenuOpenValue ? 'z-[70]' : 'z-50',
-              isScrolledValue ? 'bg-white/80 py-4 backdrop-blur-lg' : 'bg-transparent py-6',
+              isScrolledValue ? 'bg-white/80 py-3 backdrop-blur-lg sm:py-4' : 'bg-transparent py-4 sm:py-6',
             ]}
           >
-            <div class="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-12">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 md:px-12">
               <div
                 class={[
                   'group flex cursor-pointer items-center gap-2 transition-opacity duration-300',
@@ -263,15 +263,15 @@ export default defineComponent({
                 ]}
                 onClick={(event: MouseEvent) => scrollToSection(event, 'hero')}
               >
-                <div class="flex h-8 w-8 items-center justify-center bg-stone-900 transition-transform duration-500 group-hover:rotate-90">
-                  <div class="h-3 w-3 border border-white" />
+                <div class="flex h-7 w-7 items-center justify-center bg-stone-900 transition-transform duration-500 group-hover:rotate-90 sm:h-8 sm:w-8">
+                  <div class="h-2.5 w-2.5 border border-white sm:h-3 sm:w-3" />
                 </div>
-                <span class={['text-xl font-medium tracking-tight transition-colors duration-500', isScrolledValue ? 'bronze-text' : 'bronze-text-light']}>
+                <span class={['text-lg font-medium tracking-tight transition-colors duration-500 sm:text-xl', isScrolledValue ? 'bronze-text' : 'bronze-text-light']}>
                   SANTILLI
                 </span>
                 <div
                   class={[
-                    'overflow-hidden rounded-full border transition-all duration-500',
+                    'hidden overflow-hidden rounded-full border transition-all duration-500 sm:block',
                     isScrolledValue
                       ? 'border-stone-200 bg-white/90 shadow-[0_8px_24px_rgba(28,25,23,0.08)]'
                       : 'border-white/15 bg-white/10 backdrop-blur-sm',
@@ -311,8 +311,12 @@ export default defineComponent({
                 type="button"
                 aria-label={isMenuOpenValue ? 'Close menu' : 'Open menu'}
                 class={[
-                  'relative z-[60] flex h-11 w-11 items-center justify-center rounded-full text-stone-900 transition-all duration-300 md:hidden',
-                  isScrolledValue ? 'bg-white shadow-sm ring-1 ring-stone-200/80 hover:bg-white' : 'bg-transparent shadow-none ring-0 hover:bg-transparent',
+                  'relative z-[60] flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 sm:h-11 sm:w-11 md:hidden',
+                  isMenuOpenValue
+                    ? 'text-stone-900'
+                    : isScrolledValue
+                      ? 'bg-white text-stone-900 shadow-sm ring-1 ring-stone-200/80 hover:bg-white'
+                      : 'bg-white/10 text-white backdrop-blur-sm hover:bg-white/20',
                 ]}
                 onClick={() => {
                   isMenuOpen.value = !isMenuOpen.value;
@@ -342,17 +346,17 @@ export default defineComponent({
 
           <div
             class={[
-              'fixed inset-0 z-[55] bg-stone-50 px-6 pb-8 pt-28 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden',
+              'fixed inset-0 z-[55] overflow-y-auto bg-stone-50 px-5 pb-6 pt-20 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:px-6 sm:pb-8 sm:pt-24 md:hidden',
               isMenuOpenValue ? 'visible translate-y-0 opacity-100' : 'invisible pointer-events-none -translate-y-full opacity-0',
             ]}
           >
-            <div class="flex min-h-full flex-col gap-6 text-xl font-light tracking-tight sm:text-2xl">
+            <div class="flex min-h-full flex-col gap-4 text-xl font-light tracking-tight sm:gap-6 sm:text-2xl">
               {navItems.map((item) => (
                 <a
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={(event: MouseEvent) => scrollToSection(event, item.id)}
-                  class="border-b border-stone-300 pb-4 text-2xl font-medium leading-tight text-stone-950 sm:text-[2rem]"
+                  class="border-b border-stone-200 pb-3 text-xl font-medium leading-tight text-stone-950 transition-colors active:text-stone-500 sm:pb-4 sm:text-2xl"
                 >
                   {item.label}
                 </a>
@@ -362,7 +366,7 @@ export default defineComponent({
                   isMenuOpen.value = false;
                   openModal();
                 }}
-                class="mt-auto flex w-full items-center justify-center gap-2 bg-stone-900 px-6 py-4 text-sm font-medium text-white"
+                class="mt-auto flex w-full items-center justify-center gap-2 bg-stone-900 px-6 py-3.5 text-sm font-medium text-white active:bg-stone-700 sm:py-4"
               >
                 Начать проект
               </button>

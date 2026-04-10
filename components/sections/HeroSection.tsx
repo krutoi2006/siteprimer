@@ -116,16 +116,16 @@ export default defineComponent({
 
           <div class="absolute inset-0 z-30 bg-gradient-to-b from-stone-900/60 via-stone-900/30 to-stone-900/80" />
 
-          <div class="relative z-40 mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-20 sm:pb-24 md:px-12 md:pb-32">
+          <div class="relative z-40 mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-14 sm:px-6 sm:pb-20 md:px-12 md:pb-32">
             <Reveal isReady={isReadyValue} delay={200}>
-              <div class="mb-6 flex items-center gap-4">
-                <div class="h-[1px] w-12 bg-white" />
-                <span class="text-xs font-bold uppercase tracking-[0.2em] text-white">Будущее строительства</span>
+              <div class="mb-4 flex items-center gap-3 sm:mb-6 sm:gap-4">
+                <div class="h-[1px] w-8 bg-white sm:w-12" />
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white sm:text-xs">Будущее строительства</span>
               </div>
             </Reveal>
 
             <Reveal isReady={isReadyValue} delay={400}>
-              <h1 class="bronze-text-light mb-6 max-w-4xl text-4xl font-light leading-[1.1] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl">
+              <h1 class="bronze-text-light mb-4 max-w-4xl text-[1.75rem] font-light leading-[1.1] tracking-tighter sm:mb-6 sm:text-4xl md:text-7xl lg:text-8xl">
                 Архитектурная чистота
                 <br />
                 <span class="bg-gradient-to-r from-[#f8d5a6] to-white/60 bg-clip-text font-medium text-transparent">Инженерия на века</span>
@@ -133,10 +133,10 @@ export default defineComponent({
             </Reveal>
 
             <Reveal isReady={isReadyValue} delay={600}>
-              <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+              <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
                 <button
                   onClick={(event: MouseEvent) => props.navigateToSection(event, 'technology')}
-                  class="group flex w-full items-center justify-center gap-2 bg-white px-8 py-4 text-sm font-medium text-stone-900 transition-colors hover:bg-stone-100 sm:w-auto"
+                  class="group flex w-full items-center justify-center gap-2 bg-white px-6 py-3 text-xs font-medium text-stone-900 transition-colors hover:bg-stone-100 sm:w-auto sm:px-8 sm:py-4 sm:text-sm"
                 >
                   Изучить технологию SCIP
                   <ArrowRight size={16} class="transition-transform group-hover:translate-x-1" />
@@ -145,7 +145,7 @@ export default defineComponent({
             </Reveal>
           </div>
 
-          <div class={['absolute bottom-10 right-6 z-40 flex items-center gap-3 transition-opacity duration-1000 md:right-12', isReadyValue ? 'opacity-100' : 'opacity-0']}>
+          <div class={['absolute bottom-8 right-5 z-40 flex items-center gap-2 transition-opacity duration-1000 sm:right-6 sm:gap-3 md:right-12', isReadyValue ? 'opacity-100' : 'opacity-0']}>
             {heroImages.map((_, index) => (
               <button
                 key={index}
@@ -163,7 +163,7 @@ export default defineComponent({
 
           <div
             class={[
-              'absolute bottom-8 left-1/2 z-40 -translate-x-1/2 cursor-pointer text-white/50 transition-opacity duration-1000 animate-bounce',
+              'absolute bottom-4 left-1/2 z-40 -translate-x-1/2 cursor-pointer text-white/50 transition-opacity duration-1000 animate-bounce sm:bottom-8',
               isReadyValue ? 'opacity-100' : 'opacity-0',
             ]}
             onClick={(event: MouseEvent) => props.navigateToSection(event, 'vision')}

@@ -53,31 +53,31 @@ export default defineComponent({
               <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,10,9,0.92)_10%,rgba(28,25,23,0.78)_45%,rgba(28,25,23,0.42)_100%)]" />
             </div>
 
-            <div class="relative z-10 mx-auto max-w-7xl px-6 py-32 md:px-12 md:py-40">
-              <div class="grid grid-cols-1 items-end gap-12 lg:grid-cols-12 lg:gap-10">
+            <div class="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 md:px-12 md:py-40">
+              <div class="grid grid-cols-1 items-end gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-10">
                 <div class="lg:col-span-7">
                   <Reveal>
-                    <div class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-stone-300">Этапы работ</div>
-                    <h2 class="mb-6 text-4xl font-light leading-[1.05] tracking-tighter text-white md:text-6xl">
+                    <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-300 sm:mb-4 sm:text-xs">Этапы работ</div>
+                    <h2 class="mb-4 text-3xl font-light leading-[1.05] tracking-tighter text-white sm:mb-6 sm:text-4xl md:text-6xl">
                       Этапы работ
                       <br />
                       <span class="font-medium">от желания построить дом до жизни в своём доме</span>
                     </h2>
-                    <p class="max-w-2xl text-lg leading-relaxed text-stone-200">
+                    <p class="max-w-2xl text-base leading-relaxed text-stone-200 sm:text-lg">
                       Спокойно проводим вас через весь путь: от первой заявки и проектирования до сдачи дома, гарантий и поддержки после
                       въезда.
                     </p>
                   </Reveal>
 
                   <Reveal delay={150}>
-                    <p class="mt-8 max-w-2xl border-l border-white/30 pl-6 text-sm uppercase tracking-[0.16em] text-stone-200/90">
+                    <p class="mt-6 max-w-2xl border-l border-white/30 pl-4 text-xs uppercase tracking-[0.16em] text-stone-200/90 sm:mt-8 sm:pl-6 sm:text-sm">
                       Что вы получаете, работая с нами
                     </p>
                   </Reveal>
                 </div>
 
                 <div class="lg:col-span-4 lg:col-start-9">
-                  <div class="grid gap-4" style={{ overflowAnchor: 'none' }}>
+                  <div class="grid gap-3 sm:gap-4" style={{ overflowAnchor: 'none' }}>
                     {contactHighlights.map((item, index) => (
                       <Reveal key={item.title} delay={index * 120}>
                         <BriefAccordionItem
@@ -87,11 +87,11 @@ export default defineComponent({
                           brief={item.desc}
                           briefTheme="dark"
                           panelSpace="clamp(8rem, 18vw, 10.5rem)"
-                          buttonClass="group w-full border border-white/10 bg-white/5 p-6 text-left transition-[background-color,border-color] duration-500 hover:border-white/20 hover:bg-white/10"
+                          buttonClass="group w-full border border-white/10 bg-white/5 p-4 text-left transition-[background-color,border-color] duration-500 hover:border-white/20 hover:bg-white/10 sm:p-6"
                           iconClass="mt-1 shrink-0 text-stone-300"
                           renderHeader={() => (
                             <div class="flex-1 pr-3">
-                              <h3 class="text-xl font-medium leading-snug text-white">{item.title}</h3>
+                              <h3 class="text-lg font-medium leading-snug text-white sm:text-xl">{item.title}</h3>
                             </div>
                           )}
                         />
@@ -103,30 +103,30 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-32">
+          <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-20 sm:py-24 md:py-32">
             <div class="ambient-orb absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-stone-200/50 opacity-70 blur-3xl" />
-            <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
-              <div class="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-8">
+            <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+              <div class="grid grid-cols-1 gap-10 sm:gap-14 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5">
                   <Reveal>
-                    <h2 class="bronze-text mb-6 overflow-visible pb-[0.16em] pt-[0.06em] text-4xl font-light leading-[1.18] tracking-tighter md:text-5xl">
+                    <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
                       Проектирование
                     </h2>
-                    <p class="text-lg leading-relaxed text-stone-600">
+                    <p class="text-base leading-relaxed text-stone-600 sm:text-lg">
                       От первого звонка и выезда на участок до полного комплекта проектной документации. Сначала собираем точные исходные
                       данные, а потом принимаем решения, на которых будет стоять дом.
                     </p>
                   </Reveal>
 
                   <Reveal delay={180}>
-                    <div class="mt-10 bg-stone-900 p-8 text-stone-50 md:p-10">
-                      <div class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-stone-400">Важно</div>
-                      <p class="text-2xl font-light leading-tight">Без этого фундамент проектировать нельзя — как строить на ощупь?</p>
+                    <div class="mt-8 bg-stone-900 p-6 text-stone-50 sm:mt-10 sm:p-8 md:p-10">
+                      <div class="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 sm:mb-3 sm:text-xs">Важно</div>
+                      <p class="text-xl font-light leading-tight sm:text-2xl">Без этого фундамент проектировать нельзя — как строить на ощупь?</p>
                     </div>
                   </Reveal>
                 </div>
 
-                <div class="grid gap-4 lg:col-span-6 lg:col-start-7">
+                <div class="grid gap-3 sm:gap-4 lg:col-span-6 lg:col-start-7">
                   {siteInsights.map((item, index) => (
                     <Reveal key={item.title} delay={index * 120}>
                       <BriefAccordionItem
@@ -136,11 +136,11 @@ export default defineComponent({
                         brief={item.desc}
                         detail={item.detail}
                         panelSpace="clamp(13rem, 30vw, 19rem)"
-                        buttonClass="group w-full border border-stone-200 bg-white p-6 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 md:p-7"
+                        buttonClass="group w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-6 md:p-7"
                         iconClass="mt-1 shrink-0 text-stone-400"
                         renderHeader={() => (
                           <div class="flex-1 pr-3">
-                            <h3 class="text-xl font-medium leading-snug text-stone-900">{item.title}</h3>
+                            <h3 class="text-lg font-medium leading-snug text-stone-900 sm:text-xl">{item.title}</h3>
                           </div>
                         )}
                       />
@@ -151,22 +151,22 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden border-b border-stone-200 bg-white py-32">
-            <div class="mx-auto max-w-7xl px-6 md:px-12">
-              <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-8">
+          <section class="relative overflow-hidden border-b border-stone-200 bg-white py-20 sm:py-24 md:py-32">
+            <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+              <div class="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5">
                   <Reveal>
-                    <h2 class="bronze-text mb-6 overflow-visible pb-[0.16em] pt-[0.06em] text-4xl font-light leading-[1.18] tracking-tighter md:text-5xl">
+                    <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
                       Дизайн, инженерия и смета
                     </h2>
-                    <p class="text-lg leading-relaxed text-stone-600">
+                    <p class="text-base leading-relaxed text-stone-600 sm:text-lg">
                       Продолжаем проектирование до полного комплекта: дизайн-проект, инженерные разделы и смета до начала работ.
                     </p>
                   </Reveal>
                 </div>
 
-                <div class="grid gap-6 lg:col-span-7">
-                  <div class="grid gap-4">
+                <div class="grid gap-4 sm:gap-6 lg:col-span-7">
+                  <div class="grid gap-3 sm:gap-4">
                     {conceptPoints.map((item, index) => (
                       <Reveal key={item.title} delay={index * 100}>
                         <BriefAccordionItem
@@ -176,7 +176,7 @@ export default defineComponent({
                           brief={item.desc}
                           detail={item.detail}
                           panelSpace="clamp(13rem, 30vw, 19rem)"
-                          buttonClass="w-full border border-stone-200 bg-stone-50 px-5 py-6 text-left transition-colors duration-300 hover:bg-stone-100"
+                          buttonClass="w-full border border-stone-200 bg-stone-50 px-4 py-5 text-left transition-colors duration-300 hover:bg-stone-100 sm:px-5 sm:py-6"
                           iconClass="mt-0.5 shrink-0 text-stone-400"
                           renderHeader={() => <p class="pr-3 text-sm font-medium leading-relaxed text-stone-700">{item.title}</p>}
                         />
@@ -185,12 +185,12 @@ export default defineComponent({
                   </div>
 
                   <Reveal delay={220}>
-                    <div class="border border-stone-200 bg-stone-50 p-8 md:p-10">
-                      <h3 class="mb-5 text-3xl font-light tracking-tight text-stone-900 md:text-4xl">Смета до старта стройки</h3>
-                      <p class="mb-8 max-w-3xl text-lg leading-relaxed text-stone-600">
+                    <div class="border border-stone-200 bg-stone-50 p-6 sm:p-8 md:p-10">
+                      <h3 class="mb-4 text-2xl font-light tracking-tight text-stone-900 sm:mb-5 sm:text-3xl md:text-4xl">Смета до старта стройки</h3>
+                      <p class="mb-6 max-w-3xl text-base leading-relaxed text-stone-600 sm:mb-8 sm:text-lg">
                         Фиксируем итоговую цену до начала работ и заранее показываем, из чего она складывается.
                       </p>
-                      <div class="grid gap-4">
+                      <div class="grid gap-3 sm:gap-4">
                         {architectureCards.map((item, index) => (
                           <BriefAccordionItem
                             key={item.title}
@@ -200,7 +200,7 @@ export default defineComponent({
                             brief={item.desc}
                             detail={item.detail}
                             panelSpace="clamp(12rem, 28vw, 17rem)"
-                            buttonClass="w-full border border-stone-200 bg-white p-5 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50"
+                            buttonClass="w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-5"
                             iconClass="shrink-0 text-stone-400"
                             renderHeader={() => <div class="flex-1 pr-3 text-sm font-medium leading-relaxed text-stone-700">{item.title}</div>}
                           />
@@ -213,21 +213,21 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden bg-stone-900 py-32 text-stone-50">
+          <section class="relative overflow-hidden bg-stone-900 py-20 text-stone-50 sm:py-24 md:py-32">
             <div class="ambient-orb absolute -top-20 left-0 h-[420px] w-[420px] rounded-full bg-[#b88a58]/15 blur-3xl" />
             <div class="ambient-orb absolute -bottom-20 right-0 h-[420px] w-[420px] rounded-full bg-white/5 blur-3xl" />
-            <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
-              <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+            <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+              <div class="grid grid-cols-1 items-center gap-10 sm:gap-12 lg:grid-cols-12">
                 <div class="lg:col-span-6">
                   <Reveal>
-                    <h2 class="mb-6 text-4xl font-light leading-[1.05] tracking-tighter text-white md:text-6xl">Подготовка к стройке</h2>
-                    <p class="max-w-2xl text-lg leading-relaxed text-stone-300">
+                    <h2 class="mb-4 text-3xl font-light leading-[1.05] tracking-tighter text-white sm:mb-6 sm:text-4xl md:text-6xl">Подготовка к стройке</h2>
+                    <p class="max-w-2xl text-base leading-relaxed text-stone-300 sm:text-lg">
                       Когда проект и смета готовы, оформляем договор, документы и точно сажаем дом на участок.
                     </p>
                   </Reveal>
 
                   <Reveal delay={180}>
-                    <p class="mt-8 max-w-2xl border-l border-white/20 pl-6 text-sm uppercase tracking-[0.16em] text-stone-300">
+                    <p class="mt-6 max-w-2xl border-l border-white/20 pl-4 text-xs uppercase tracking-[0.16em] text-stone-300 sm:mt-8 sm:pl-6 sm:text-sm">
                       После проекта и только если вы подтвердили заказ.
                     </p>
                   </Reveal>
@@ -236,8 +236,8 @@ export default defineComponent({
                 <div class="lg:col-span-5 lg:col-start-8">
                   <Reveal delay={220}>
                     <div class="relative">
-                      <div class="absolute -inset-4 border border-white/10" />
-                      <div class="relative space-y-4 border border-white/10 bg-white/5 p-8 backdrop-blur-md">
+                      <div class="absolute -inset-3 border border-white/10 sm:-inset-4" />
+                      <div class="relative space-y-3 border border-white/10 bg-white/5 p-5 backdrop-blur-md sm:space-y-4 sm:p-8">
                         {designLayers.map((item, index) => (
                           <BriefAccordionItem
                             key={item.title}
@@ -248,9 +248,9 @@ export default defineComponent({
                             detail={item.detail}
                             briefTheme="dark"
                             panelSpace="clamp(13rem, 30vw, 18rem)"
-                            buttonClass="w-full border-b border-white/10 pb-4 text-left last:border-b-0 last:pb-0"
+                            buttonClass="w-full border-b border-white/10 pb-3 text-left last:border-b-0 last:pb-0 sm:pb-4"
                             iconClass="mt-1 shrink-0 text-stone-300"
-                            renderHeader={() => <p class="pr-3 text-lg leading-relaxed text-stone-200">{item.title}</p>}
+                            renderHeader={() => <p class="pr-3 text-base leading-relaxed text-stone-200 sm:text-lg">{item.title}</p>}
                           />
                         ))}
                       </div>

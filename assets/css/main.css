@@ -4,10 +4,19 @@
 
 html {
   scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   @apply bg-stone-50 text-stone-900 antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+/* Scroll margin for anchor navigation past fixed header */
+section[id],
+footer {
+  scroll-margin-top: 80px;
 }
 
 .bronze-text {
@@ -190,6 +199,7 @@ body {
   }
 }
 
+/* ===== MOBILE ADAPTATION (max-width: 768px) ===== */
 @media (max-width: 768px) {
   .bronze-text,
   .bronze-text-light,
@@ -234,6 +244,26 @@ body {
   .backdrop-blur-lg {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+
+  /* Anchor scroll offset */
+  section[id],
+  footer {
+    scroll-margin-top: 72px;
+  }
+
+  /* Reduce ambient orbs on mobile */
+  .ambient-orb {
+    opacity: 0.3 !important;
+    filter: blur(60px);
+  }
+}
+
+/* ===== SMALL MOBILE (max-width: 390px) ===== */
+@media (max-width: 390px) {
+  section[id],
+  footer {
+    scroll-margin-top: 64px;
   }
 }
 

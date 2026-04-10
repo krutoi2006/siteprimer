@@ -22,23 +22,23 @@ export default defineComponent({
     };
 
     return () => (
-      <section id="faq" class="relative overflow-hidden border-b border-stone-200 bg-white py-32" style={faqSectionStyle}>
+      <section id="faq" class="relative overflow-hidden border-b border-stone-200 bg-white py-20 sm:py-24 md:py-32" style={faqSectionStyle}>
         <div class="ambient-orb absolute right-0 top-0 h-[420px] w-[420px] rounded-full bg-stone-100 opacity-80 blur-3xl" />
-        <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
-          <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-8">
+        <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+          <div class="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
             <div class="lg:col-span-4">
               <Reveal>
-                <div class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-stone-400">FAQ</div>
-                <h2 class="bronze-text mb-6 overflow-visible pb-[0.16em] pt-[0.06em] text-4xl font-light leading-[1.18] tracking-tighter md:text-5xl">
+                <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 sm:mb-4 sm:text-xs">FAQ</div>
+                <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
                   Частые вопросы по строительству
                 </h2>
-                <p class="text-lg leading-relaxed text-stone-600">
+                <p class="text-base leading-relaxed text-stone-600 sm:text-lg">
                   Собрали вопросы, которые чаще всего возникают до старта стройки и во время принятия решений.
                 </p>
               </Reveal>
             </div>
 
-            <div class="grid gap-4 lg:col-span-8">
+            <div class="grid gap-3 sm:gap-4 lg:col-span-8">
               {handoverDocs.map((item, index) => (
                 <Reveal key={item.title} delay={index * 110}>
                   <BriefAccordionItem
@@ -47,11 +47,11 @@ export default defineComponent({
                     onToggle={(id) => toggleAccordion(handoverActiveId, id)}
                     brief={item.desc}
                     panelSpace="clamp(10rem, 24vw, 13rem)"
-                    buttonClass="group w-full border border-stone-200 bg-stone-50 p-6 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-white md:p-7"
+                    buttonClass="group w-full border border-stone-200 bg-stone-50 p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-white sm:p-6 md:p-7"
                     iconClass="mt-1 shrink-0 text-stone-400"
                     renderHeader={() => (
                       <div class="flex-1 pr-3">
-                        <p class="text-lg leading-relaxed text-stone-700">{item.title}</p>
+                        <p class="text-base leading-relaxed text-stone-700 sm:text-lg">{item.title}</p>
                       </div>
                     )}
                   />
@@ -60,13 +60,13 @@ export default defineComponent({
             </div>
           </div>
 
-          <div class="mt-20 border border-stone-200 bg-stone-50 p-8 md:p-12">
-            <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+          <div class="mt-14 border border-stone-200 bg-stone-50 p-5 sm:mt-16 sm:p-8 md:mt-20 md:p-12">
+            <div class="grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-12">
               <div class="lg:col-span-5">
                 <Reveal>
-                  <div class="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-stone-400">Ещё вопросы</div>
-                  <h3 class="mb-4 text-3xl font-light tracking-tight text-stone-900 md:text-4xl">Что ещё важно знать до старта</h3>
-                  <p class="text-lg leading-relaxed text-stone-600">
+                  <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 sm:mb-4 sm:text-xs">Ещё вопросы</div>
+                  <h3 class="mb-3 text-2xl font-light tracking-tight text-stone-900 sm:mb-4 sm:text-3xl md:text-4xl">Что ещё важно знать до старта</h3>
+                  <p class="text-base leading-relaxed text-stone-600 sm:text-lg">
                     Здесь два вопроса, которые чаще всего влияют на решение: можно ли начать без проекта и зачем нужен технический
                     надзор.
                   </p>
@@ -75,7 +75,7 @@ export default defineComponent({
 
               <div class="lg:col-span-6 lg:col-start-7">
                 <Reveal delay={160}>
-                  <div class="grid gap-4">
+                  <div class="grid gap-3 sm:gap-4">
                     {supportCards.map((item, index) => (
                       <BriefAccordionItem
                         key={item.title}
@@ -84,7 +84,7 @@ export default defineComponent({
                         onToggle={(id) => toggleAccordion(supportActiveId, id)}
                         brief={item.desc}
                         panelSpace="clamp(10rem, 24vw, 13rem)"
-                        buttonClass="w-full border border-stone-200 bg-white p-5 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50"
+                        buttonClass="w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-5"
                         iconClass="shrink-0 text-stone-400"
                         renderHeader={() => <div class="flex-1 pr-3 text-sm font-medium leading-relaxed text-stone-700">{item.title}</div>}
                       />

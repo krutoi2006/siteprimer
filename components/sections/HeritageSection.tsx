@@ -18,7 +18,7 @@ export default defineComponent({
     };
 
     const activateEpoch = (epoch: 'old' | 'new') => {
-      hoveredEpoch.value = epoch;
+      hoveredEpoch.value = hoveredEpoch.value === epoch ? null : epoch;
     };
 
     onMounted(() => {
@@ -37,22 +37,23 @@ export default defineComponent({
 
     return () => (
       <section
-        class="relative overflow-hidden border-t border-stone-200 bg-stone-50 py-24"
+        class="relative overflow-hidden border-t border-stone-200 bg-stone-50 py-16 sm:py-20 md:py-24"
         style={{ contentVisibility: 'auto', containIntrinsicSize: props.isMobile ? '700px' : '820px' } as CSSProperties}
       >
-        <div class="mx-auto mb-16 max-w-7xl px-6 text-center md:px-12">
-          <h2 class="bronze-text overflow-visible text-3xl font-light leading-[1.18] tracking-tighter md:text-5xl pt-[0.06em] pb-[0.16em]">
+        <div class="mx-auto mb-10 max-w-7xl px-5 text-center sm:mb-12 sm:px-6 md:mb-16 md:px-12">
+          <h2 class="bronze-text overflow-visible text-2xl font-light leading-[1.18] tracking-tighter sm:text-3xl md:text-5xl pt-[0.06em] pb-[0.16em]">
             От монументальности прошлого <span class="font-medium italic">к технологиям будущего.</span>
           </h2>
         </div>
 
-        <div class="mx-auto h-[600px] max-w-7xl px-6 md:h-[700px] md:px-12">
-          <div class="flex h-full w-full flex-col gap-[2px] overflow-hidden bg-stone-300 shadow-2xl md:flex-row">
+        <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+          {/* Mobile: stacked cards with reasonable heights */}
+          <div class="flex h-auto min-h-0 w-full flex-col gap-3 overflow-hidden bg-stone-300 shadow-2xl sm:gap-[2px] md:h-[700px] md:flex-row">
             <div
-              class="relative h-full cursor-pointer touch-manipulation overflow-hidden bg-stone-900"
+              class="relative h-[280px] cursor-pointer touch-manipulation overflow-hidden bg-stone-900 sm:h-[320px] md:h-full"
               style={{
-                flex: hoveredEpoch.value === 'old' ? 2 : hoveredEpoch.value === 'new' ? 0.6 : 1,
-                transition: 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
+                flex: props.isMobile ? undefined : (hoveredEpoch.value === 'old' ? 2 : hoveredEpoch.value === 'new' ? 0.6 : 1),
+                transition: props.isMobile ? undefined : 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
               }}
               role="button"
               tabindex={0}
@@ -78,14 +79,20 @@ export default defineComponent({
               />
               <div class={['absolute inset-0 transition-colors duration-700', hoveredEpoch.value === 'old' ? 'bg-stone-900/40' : 'bg-stone-900/60']} />
 
-              <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                <div class={['transform transition-[transform,opacity] duration-700', hoveredEpoch.value === 'old' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80']}>
-                  <div class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#dcb589]">~ 1000 г. н.э.</div>
-                  <h3 class="mb-2 whitespace-nowrap text-3xl font-light text-white md:text-4xl">Каменные замки</h3>
+              <div class="absolute inset-0 flex flex-col justify-end p-5 sm:p-6 md:p-12">
+                <div class={['transform transition-[transform,opacity] duration-700', hoveredEpoch.value === 'old' ? 'translate-y-0 opacity-100' : 'translate-y-0 opacity-100 md:translate-y-4 md:opacity-80']}>
+                  <div class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#dcb589] sm:text-xs md:mb-3">~ 1000 г. н.э.</div>
+                  <h3 class="mb-1 text-2xl font-light text-white sm:text-3xl md:mb-2 md:text-4xl">Каменные замки</h3>
 
-                  <div class={['grid transition-[grid-template-rows,opacity] duration-700 ease-in-out', hoveredEpoch.value === 'old' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0']}>
+                  <div class={[
+                    'grid transition-[grid-template-rows,opacity] duration-700 ease-in-out',
+                    /* On mobile always show description, on desktop toggle */
+                    props.isMobile
+                      ? (hoveredEpoch.value === 'old' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[1fr] opacity-100')
+                      : (hoveredEpoch.value === 'old' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'),
+                  ]}>
                     <div class="overflow-hidden">
-                      <p class="max-w-sm pt-4 text-sm font-light text-stone-300 md:text-base">
+                      <p class="max-w-sm pt-2 text-xs font-light leading-relaxed text-stone-300 sm:pt-3 sm:text-sm md:pt-4 md:text-base">
                         Вершина инженерии своего времени. Технологии, создавшие эталон долговечности и надежности. Мы отдаем дань уважения
                         их монументальности.
                       </p>
@@ -96,10 +103,10 @@ export default defineComponent({
             </div>
 
             <div
-              class="relative h-full cursor-pointer touch-manipulation overflow-hidden bg-stone-900"
+              class="relative h-[280px] cursor-pointer touch-manipulation overflow-hidden bg-stone-900 sm:h-[320px] md:h-full"
               style={{
-                flex: hoveredEpoch.value === 'new' ? 2 : hoveredEpoch.value === 'old' ? 0.6 : 1,
-                transition: 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
+                flex: props.isMobile ? undefined : (hoveredEpoch.value === 'new' ? 2 : hoveredEpoch.value === 'old' ? 0.6 : 1),
+                transition: props.isMobile ? undefined : 'flex 0.8s cubic-bezier(0.25, 1, 0.5, 1)',
               }}
               role="button"
               tabindex={0}
@@ -125,14 +132,19 @@ export default defineComponent({
               />
               <div class={['absolute inset-0 transition-colors duration-700', hoveredEpoch.value === 'new' ? 'bg-stone-900/40' : 'bg-stone-900/60']} />
 
-              <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                <div class={['transform transition-[transform,opacity] duration-700', hoveredEpoch.value === 'new' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80']}>
-                  <div class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#dcb589]">Наши дни</div>
-                  <h3 class="mb-2 whitespace-nowrap text-3xl font-light text-white md:text-4xl">CLT и SCIP</h3>
+              <div class="absolute inset-0 flex flex-col justify-end p-5 sm:p-6 md:p-12">
+                <div class={['transform transition-[transform,opacity] duration-700', hoveredEpoch.value === 'new' ? 'translate-y-0 opacity-100' : 'translate-y-0 opacity-100 md:translate-y-4 md:opacity-80']}>
+                  <div class="mb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#dcb589] sm:text-xs md:mb-3">Наши дни</div>
+                  <h3 class="mb-1 text-2xl font-light text-white sm:text-3xl md:mb-2 md:text-4xl">CLT и SCIP</h3>
 
-                  <div class={['grid transition-[grid-template-rows,opacity] duration-700 ease-in-out', hoveredEpoch.value === 'new' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0']}>
+                  <div class={[
+                    'grid transition-[grid-template-rows,opacity] duration-700 ease-in-out',
+                    props.isMobile
+                      ? (hoveredEpoch.value === 'new' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[1fr] opacity-100')
+                      : (hoveredEpoch.value === 'new' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'),
+                  ]}>
                     <div class="overflow-hidden">
-                      <p class="max-w-sm pt-4 text-sm font-light text-stone-300 md:text-base">
+                      <p class="max-w-sm pt-2 text-xs font-light leading-relaxed text-stone-300 sm:pt-3 sm:text-sm md:pt-4 md:text-base">
                         Эволюция прочности. Мы переносим надежность прошлого в наше время, наделяя ее абсолютным комфортом и интеллектом
                         современных материалов.
                       </p>
