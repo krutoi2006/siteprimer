@@ -160,7 +160,10 @@ export default defineComponent({
                 alt=""
                 loading="lazy"
                 decoding="async"
-                class={['absolute inset-0 h-full w-full object-cover', isMobileValue ? '' : 'will-change-transform']}
+                class={[
+                  'absolute inset-0 h-full w-full object-cover',
+                  isMobileValue ? '' : 'will-change-transform',
+                ]}
                 style={{ transform: isMobileValue ? 'none' : 'translateY(var(--construction-parallax)) scale(1.08)' }}
               />
             </div>

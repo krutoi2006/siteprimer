@@ -75,8 +75,27 @@ export const useScrollEffects = (rootRef: Ref<HTMLElement | null>, threshold = 5
       return;
     }
 
-    enableParallax = window.innerWidth > 768;
+    const isMobileDevice = window.innerWidth <= 768;
     lastScrolled = window.scrollY > threshold;
+
+    if (isMobileDevice) {
+      // Mobile: lightweight scroll listener — only track isScrolled, no RAF needed
+      const handleScrollMobile = () => {
+        const nextScrolled = window.scrollY > threshold;
+        if (nextScrolled !== lastScrolled) {
+          lastScrolled = nextScrolled;
+          isScrolled.value = nextScrolled;
+        }
+      };
+
+      handleScrollMobile();
+      window.addEventListener('scroll', handleScrollMobile, { passive: true });
+
+      return;
+    }
+
+    // Desktop: full parallax + isScrolled via RAF
+    enableParallax = true;
     applyScrollEffects();
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });

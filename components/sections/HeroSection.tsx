@@ -84,15 +84,43 @@ export default defineComponent({
         <section id="hero" class="relative h-screen w-full overflow-hidden bg-stone-950">
           <div class="absolute inset-0 h-full w-full">
             {heroImages.map((src, index) => {
+              const isCurrent = index === currentSlide;
+              const isPrevious = index === previousSlide;
+
+              // Mobile: use opacity crossfade instead of heavy clip-path animation
+              if (props.isMobile) {
+                return (
+                  <div
+                    key={src}
+                    class="absolute inset-0 h-full w-full hero-slide-mobile"
+                    style={{
+                      zIndex: isCurrent ? 20 : isPrevious ? 10 : 0,
+                      opacity: isCurrent || isPrevious ? 1 : 0,
+                      transition: 'opacity 0.8s ease',
+                    }}
+                  >
+                    <div
+                      class="absolute inset-0 h-full w-full"
+                      style={{
+                        backgroundImage: `url(${src})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                      }}
+                    />
+                  </div>
+                );
+              }
+
+              // Desktop: clip-path wipe animation
               let zIndex = 0;
               let clipPath = 'inset(0 100% 0 0)';
               let transition = '';
 
-              if (index === currentSlide) {
+              if (isCurrent) {
                 zIndex = 20;
                 clipPath = 'inset(0 0 0 0)';
                 transition = 'clip-path 1.5s cubic-bezier(0.77, 0, 0.175, 1)';
-              } else if (index === previousSlide) {
+              } else if (isPrevious) {
                 zIndex = 10;
                 clipPath = 'inset(0 0 0 0)';
                 transition = 'none';
@@ -101,7 +129,7 @@ export default defineComponent({
               return (
                 <div key={src} class="absolute inset-0 h-full w-full" style={{ zIndex, clipPath, transition }}>
                   <div
-                    class={['absolute inset-0 h-full w-full scale-105', props.isMobile || props.isWeakDevice ? '' : 'will-change-transform']}
+                    class={['absolute inset-0 h-full w-full scale-105', props.isWeakDevice ? '' : 'will-change-transform']}
                     style={{
                       transform: 'scale(1.05)',
                       backgroundImage: `url(${src})`,
@@ -163,7 +191,8 @@ export default defineComponent({
 
           <div
             class={[
-              'absolute bottom-4 left-1/2 z-40 -translate-x-1/2 cursor-pointer text-white/50 transition-opacity duration-1000 animate-bounce sm:bottom-8',
+              'absolute bottom-4 left-1/2 z-40 -translate-x-1/2 cursor-pointer text-white/50 transition-opacity duration-1000 sm:bottom-8',
+              props.isMobile ? '' : 'animate-bounce',
               isReadyValue ? 'opacity-100' : 'opacity-0',
             ]}
             onClick={(event: MouseEvent) => props.navigateToSection(event, 'vision')}

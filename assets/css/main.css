@@ -207,6 +207,12 @@ footer {
     animation: none;
   }
 
+  /* Remove text-shadow from bronze text — causes repaint on scroll */
+  .bronze-text,
+  .bronze-text-light {
+    text-shadow: none;
+  }
+
   .brief-panel {
     contain: layout style;
     transform: none;
@@ -246,16 +252,45 @@ footer {
     backdrop-filter: none !important;
   }
 
+  /* Simplify Reveal compositing on mobile */
+  .reveal-motion {
+    contain: none;
+    backface-visibility: visible;
+    transform: none;
+    will-change: auto !important;
+  }
+
+  /* Hero: replace clip-path animation with opacity fade (clip-path is GPU-expensive) */
+  .hero-slide-mobile {
+    clip-path: none !important;
+    transition: opacity 0.8s ease !important;
+  }
+
+  /* Disable 3D perspective on SCIP visualization */
+  .scip-mobile-flat {
+    perspective: none !important;
+    transform-style: flat !important;
+  }
+
+  .scip-mobile-flat * {
+    transform-style: flat !important;
+  }
+
+  /* Remove hover transitions on touch devices */
+  .group:hover > *,
+  .group:hover {
+    transition-duration: 0s !important;
+  }
+
   /* Anchor scroll offset */
   section[id],
   footer {
     scroll-margin-top: 72px;
   }
 
-  /* Reduce ambient orbs on mobile */
+  /* Remove ambient orbs entirely on mobile — blur() is GPU-heavy even at low opacity */
   .ambient-orb {
-    opacity: 0.3 !important;
-    filter: blur(60px);
+    display: none !important;
   }
 }
 

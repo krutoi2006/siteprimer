@@ -47,8 +47,11 @@ export default defineComponent({
                 loading="lazy"
                 decoding="async"
                 fetchpriority="low"
-                class={['absolute inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] w-full object-cover scale-[1.08]', isMobileValue ? '' : 'will-change-transform']}
-                style={{ transform: isMobileValue ? 'scale(1.08)' : 'translateY(var(--technology-parallax)) scale(1.08)' }}
+                class={[
+                  'absolute inset-0 h-full w-full object-cover',
+                  isMobileValue ? '' : 'inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] scale-[1.08] will-change-transform',
+                ]}
+                style={{ transform: isMobileValue ? 'none' : 'translateY(var(--technology-parallax)) scale(1.08)' }}
               />
               <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,10,9,0.92)_10%,rgba(28,25,23,0.78)_45%,rgba(28,25,23,0.42)_100%)]" />
             </div>

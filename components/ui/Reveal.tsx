@@ -1,5 +1,7 @@
 import { defineComponent, onBeforeUnmount, onMounted, ref, watch, type CSSProperties, type PropType } from 'vue';
 
+const isMobileScreen = () => import.meta.client && window.innerWidth <= 768;
+
 type Direction = 'up' | 'left' | 'right' | 'none';
 
 const transformByDirection: Record<Direction, string> = {
@@ -7,6 +9,13 @@ const transformByDirection: Record<Direction, string> = {
   left: 'translate3d(-24px, 0, 0)',
   right: 'translate3d(24px, 0, 0)',
   none: 'translate3d(0, 0, 0)',
+};
+
+const mobileTransformByDirection: Record<Direction, string> = {
+  up: 'translateY(16px)',
+  left: 'translateX(-16px)',
+  right: 'translateX(16px)',
+  none: 'none',
 };
 
 const observerCallbacks = new WeakMap<Element, () => void>();
@@ -37,7 +46,7 @@ const getSharedObserver = () => {
       },
       {
         threshold: 0.01,
-        rootMargin: '0px 0px 12% 0px',
+        rootMargin: isMobileScreen() ? '0px 0px 4% 0px' : '0px 0px 12% 0px',
       },
     );
   }
@@ -155,13 +164,21 @@ export default defineComponent({
       disconnect();
     });
 
+    const mobile = isMobileScreen();
+
     return () => {
-      const style: CSSProperties = {
-        opacity: isVisible.value ? 1 : 0,
-        transform: isVisible.value ? 'translate3d(0, 0, 0)' : transformByDirection[props.direction],
-        transition: `opacity 0.65s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms, transform 0.65s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms`,
-        willChange: isVisible.value ? undefined : 'opacity, transform',
-      };
+      const style: CSSProperties = mobile
+        ? {
+            opacity: isVisible.value ? 1 : 0,
+            transform: isVisible.value ? 'none' : mobileTransformByDirection[props.direction],
+            transition: `opacity 0.35s ease ${props.delay}ms, transform 0.35s ease ${props.delay}ms`,
+          }
+        : {
+            opacity: isVisible.value ? 1 : 0,
+            transform: isVisible.value ? 'translate3d(0, 0, 0)' : transformByDirection[props.direction],
+            transition: `opacity 0.65s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms, transform 0.65s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms`,
+            willChange: isVisible.value ? undefined : 'opacity, transform',
+          };
 
       return (
         <div ref={elementRef} style={style} class="reveal-motion">

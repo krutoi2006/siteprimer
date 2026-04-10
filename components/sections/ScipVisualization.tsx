@@ -31,8 +31,8 @@ export default defineComponent({
     return () => (
       props.isMobile ? (
         <div
-          class="group relative mx-auto flex h-[320px] w-full max-w-[320px] cursor-pointer select-none items-center justify-center overflow-visible"
-          style={{ perspective: '1200px', touchAction: 'manipulation' }}
+          class="relative mx-auto flex h-[320px] w-full max-w-[320px] cursor-pointer select-none items-center justify-center overflow-hidden"
+          style={{ touchAction: 'manipulation' }}
           role="button"
           tabindex={0}
           aria-pressed={isExpanded.value ? 'true' : 'false'}
@@ -40,58 +40,47 @@ export default defineComponent({
           onClick={toggleExpanded}
           onKeydown={handleKeydown}
         >
-          <div
-            class="relative h-60 w-40 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)]"
-            style={{
-              transform: isExpanded.value
-                ? 'translateX(-10px) rotateX(60deg) rotateZ(-45deg) scale(1.02)'
-                : 'translateX(-10px) rotateX(60deg) rotateZ(-45deg)',
-              transformStyle: 'preserve-3d',
-            }}
-          >
+          {/* Simplified 2D stacked layers for mobile — no 3D transforms */}
+          <div class="relative flex h-64 w-44 flex-col items-center justify-center gap-1">
             <div
-              class={`absolute inset-0 flex items-start justify-end border border-stone-200 bg-stone-100 p-3 shadow-[0_18px_34px_rgba(0,0,0,0.09)] transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-                isExpanded.value ? '[transform:translateZ(-54px)]' : '[transform:translateZ(-30px)]'
-              }`}
+              class="flex w-full items-start justify-end border border-stone-200 bg-stone-100 p-2 shadow-sm transition-transform duration-500 ease-out"
+              style={{ transform: isExpanded.value ? 'translateY(-16px)' : 'translateY(0)' }}
             >
-              <div class="origin-top-right translate-y-7 rotate-90 text-[9px] font-bold tracking-[0.16em] text-stone-400">ИНТЕРЬЕР</div>
+              <div class="text-[9px] font-bold tracking-[0.16em] text-stone-400">ИНТЕРЬЕР</div>
             </div>
             <div
-              class={`absolute inset-0 border border-slate-300/40 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-                isExpanded.value ? '[transform:translateZ(-14px)]' : '[transform:translateZ(0px)]'
-              }`}
+              class="w-full border border-slate-300/40 h-8 transition-transform duration-500 ease-out"
               style={{
+                transform: isExpanded.value ? 'translateY(-8px)' : 'translateY(0)',
                 backgroundImage:
-                  'repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(148, 163, 184, 0.3) 15px, rgba(148, 163, 184, 0.3) 16px), repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(148, 163, 184, 0.3) 15px, rgba(148, 163, 184, 0.3) 16px)',
+                  'repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(148, 163, 184, 0.3) 7px, rgba(148, 163, 184, 0.3) 8px), repeating-linear-gradient(90deg, transparent, transparent 7px, rgba(148, 163, 184, 0.3) 7px, rgba(148, 163, 184, 0.3) 8px)',
               }}
             />
             <div
-              class={`absolute inset-0 flex items-center justify-center border border-stone-100 bg-white/90 shadow-[0_0_24px_rgba(0,0,0,0.04)] transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-                isExpanded.value ? '[transform:translateZ(46px)]' : '[transform:translateZ(32px)]'
-              }`}
+              class="flex w-full items-center justify-center border border-stone-100 bg-white/90 p-2 shadow-sm transition-transform duration-500 ease-out"
+              style={{ transform: 'translateY(0)' }}
             >
-              <div class="rounded-full border border-white/60 bg-white/60 px-3 py-1.5 text-center">
+              <div class="rounded-full border border-white/60 bg-white/60 px-3 py-1 text-center">
                 <div class="text-[9px] font-bold tracking-[0.16em] text-stone-500">ЯДРО EPS</div>
               </div>
             </div>
             <div
-              class={`absolute inset-0 border border-slate-300/40 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-                isExpanded.value ? '[transform:translateZ(94px)]' : '[transform:translateZ(64px)]'
-              }`}
+              class="w-full border border-slate-300/40 h-8 transition-transform duration-500 ease-out"
               style={{
+                transform: isExpanded.value ? 'translateY(8px)' : 'translateY(0)',
                 backgroundImage:
-                  'repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(148, 163, 184, 0.3) 15px, rgba(148, 163, 184, 0.3) 16px), repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(148, 163, 184, 0.3) 15px, rgba(148, 163, 184, 0.3) 16px)',
+                  'repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(148, 163, 184, 0.3) 7px, rgba(148, 163, 184, 0.3) 8px), repeating-linear-gradient(90deg, transparent, transparent 7px, rgba(148, 163, 184, 0.3) 7px, rgba(148, 163, 184, 0.3) 8px)',
               }}
             />
             <div
-              class={`absolute inset-0 flex items-end border border-stone-400 bg-stone-300 p-3 opacity-95 shadow-[18px_24px_40px_rgba(0,0,0,0.18)] transition-transform duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-                isExpanded.value ? '[transform:translateZ(132px)]' : '[transform:translateZ(96px)]'
-              }`}
+              class="flex w-full items-end border border-stone-400 bg-stone-300 p-2 shadow-sm transition-transform duration-500 ease-out"
+              style={{ transform: isExpanded.value ? 'translateY(16px)' : 'translateY(0)' }}
             >
               <div class="text-[9px] font-bold leading-none tracking-[0.14em] text-stone-600">СТРУКТУРНЫЙ БЕТОН</div>
             </div>
-            <div class={`absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-medium tracking-[0.18em] text-stone-400 transition-opacity duration-500 ${isExpanded.value ? 'opacity-0' : 'opacity-100'}`}>
-              TAP TO VIEW LAYERS
+
+            <div class={`mt-4 text-center text-[9px] font-medium tracking-[0.18em] text-stone-400 transition-opacity duration-300 ${isExpanded.value ? 'opacity-0' : 'opacity-100'}`}>
+              НАЖМИТЕ ДЛЯ ПРОСМОТРА
             </div>
           </div>
         </div>
