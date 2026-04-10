@@ -38,7 +38,7 @@ export default defineComponent({
     return () => (
       <section
         class="relative overflow-hidden border-t border-stone-200 bg-stone-50 py-24"
-        style={props.isMobile ? ({ contentVisibility: 'auto', containIntrinsicSize: '700px' } as CSSProperties) : undefined}
+        style={{ contentVisibility: 'auto', containIntrinsicSize: props.isMobile ? '700px' : '820px' } as CSSProperties}
       >
         <div class="mx-auto mb-16 max-w-7xl px-6 text-center md:px-12">
           <h2 class="bronze-text overflow-visible text-3xl font-light leading-[1.18] tracking-tighter md:text-5xl pt-[0.06em] pb-[0.16em]">
@@ -67,15 +67,23 @@ export default defineComponent({
                 }
               }}
             >
-              <div class="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/image/zamok.webp')" }} />
+              <img
+                src="/image/zamok.webp"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
               <div class={['absolute inset-0 transition-colors duration-700', hoveredEpoch.value === 'old' ? 'bg-stone-900/40' : 'bg-stone-900/60']} />
 
               <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                <div class={['transform transition-all duration-700', hoveredEpoch.value === 'old' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80']}>
+                <div class={['transform transition-[transform,opacity] duration-700', hoveredEpoch.value === 'old' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80']}>
                   <div class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#dcb589]">~ 1000 г. н.э.</div>
                   <h3 class="mb-2 whitespace-nowrap text-3xl font-light text-white md:text-4xl">Каменные замки</h3>
 
-                  <div class={['grid transition-all duration-700 ease-in-out', hoveredEpoch.value === 'old' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0']}>
+                  <div class={['grid transition-[grid-template-rows,opacity] duration-700 ease-in-out', hoveredEpoch.value === 'old' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0']}>
                     <div class="overflow-hidden">
                       <p class="max-w-sm pt-4 text-sm font-light text-stone-300 md:text-base">
                         Вершина инженерии своего времени. Технологии, создавшие эталон долговечности и надежности. Мы отдаем дань уважения
@@ -106,15 +114,23 @@ export default defineComponent({
                 }
               }}
             >
-              <div class="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/image/dom1.webp')" }} />
+              <img
+                src="/image/projects/portfolio-02.webp"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                fetchpriority="low"
+                class="absolute inset-0 h-full w-full object-cover"
+              />
               <div class={['absolute inset-0 transition-colors duration-700', hoveredEpoch.value === 'new' ? 'bg-stone-900/40' : 'bg-stone-900/60']} />
 
               <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                <div class={['transform transition-all duration-700', hoveredEpoch.value === 'new' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80']}>
+                <div class={['transform transition-[transform,opacity] duration-700', hoveredEpoch.value === 'new' ? 'translate-y-0 opacity-100' : 'translate-y-4 md:opacity-80']}>
                   <div class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#dcb589]">Наши дни</div>
                   <h3 class="mb-2 whitespace-nowrap text-3xl font-light text-white md:text-4xl">CLT и SCIP</h3>
 
-                  <div class={['grid transition-all duration-700 ease-in-out', hoveredEpoch.value === 'new' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0']}>
+                  <div class={['grid transition-[grid-template-rows,opacity] duration-700 ease-in-out', hoveredEpoch.value === 'new' ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0']}>
                     <div class="overflow-hidden">
                       <p class="max-w-sm pt-4 text-sm font-light text-stone-300 md:text-base">
                         Эволюция прочности. Мы переносим надежность прошлого в наше время, наделяя ее абсолютным комфортом и интеллектом

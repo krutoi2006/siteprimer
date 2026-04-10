@@ -3,10 +3,10 @@ import { defineComponent, onBeforeUnmount, onMounted, ref, watch, type CSSProper
 type Direction = 'up' | 'left' | 'right' | 'none';
 
 const transformByDirection: Record<Direction, string> = {
-  up: 'translateY(40px)',
-  left: 'translateX(-40px)',
-  right: 'translateX(40px)',
-  none: 'translate(0)',
+  up: 'translate3d(0, 24px, 0)',
+  left: 'translate3d(-24px, 0, 0)',
+  right: 'translate3d(24px, 0, 0)',
+  none: 'translate3d(0, 0, 0)',
 };
 
 const observerCallbacks = new WeakMap<Element, () => void>();
@@ -35,7 +35,10 @@ const getSharedObserver = () => {
           sharedObserver?.unobserve(entry.target);
         }
       },
-      { threshold: 0.1 },
+      {
+        threshold: 0.01,
+        rootMargin: '0px 0px 12% 0px',
+      },
     );
   }
 
@@ -60,8 +63,16 @@ export default defineComponent({
   },
   setup(props, { slots }) {
     const elementRef = ref<HTMLElement | null>(null);
-    const isVisible = ref(false);
+    const isVisible = ref(props.isReady);
     let observedElement: HTMLElement | null = null;
+    let rafId = 0;
+
+    const isNearViewport = (element: HTMLElement) => {
+      const rect = element.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      return rect.top <= viewportHeight * 1.1 && rect.bottom >= viewportHeight * -0.15;
+    };
 
     const disconnect = () => {
       if (!observedElement) {
@@ -73,10 +84,16 @@ export default defineComponent({
       observedElement = null;
     };
 
-    const setupObserver = () => {
+    const applyVisibilityState = () => {
+      rafId = 0;
       disconnect();
 
-      if (!props.isReady || isVisible.value || !import.meta.client) {
+      if (!import.meta.client) {
+        return;
+      }
+
+      if (!props.isReady) {
+        isVisible.value = false;
         return;
       }
 
@@ -85,9 +102,13 @@ export default defineComponent({
         return;
       }
 
-      if (!('IntersectionObserver' in window)) {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window) || isNearViewport(element)) {
         isVisible.value = true;
         return;
+      }
+
+      if (isVisible.value) {
+        isVisible.value = false;
       }
 
       const observer = getSharedObserver();
@@ -105,22 +126,40 @@ export default defineComponent({
       observer.observe(element);
     };
 
-    onMounted(setupObserver);
+    const scheduleVisibilityCheck = () => {
+      if (!import.meta.client) {
+        return;
+      }
+
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+
+      rafId = window.requestAnimationFrame(applyVisibilityState);
+    };
+
+    onMounted(scheduleVisibilityCheck);
 
     watch(
       () => props.isReady,
       () => {
-        setupObserver();
+        scheduleVisibilityCheck();
       },
     );
 
-    onBeforeUnmount(disconnect);
+    onBeforeUnmount(() => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+
+      disconnect();
+    });
 
     return () => {
       const style: CSSProperties = {
         opacity: isVisible.value ? 1 : 0,
-        transform: isVisible.value ? 'translate(0)' : transformByDirection[props.direction],
-        transition: `opacity 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms, transform 0.8s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms`,
+        transform: isVisible.value ? 'translate3d(0, 0, 0)' : transformByDirection[props.direction],
+        transition: `opacity 0.65s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms, transform 0.65s cubic-bezier(0.17, 0.55, 0.55, 1) ${props.delay}ms`,
         willChange: isVisible.value ? undefined : 'opacity, transform',
       };
 

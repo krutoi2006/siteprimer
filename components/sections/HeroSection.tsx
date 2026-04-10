@@ -126,9 +126,9 @@ export default defineComponent({
 
             <Reveal isReady={isReadyValue} delay={400}>
               <h1 class="bronze-text-light mb-6 max-w-4xl text-4xl font-light leading-[1.1] tracking-tighter sm:text-5xl md:text-7xl lg:text-8xl">
-                Архитектурная чистота.
+                Архитектурная чистота
                 <br />
-                <span class="bg-gradient-to-r from-[#f8d5a6] to-white/60 bg-clip-text font-medium text-transparent">Инженерия на века.</span>
+                <span class="bg-gradient-to-r from-[#f8d5a6] to-white/60 bg-clip-text font-medium text-transparent">Инженерия на века</span>
               </h1>
             </Reveal>
 
@@ -150,7 +150,7 @@ export default defineComponent({
               <button
                 key={index}
                 onClick={() => handleManualSlide(index)}
-                class="h-[3px] rounded-full transition-all duration-500"
+                class="h-[3px] rounded-full transition-[width,background-color] duration-500"
                 aria-label={`Перейти к слайду ${index + 1}`}
                 style={{
                   width: index === currentSlide ? '32px' : '16px',

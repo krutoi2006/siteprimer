@@ -38,9 +38,41 @@ body {
   animation: softFloatCard 7s ease-in-out infinite;
 }
 
+.brief-card {
+  contain: layout paint style;
+}
+
+.brief-card-trigger {
+  appearance: none;
+  border-radius: 0;
+}
+
+.brief-card-trigger:focus-visible {
+  outline: 2px solid rgba(184, 138, 88, 0.7);
+  outline-offset: 2px;
+}
+
+.brief-card-stable {
+  --brief-panel-space: clamp(4.75rem, 10vw, 6rem);
+}
+
 .brief-panel {
   contain: layout paint;
   transform: translateZ(0);
+}
+
+.brief-panel-dynamic {
+  transition:
+    grid-template-rows 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s ease;
+}
+
+.brief-panel-stable {
+  min-height: var(--brief-panel-space);
+}
+
+.brief-panel-shell {
+  height: var(--brief-panel-space);
 }
 
 .brief-panel-inner {
@@ -48,8 +80,37 @@ body {
   transform: translateZ(0);
 }
 
+.brief-panel-content {
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease;
+}
+
+.brief-card-stable .brief-panel-inner {
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 113, 108, 0.5) transparent;
+}
+
+.brief-card-stable .brief-panel-inner::-webkit-scrollbar {
+  width: 4px;
+}
+
+.brief-card-stable .brief-panel-inner::-webkit-scrollbar-thumb {
+  background: rgba(120, 113, 108, 0.45);
+  border-radius: 999px;
+}
+
+.handover-stage-grid {
+  contain: layout paint style;
+}
+
 .reveal-motion {
   contain: paint;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .ambient-orb {
@@ -72,6 +133,7 @@ body {
 }
 
 .device-weak .will-change-transform,
+.device-weak .brief-card,
 .device-weak .brief-panel,
 .device-weak .brief-panel-inner,
 .device-weak .reveal-motion {
@@ -136,11 +198,35 @@ body {
   }
 
   .brief-panel {
-    will-change: opacity, margin-top;
+    contain: layout style;
+    transform: none;
+    will-change: auto;
+  }
+
+  .brief-card-stable {
+    --brief-panel-space: clamp(4rem, 17vw, 5.25rem);
   }
 
   .brief-panel-inner {
-    will-change: opacity, transform;
+    backface-visibility: visible;
+    transform: none;
+    will-change: auto;
+  }
+
+  .brief-panel-dynamic {
+    transition:
+      grid-template-rows 0.24s ease,
+      opacity 0.18s ease;
+  }
+
+  .brief-panel-content {
+    transition: opacity 0.18s ease;
+  }
+
+  .handover-stage-grid .reveal-motion {
+    transition: none !important;
+    transform: none !important;
+    will-change: auto !important;
   }
 
   .backdrop-blur-sm,

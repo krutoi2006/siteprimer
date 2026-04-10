@@ -1,0 +1,4 @@
+PassengerNodejs /home/u/username/.local/bin/node
+PassengerAppRoot /home/u/username/example.com/app
+PassengerAppType node
+PassengerStartupFile server.js
