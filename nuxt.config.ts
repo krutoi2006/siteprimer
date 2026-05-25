@@ -9,6 +9,12 @@ export default defineNuxtConfig({
     enabled: false,
   },
   css: ['~/assets/css/main.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   modules: ['@nuxtjs/tailwindcss'],
   typescript: {
     strict: true,

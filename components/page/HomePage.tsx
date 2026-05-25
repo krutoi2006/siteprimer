@@ -271,13 +271,13 @@ export default defineComponent({
                 </span>
                 <div
                   class={[
-                    'hidden overflow-hidden rounded-full border transition-all duration-500 sm:block',
+                    'hidden overflow-hidden rounded-full border p-1 transition-all duration-500 sm:block',
                     isScrolledValue
                       ? 'border-stone-200 bg-white/90 shadow-[0_8px_24px_rgba(28,25,23,0.08)]'
                       : 'border-white/15 bg-white/10 backdrop-blur-sm',
                   ]}
                 >
-                  <img src="/image/23.webp" alt="Italy and Russia" class="h-9 w-16 object-contain" />
+                  <img src="/image/23.webp" alt="Italy and Russia" class="h-[72px] w-32 object-contain" />
                 </div>
               </div>
 
@@ -372,6 +372,40 @@ export default defineComponent({
               </button>
             </div>
           </div>
+
+          <section class="relative overflow-hidden bg-stone-950 text-stone-100">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.16),transparent_34%),linear-gradiнаent(160deg,rgba(24,24,27,0.98)_0%,rgba(12,10,9,1)_52%,rgba(28,25,23,0.98)_100%)]" />
+            <div class="absolute left-1/2 top-24 h-48 w-48 -translate-x-1/2 rounded-full bg-amber-200/10 blur-3xl sm:h-72 sm:w-72" />
+
+            <div class="relative mx-auto flex min-h-[92vh] max-w-6xl flex-col px-5 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 md:px-12 md:pt-36">
+              <div class="mx-auto max-w-5xl text-center">
+                <h1 class="bronze-text-light mt-5 text-4xl font-light uppercase leading-[0.96] tracking-[-0.05em] sm:mt-6 sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem]">
+                  ЭВОЛЮЦИОНЫЕ СТРОИТЕЛЬНЫЕ ТЕХНОЛОГИИ
+                </h1>
+              </div>
+
+              <div class="mx-auto mt-10 h-px w-24 bg-gradient-to-r from-transparent via-amber-200/80 to-transparent sm:mt-12 sm:w-36" />
+
+              <div class="mx-auto mt-10 w-full max-w-4xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm sm:mt-12 sm:p-8 md:p-10">
+                <h2 class="text-center text-3xl font-light tracking-[-0.04em] text-white sm:text-4xl md:text-[2.75rem]">ЭвоСтройТех</h2>
+
+                <div class="mt-6 space-y-5 text-sm leading-relaxed text-stone-300 sm:mt-8 sm:text-base md:text-lg">
+                  <p class="text-balance text-center">
+                    Высокопрочный монолитный железобетонный дом по цене и скорости каркасного строительства. Без компромиссов в безопасности, долговечности и комфорте.
+                  </p>
+                  <p class="text-balance text-center">
+                    Пуленепробиваемый, сейсмостойкий, взрывоустойчивый, как дополнительная защита для танка из сетки и композитных материалов.
+                  </p>
+                  <p class="text-balance text-center">
+                    Перфекционисты, Дизайнеры, Архитекторы, Экологи, особенно Музыканты, присядьте, чтоб не упасть в приятный обморок.
+                  </p>
+                  <p class="text-balance text-center text-stone-100">
+                    Вопрос, который нам всегда задают — почему мы раньше не знали о вашей технологии строительства домов.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <HeroSection
             isMobile={isMobileValue}
