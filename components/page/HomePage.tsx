@@ -18,6 +18,7 @@ import { useDeviceProfile } from '~/composables/useDeviceProfile';
 import { useMobileOrientation } from '~/composables/useMobileOrientation';
 import { useScrollEffects } from '~/composables/useScrollEffects';
 import { navItems } from '~/data/siteContent';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 const HomeTechnologySection = defineAsyncComponent(() => import('~/components/page/home/HomeTechnologySection'));
 const HomeBuildSections = defineAsyncComponent(() => import('~/components/page/home/HomeBuildSections'));
@@ -38,6 +39,8 @@ export default defineComponent({
     const isLoading = ref(true);
     const isFadingOut = ref(false);
     const isModalOpen = ref(false);
+    const logoSrc = withSiteBase('/image/logo.webp');
+    const badgeImageSrc = withSiteBase('/image/23.webp');
 
     const isScrolled = useScrollEffects(rootRef);
     const { isWeakDevice } = useDeviceProfile();
@@ -151,7 +154,7 @@ export default defineComponent({
             >
               <div class={['transform transition-[transform,opacity] duration-[1800ms] ease-out', isFadingOutValue ? 'scale-[1.03] opacity-0' : 'scale-100 opacity-100']}>
                 <img
-                  src="/image/logo.webp"
+                  src={logoSrc}
                   alt="Santilli Architecture Logo"
                   loading="eager"
                   decoding="async"
@@ -303,7 +306,7 @@ export default defineComponent({
                       : 'border-white/15 bg-white/10 backdrop-blur-sm',
                   ]}
                 >
-                  <img src="/image/23.webp" alt="Italy and Russia" class="h-[72px] w-32 object-contain" />
+                  <img src={badgeImageSrc} alt="Italy and Russia" class="h-[72px] w-32 object-contain" />
                 </div>
               </div>
 

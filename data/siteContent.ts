@@ -1,3 +1,5 @@
+import { withSiteBase } from '~/utils/withSiteBase';
+
 export interface NavItem {
   label: string;
   id: string;
@@ -34,9 +36,9 @@ export interface TechnologyAccordionCard {
 }
 
 export const heroImages = [
-  '/image/projects/portfolio-01.webp',
-  '/image/projects/portfolio-04.webp',
-  '/image/projects/portfolio-07.webp',
+  withSiteBase('/image/projects/portfolio-01.webp'),
+  withSiteBase('/image/projects/portfolio-04.webp'),
+  withSiteBase('/image/projects/portfolio-07.webp'),
 ];
 
 export const navItems: NavItem[] = [
@@ -240,7 +242,7 @@ export const supportCards: BriefCard[] = [
 
 export const projectCards: ProjectCard[] = [
   {
-    image: '/image/projects/portfolio-01.webp',
+    image: withSiteBase('/image/projects/portfolio-01.webp'),
     alt: 'Двухэтажный деревянный дом с панорамными окнами',
     title: 'Дом у сада',
     location: 'CLT РЕЗИДЕНЦИЯ',
@@ -248,7 +250,7 @@ export const projectCards: ProjectCard[] = [
     delay: 0,
   },
   {
-    image: '/image/projects/portfolio-02.webp',
+    image: withSiteBase('/image/projects/portfolio-02.webp'),
     alt: 'Современный дом с внутренним двором',
     title: 'Дом с внутренним двором',
     location: 'ЧАСТНЫЙ ДОМ',
@@ -256,7 +258,7 @@ export const projectCards: ProjectCard[] = [
     delay: 80,
   },
   {
-    image: '/image/projects/portfolio-03.webp',
+    image: withSiteBase('/image/projects/portfolio-03.webp'),
     alt: 'Навес и гараж современного дома',
     title: 'Гаражный павильон',
     location: 'ВЪЕЗДНАЯ ГРУППА',
@@ -264,7 +266,7 @@ export const projectCards: ProjectCard[] = [
     delay: 160,
   },
   {
-    image: '/image/projects/portfolio-04.webp',
+    image: withSiteBase('/image/projects/portfolio-04.webp'),
     alt: 'Дом на опорах с открытой террасой',
     title: 'Дом на опорах',
     location: 'КОНЦЕПТ',
@@ -272,7 +274,7 @@ export const projectCards: ProjectCard[] = [
     delay: 240,
   },
   {
-    image: '/image/projects/portfolio-05.webp',
+    image: withSiteBase('/image/projects/portfolio-05.webp'),
     alt: 'Подъезд к дому на опорах',
     title: 'Подъездная галерея',
     location: 'КОНЦЕПТ',
@@ -280,7 +282,7 @@ export const projectCards: ProjectCard[] = [
     delay: 320,
   },
   {
-    image: '/image/projects/portfolio-06.webp',
+    image: withSiteBase('/image/projects/portfolio-06.webp'),
     alt: 'Внутренний проезд под консольной частью дома',
     title: 'Внутренний проезд',
     location: 'КОНЦЕПТ',
@@ -288,7 +290,7 @@ export const projectCards: ProjectCard[] = [
     delay: 400,
   },
   {
-    image: '/image/projects/portfolio-07.webp',
+    image: withSiteBase('/image/projects/portfolio-07.webp'),
     alt: 'Жилой комплекс с выразительными фронтонами',
     title: 'Жилой комплекс',
     location: 'АРХИТЕКТУРНАЯ КОНЦЕПЦИЯ',
@@ -296,7 +298,7 @@ export const projectCards: ProjectCard[] = [
     delay: 480,
   },
   {
-    image: '/image/projects/portfolio-08.webp',
+    image: withSiteBase('/image/projects/portfolio-08.webp'),
     alt: 'Минималистичный дом у воды',
     title: 'Дом у воды',
     location: 'ЧАСТНАЯ РЕЗИДЕНЦИЯ',
@@ -304,7 +306,7 @@ export const projectCards: ProjectCard[] = [
     delay: 560,
   },
   {
-    image: '/image/projects/portfolio-09.webp',
+    image: withSiteBase('/image/projects/portfolio-09.webp'),
     alt: 'Культурный центр с цилиндрическими объемами',
     title: 'Культурный центр',
     location: 'ОБЩЕСТВЕННОЕ ПРОСТРАНСТВО',
@@ -312,7 +314,7 @@ export const projectCards: ProjectCard[] = [
     delay: 640,
   },
   {
-    image: '/image/projects/portfolio-10.webp',
+    image: withSiteBase('/image/projects/portfolio-10.webp'),
     alt: 'Интерьер атриума с круговым обходом',
     title: 'Атриум',
     location: 'ИНТЕРЬЕР',
@@ -320,7 +322,7 @@ export const projectCards: ProjectCard[] = [
     delay: 720,
   },
   {
-    image: '/image/projects/portfolio-11.webp',
+    image: withSiteBase('/image/projects/portfolio-11.webp'),
     alt: 'Современная вилла с панорамным остеклением',
     title: 'Современная вилла',
     location: 'ЧАСТНЫЙ ДОМ',
@@ -328,7 +330,7 @@ export const projectCards: ProjectCard[] = [
     delay: 800,
   },
   {
-    image: '/image/projects/portfolio-12.webp',
+    image: withSiteBase('/image/projects/portfolio-12.webp'),
     alt: 'Интерьер столовой с панорамным видом',
     title: 'Столовая зона',
     location: 'ИНТЕРЬЕР',
@@ -339,7 +341,7 @@ export const projectCards: ProjectCard[] = [
 
 export const portfolioGapCards: ProjectCard[] = [
   {
-    image: '/image/projects/portfolio-gap-01.jpg',
+    image: withSiteBase('/image/projects/portfolio-gap-01.jpg'),
     alt: 'Светлый интерьер с круглыми колоннами и деревянным потолком',
     title: 'Световой зал',
     location: 'ИНТЕРЬЕР',
@@ -347,7 +349,7 @@ export const portfolioGapCards: ProjectCard[] = [
     delay: 440,
   },
   {
-    image: '/image/projects/portfolio-gap-02.jpg',
+    image: withSiteBase('/image/projects/portfolio-gap-02.jpg'),
     alt: 'Просторный интерьер с радиальной композицией и круглыми проемами в потолке',
     title: 'Радиальная композиция',
     location: 'ИНТЕРЬЕР',
@@ -355,7 +357,7 @@ export const portfolioGapCards: ProjectCard[] = [
     delay: 780,
   },
   {
-    image: '/image/projects/portfolio-gap-03.jpg',
+    image: withSiteBase('/image/projects/portfolio-gap-03.jpg'),
     alt: 'Каменный переход с панорамным остеклением и стеклянным ограждением',
     title: 'Каменная галерея',
     location: 'ИНТЕРЬЕР',

@@ -6,11 +6,14 @@ import {
   projectCards,
   stats,
 } from '~/data/siteContent';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 const projectSectionStyle = {
   contentVisibility: 'auto',
   containIntrinsicSize: '1200px',
 } as CSSProperties;
+
+const rotatePromptLogoSrc = withSiteBase('/image/logo2.webp');
 
 const projectGridItems = (() => {
   const items: Array<{
@@ -99,7 +102,7 @@ export default defineComponent({
                 <div class="relative mb-12">
                   <div class="ambient-orb absolute inset-x-6 inset-y-5 rounded-full bg-white/24 blur-2xl" />
                   <img
-                    src="/image/logo2.webp"
+                    src={rotatePromptLogoSrc}
                     alt="Brand Logo2"
                     loading="lazy"
                     decoding="async"

@@ -7,6 +7,7 @@ import {
   engineeringCards,
   supervisionCards,
 } from '~/data/siteContent';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 const handoverSectionStyle = {
   contentVisibility: 'auto',
@@ -22,6 +23,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const handoverImageSrc = withSiteBase('/image/projects/portfolio-11.webp');
     const engineeringActiveId = ref<string | null>(null);
     const budgetActiveId = ref<string | null>(null);
     const supervisionActiveId = ref<string | null>(null);
@@ -156,7 +158,7 @@ export default defineComponent({
           <section class="relative overflow-hidden bg-stone-950 text-stone-50" style={handoverSectionStyle}>
             <div class="absolute inset-0">
               <img
-                src="/image/projects/portfolio-11.webp"
+                src={handoverImageSrc}
                 alt=""
                 loading="lazy"
                 decoding="async"

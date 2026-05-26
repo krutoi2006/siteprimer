@@ -8,6 +8,7 @@ import {
   designLayers,
   siteInsights,
 } from '~/data/siteContent';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 const processSectionStyle = {
   contentVisibility: 'auto',
@@ -23,6 +24,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const processImageSrc = withSiteBase('/image/projects/portfolio-09.webp');
     const contactActiveId = ref<string | null>(null);
     const siteActiveId = ref<string | null>(null);
     const conceptActiveId = ref<string | null>(null);
@@ -41,7 +43,7 @@ export default defineComponent({
           <section id="process" class="relative overflow-hidden bg-stone-950 text-stone-900" style={processSectionStyle}>
             <div class="absolute inset-0">
               <img
-                src="/image/projects/portfolio-09.webp"
+                src={processImageSrc}
                 alt=""
                 aria-hidden="true"
                 loading="lazy"

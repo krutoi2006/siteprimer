@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-vue-next';
 import { defineComponent, ref, type CSSProperties } from 'vue';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 export default defineComponent({
   name: 'HeritageSection',
@@ -369,8 +370,15 @@ export default defineComponent({
       featuredAdvantages.value = next;
     };
 
-    const activeDetailImage = () =>
-      activeDetailImageIndex.value !== null ? detailDrawings[activeDetailImageIndex.value] ?? null : null;
+    const activeDetailImage = () => {
+      if (activeDetailImageIndex.value === null) {
+        return null;
+      }
+
+      const drawing = detailDrawings[activeDetailImageIndex.value] ?? null;
+
+      return drawing ? { ...drawing, src: withSiteBase(drawing.src) } : null;
+    };
 
     return () => (
       <>
@@ -380,7 +388,7 @@ export default defineComponent({
         >
           <div class="absolute inset-0">
             <img
-              src="/image/projects/portfolio-11.webp"
+              src={withSiteBase('/image/projects/portfolio-11.webp')}
               alt=""
               aria-hidden="true"
               loading="lazy"
@@ -644,7 +652,7 @@ export default defineComponent({
                     >
                       <div class="aspect-[4/3] overflow-hidden bg-white">
                         <img
-                          src={drawing.src}
+                          src={withSiteBase(drawing.src)}
                           alt={drawing.title}
                           loading="lazy"
                           decoding="async"

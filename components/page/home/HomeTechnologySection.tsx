@@ -3,6 +3,7 @@ import { defineComponent, ref, type CSSProperties } from 'vue';
 import ScipVisualization from '~/components/sections/ScipVisualization';
 import Reveal from '~/components/ui/Reveal';
 import { technologyAccordionCards } from '~/data/siteContent';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 const technologyFeatures = [
   {
@@ -37,6 +38,7 @@ export default defineComponent({
   },
   setup(props) {
     const activeTechnologyCard = ref<string | null>(null);
+    const scipSectionImageSrc = withSiteBase('/image/i222.webp');
 
     const toggleTechnologyCard = (id: string) => {
       activeTechnologyCard.value = activeTechnologyCard.value === id ? null : id;
@@ -73,7 +75,7 @@ export default defineComponent({
                     </div>
                     <div class="overflow-hidden border border-stone-100 bg-stone-50">
                       <img
-                        src="/image/i222.webp"
+                        src={scipSectionImageSrc}
                         alt="Сечение SCIP панели"
                         loading="lazy"
                         decoding="async"

@@ -2,6 +2,7 @@ import { useHead } from '#imports';
 import { ArrowRight, ChevronDown } from 'lucide-vue-next';
 import { defineComponent, ref, watch, type PropType } from 'vue';
 import Reveal from '~/components/ui/Reveal';
+import { withSiteBase } from '~/utils/withSiteBase';
 
 export default defineComponent({
   name: 'HeroSection',
@@ -25,11 +26,13 @@ export default defineComponent({
   },
   setup(props) {
     const isReady = ref(false);
+    const logoHref = withSiteBase('/image/logo.webp');
+    const videoHref = withSiteBase('/video/SAS.mp4');
 
     useHead({
       link: [
-        { rel: 'preload', as: 'image', href: '/image/logo.webp' },
-        { rel: 'preload', as: 'video', href: '/video/SAS.mp4', type: 'video/mp4' },
+        { rel: 'preload', as: 'image', href: logoHref },
+        { rel: 'preload', as: 'video', href: videoHref, type: 'video/mp4' },
       ],
     });
 
@@ -60,7 +63,7 @@ export default defineComponent({
               playsinline
               preload={props.isWeakDevice ? 'metadata' : 'auto'}
             >
-              <source src="/video/SAS.mp4" type="video/mp4" />
+              <source src={videoHref} type="video/mp4" />
             </video>
           </div>
 
