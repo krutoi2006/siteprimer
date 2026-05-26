@@ -161,15 +161,16 @@ export default defineComponent({
                 loading="lazy"
                 decoding="async"
                 class={[
-                  'absolute inset-0 h-full w-full object-cover',
+                  'absolute inset-0 h-full w-full object-cover object-center',
                   isMobileValue ? '' : 'will-change-transform',
                 ]}
-                style={{ transform: isMobileValue ? 'none' : 'translateY(var(--construction-parallax)) scale(1.08)' }}
+                style={{ transform: isMobileValue ? 'scale(1.02)' : 'scale(1.04)' }}
               />
+              <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.18)_0%,rgba(12,10,9,0.26)_36%,rgba(12,10,9,0.4)_100%)]" />
             </div>
 
-            <div class="relative z-10 mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 md:min-h-[860px] md:px-12 md:pb-32 md:pt-56 lg:min-h-[920px] lg:pb-36 lg:pt-64">
-              <div class="w-full max-w-[300px] sm:max-w-3xl md:max-w-[56rem] md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:items-start md:gap-5 lg:gap-6">
+            <div class="relative z-10 mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 md:min-h-[860px] md:px-12 md:py-24 lg:min-h-[920px] lg:py-28">
+              <div class="mx-auto w-full max-w-[300px] sm:max-w-3xl md:max-w-[56rem] md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:items-start md:gap-5 lg:gap-6">
                 <Reveal>
                   <div class="max-w-[300px] border border-white/30 bg-white/60 px-4 py-5 backdrop-blur-md sm:max-w-2xl sm:px-8 sm:py-9 md:max-w-none">
                     <h2 class="mb-4 break-words text-xl font-light leading-[1.08] tracking-tighter text-stone-950 sm:mb-5 sm:text-3xl md:mb-6 md:text-6xl">
@@ -182,7 +183,7 @@ export default defineComponent({
                 </Reveal>
 
                 <div
-                  class="handover-stage-grid mt-6 grid max-w-[300px] grid-cols-1 gap-2 sm:mt-8 sm:max-w-3xl sm:gap-3 md:mt-16 md:max-w-none lg:mt-20"
+                  class="handover-stage-grid mt-6 grid max-w-[300px] grid-cols-1 gap-2 sm:mt-8 sm:max-w-3xl sm:gap-3 md:mt-10 md:max-w-none lg:mt-12"
                   style={{ overflowAnchor: 'none' }}
                 >
                   {constructionStages.map((item, index) => (
