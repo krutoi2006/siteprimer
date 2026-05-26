@@ -76,9 +76,9 @@ export default defineComponent({
 
             <Reveal isReady={isReadyValue} delay={400}>
               <h1 class="bronze-text-light mb-4 max-w-5xl text-[1.2rem] font-light leading-[1.08] tracking-[-0.03em] sm:mb-6 sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl">
-                <span class="block">МЫ СТРОИМ ЭВОЛЮЦИОННЫЕ</span>
-                <span class="block">МОНОЛИТНЫЕ ДОМА, ЧТОБЫ ЗАЩИТИТЬ</span>
-                <span class="block">ВАС И БЛИЗКИХ, ВАШИ ИНВЕСТИЦИИ.</span>
+                <span class="block">Дом который вы искали и нашли</span>
+                <span class="block">В него хочется возвращаться</span>
+                <span class="block">Неповторимость во всем</span>
               </h1>
             </Reveal>
 

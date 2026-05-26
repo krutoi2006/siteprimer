@@ -269,16 +269,6 @@ export default defineComponent({
                 <span class={['text-lg font-medium tracking-tight transition-colors duration-500 sm:text-xl', isScrolledValue ? 'bronze-text' : 'bronze-text-light']}>
                   SANTILLI
                 </span>
-                <div
-                  class={[
-                    'hidden overflow-hidden rounded-full border p-1 transition-all duration-500 sm:block',
-                    isScrolledValue
-                      ? 'border-stone-200 bg-white/90 shadow-[0_8px_24px_rgba(28,25,23,0.08)]'
-                      : 'border-white/15 bg-white/10 backdrop-blur-sm',
-                  ]}
-                >
-                  <img src="/image/23.webp" alt="Italy and Russia" class="h-[72px] w-32 object-contain" />
-                </div>
               </div>
 
               <div class="hidden items-center gap-6 lg:gap-8 xl:gap-10 md:flex">
@@ -305,6 +295,16 @@ export default defineComponent({
                   Связаться
                   <ArrowRight size={14} class="transition-transform group-hover:translate-x-1" />
                 </button>
+                <div
+                  class={[
+                    'ml-2 overflow-hidden rounded-full border p-1 transition-all duration-500',
+                    isScrolledValue
+                      ? 'border-stone-200 bg-white/90 shadow-[0_8px_24px_rgba(28,25,23,0.08)]'
+                      : 'border-white/15 bg-white/10 backdrop-blur-sm',
+                  ]}
+                >
+                  <img src="/image/23.webp" alt="Italy and Russia" class="h-[72px] w-32 object-contain" />
+                </div>
               </div>
 
               <button
@@ -403,6 +403,12 @@ export default defineComponent({
                     Вопрос, который нам всегда задают — почему мы раньше не знали о вашей технологии строительства домов.
                   </p>
                 </div>
+              </div>
+
+              <div class="mx-auto mt-8 w-full max-w-4xl border border-amber-200/20 bg-amber-100/5 px-6 py-6 text-center sm:mt-10 sm:px-8 sm:py-7 md:px-10 md:py-8">
+                <p class="bronze-text-light text-lg font-light uppercase leading-tight tracking-[-0.04em] sm:text-2xl md:text-3xl lg:text-[2.2rem]">
+                  МЫ СТРОИМ ЭВОЛЮЦИОННЫЕ МОНОЛИТНЫЕ ДОМА, ЧТОБЫ ЗАЩИТИТЬ ВАС И БЛИЗКИХ, ВАШИ ИНВЕСТИЦИИ.
+                </p>
               </div>
             </div>
           </section>
