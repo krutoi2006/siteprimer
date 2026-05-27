@@ -532,40 +532,53 @@ export default defineComponent({
                 </div>
               </div>
 
-              <button
-                type="button"
-                aria-label={isMenuOpenValue ? 'Close menu' : 'Open menu'}
-                class={[
-                  'relative z-[60] flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 sm:h-11 sm:w-11 md:hidden',
-                  isMenuOpenValue
-                    ? 'text-stone-900'
-                    : isScrolledValue
-                      ? 'bg-white text-stone-900 shadow-sm ring-1 ring-stone-200/80 hover:bg-white'
-                      : 'bg-white/10 text-white backdrop-blur-sm hover:bg-white/20',
-                ]}
-                onClick={() => {
-                  isMenuOpen.value = !isMenuOpen.value;
-                }}
-              >
-                <span
+              <div class="flex items-center gap-2 md:hidden">
+                <div
                   class={[
-                    'absolute h-[2px] w-5 rounded-full bg-current transition-all duration-500 ease-out',
-                    isMenuOpenValue ? 'translate-y-0 rotate-45' : '-translate-y-[7px]',
+                    'overflow-hidden rounded-full border p-1 transition-all duration-500',
+                    isScrolledValue
+                      ? 'border-stone-200 bg-white/90 shadow-[0_8px_24px_rgba(28,25,23,0.08)]'
+                      : 'border-white/15 bg-white/10 backdrop-blur-sm',
                   ]}
-                />
-                <span
+                >
+                  <img src={badgeImageSrc} alt="Italy and Russia" class="h-10 w-[74px] object-contain sm:h-11 sm:w-20" />
+                </div>
+
+                <button
+                  type="button"
+                  aria-label={isMenuOpenValue ? 'Close menu' : 'Open menu'}
                   class={[
-                    'absolute h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out',
-                    isMenuOpenValue ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100',
+                    'relative z-[60] flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 sm:h-11 sm:w-11',
+                    isMenuOpenValue
+                      ? 'text-stone-900'
+                      : isScrolledValue
+                        ? 'bg-white text-stone-900 shadow-sm ring-1 ring-stone-200/80 hover:bg-white'
+                        : 'bg-white/10 text-white backdrop-blur-sm hover:bg-white/20',
                   ]}
-                />
-                <span
-                  class={[
-                    'absolute h-[2px] w-5 rounded-full bg-current transition-all duration-500 ease-out',
-                    isMenuOpenValue ? 'translate-y-0 -rotate-45' : 'translate-y-[7px]',
-                  ]}
-                />
-              </button>
+                  onClick={() => {
+                    isMenuOpen.value = !isMenuOpen.value;
+                  }}
+                >
+                  <span
+                    class={[
+                      'absolute h-[2px] w-5 rounded-full bg-current transition-all duration-500 ease-out',
+                      isMenuOpenValue ? 'translate-y-0 rotate-45' : '-translate-y-[7px]',
+                    ]}
+                  />
+                  <span
+                    class={[
+                      'absolute h-[2px] w-5 rounded-full bg-current transition-all duration-300 ease-out',
+                      isMenuOpenValue ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100',
+                    ]}
+                  />
+                  <span
+                    class={[
+                      'absolute h-[2px] w-5 rounded-full bg-current transition-all duration-500 ease-out',
+                      isMenuOpenValue ? 'translate-y-0 -rotate-45' : 'translate-y-[7px]',
+                    ]}
+                  />
+                </button>
+              </div>
             </div>
           </nav>
 

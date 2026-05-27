@@ -120,7 +120,7 @@ export default defineComponent({
                       aria-expanded={isOpen}
                       aria-controls={`technology-card-${index}`}
                       onClick={() => toggleTechnologyCard(card.title)}
-                      class="group relative flex min-h-[120px] w-full items-center justify-center px-5 py-6 text-center transition-[background-color,border-color] duration-300 hover:bg-white sm:min-h-[150px] sm:px-8 sm:py-8 md:min-h-[220px] md:px-16 md:py-14"
+                      class="group relative flex min-h-[100px] w-full items-center justify-center px-5 py-5 text-center transition-[background-color,border-color] duration-300 hover:bg-white sm:min-h-[124px] sm:px-8 sm:py-6 md:min-h-[168px] md:px-14 md:py-10"
                     >
                       <span class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-stone-300 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                       <ChevronDown
@@ -139,7 +139,7 @@ export default defineComponent({
                       <div class="overflow-hidden">
                         <div
                           class={[
-                            'border-t border-stone-200 bg-white px-5 py-5 text-stone-600 transition-[transform,opacity] duration-500 sm:px-6 sm:py-6 md:px-10 md:py-8',
+                            'border-t border-stone-200 bg-white px-5 py-4 text-stone-600 transition-[transform,opacity] duration-500 sm:px-6 sm:py-5 md:px-10 md:py-6',
                             isOpen ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0',
                           ]}
                         >

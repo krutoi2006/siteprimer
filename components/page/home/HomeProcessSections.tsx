@@ -91,8 +91,8 @@ export default defineComponent({
                           onToggle={(id) => toggleAccordion(contactActiveId, id)}
                           brief={item.desc}
                           briefTheme="dark"
-                          panelSpace="clamp(8rem, 18vw, 10.5rem)"
-                          buttonClass="group w-full border border-white/10 bg-white/5 p-4 text-left transition-[background-color,border-color] duration-500 hover:border-white/20 hover:bg-white/10 sm:p-6"
+                          panelSpace="clamp(7rem, 14vw, 8.75rem)"
+                          buttonClass="group w-full border border-white/10 bg-white/5 p-4 text-left transition-[background-color,border-color] duration-500 hover:border-white/20 hover:bg-white/10 sm:p-5"
                           iconClass="mt-1 shrink-0 text-stone-300"
                           renderHeader={() => (
                             <div class="flex-1 pr-3">
@@ -108,10 +108,10 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-20 sm:py-24 md:py-32">
+          <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-16 sm:py-18 md:py-24">
             <div class="ambient-orb absolute -top-20 right-0 h-[420px] w-[420px] rounded-full bg-stone-200/50 opacity-70 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
-              <div class="grid grid-cols-1 gap-10 sm:gap-14 lg:grid-cols-12 lg:gap-8">
+              <div class="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5">
                   <Reveal>
                     <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
@@ -124,7 +124,7 @@ export default defineComponent({
                   </Reveal>
 
                   <Reveal delay={180}>
-                    <div class="mt-8 bg-stone-900 p-6 text-stone-50 sm:mt-10 sm:p-8 md:p-10">
+                    <div class="mt-6 bg-stone-900 p-6 text-stone-50 sm:mt-8 sm:p-7 md:p-8">
                       <div class="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-stone-400 sm:mb-3 sm:text-xs">Важно</div>
                       <p class="text-xl font-light leading-tight sm:text-2xl">Без этого фундамент проектировать нельзя — как строить на ощупь?</p>
                     </div>
@@ -140,8 +140,8 @@ export default defineComponent({
                         onToggle={(id) => toggleAccordion(siteActiveId, id)}
                         brief={item.desc}
                         detail={item.detail}
-                        panelSpace="clamp(13rem, 30vw, 19rem)"
-                        buttonClass="group w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-6 md:p-7"
+                        panelSpace="clamp(7.5rem, 16vw, 10rem)"
+                        buttonClass="group w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-4 md:p-5"
                         iconClass="mt-1 shrink-0 text-stone-400"
                         renderHeader={() => (
                           <div class="flex-1 pr-3">
@@ -156,9 +156,9 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden border-b border-stone-200 bg-white py-20 sm:py-24 md:py-32">
+          <section class="relative overflow-hidden border-b border-stone-200 bg-white py-16 sm:py-18 md:py-24">
             <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
-              <div class="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
+              <div class="grid grid-cols-1 items-start gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5">
                   <Reveal>
                     <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
@@ -170,7 +170,7 @@ export default defineComponent({
                   </Reveal>
                 </div>
 
-                <div class="grid gap-4 sm:gap-6 lg:col-span-7">
+                <div class="grid gap-3 sm:gap-5 lg:col-span-7">
                   <div class="grid gap-3 sm:gap-4">
                     {conceptPoints.map((item, index) => (
                       <Reveal key={item.title} delay={index * 100}>
@@ -180,8 +180,8 @@ export default defineComponent({
                           onToggle={(id) => toggleAccordion(conceptActiveId, id)}
                           brief={item.desc}
                           detail={item.detail}
-                          panelSpace="clamp(13rem, 30vw, 19rem)"
-                          buttonClass="w-full border border-stone-200 bg-stone-50 px-4 py-5 text-left transition-colors duration-300 hover:bg-stone-100 sm:px-5 sm:py-6"
+                          panelSpace="clamp(10rem, 22vw, 14rem)"
+                          buttonClass="w-full border border-stone-200 bg-stone-50 px-4 py-4 text-left transition-colors duration-300 hover:bg-stone-100 sm:px-5 sm:py-5"
                           iconClass="mt-0.5 shrink-0 text-stone-400"
                           renderHeader={() => <p class="pr-3 text-sm font-medium leading-relaxed text-stone-700">{item.title}</p>}
                         />
@@ -190,9 +190,9 @@ export default defineComponent({
                   </div>
 
                   <Reveal delay={220}>
-                    <div class="border border-stone-200 bg-stone-50 p-6 sm:p-8 md:p-10">
+                    <div class="border border-stone-200 bg-stone-50 p-5 sm:p-7 md:p-8">
                       <h3 class="mb-4 text-2xl font-light tracking-tight text-stone-900 sm:mb-5 sm:text-3xl md:text-4xl">Смета до старта стройки</h3>
-                      <p class="mb-6 max-w-3xl text-base leading-relaxed text-stone-600 sm:mb-8 sm:text-lg">
+                      <p class="mb-5 max-w-3xl text-base leading-relaxed text-stone-600 sm:mb-6 sm:text-lg">
                         Фиксируем итоговую цену до начала работ и заранее показываем, из чего она складывается.
                       </p>
                       <div class="grid gap-3 sm:gap-4">
@@ -204,8 +204,8 @@ export default defineComponent({
                             onToggle={(id) => toggleAccordion(architectureActiveId, id)}
                             brief={item.desc}
                             detail={item.detail}
-                            panelSpace="clamp(12rem, 28vw, 17rem)"
-                            buttonClass="w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-5"
+                            panelSpace="clamp(9rem, 20vw, 12rem)"
+                            buttonClass="w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-4 md:p-5"
                             iconClass="shrink-0 text-stone-400"
                             renderHeader={() => <div class="flex-1 pr-3 text-sm font-medium leading-relaxed text-stone-700">{item.title}</div>}
                           />
@@ -218,11 +218,11 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden bg-stone-900 py-20 text-stone-50 sm:py-24 md:py-32">
+          <section class="relative overflow-hidden bg-stone-900 py-16 text-stone-50 sm:py-18 md:py-24">
             <div class="ambient-orb absolute -top-20 left-0 h-[420px] w-[420px] rounded-full bg-[#b88a58]/15 blur-3xl" />
             <div class="ambient-orb absolute -bottom-20 right-0 h-[420px] w-[420px] rounded-full bg-white/5 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
-              <div class="grid grid-cols-1 items-center gap-10 sm:gap-12 lg:grid-cols-12">
+              <div class="grid grid-cols-1 items-center gap-8 sm:gap-10 lg:grid-cols-12">
                 <div class="lg:col-span-6">
                   <Reveal>
                     <h2 class="mb-4 text-3xl font-light leading-[1.05] tracking-tighter text-white sm:mb-6 sm:text-4xl md:text-6xl">Подготовка к стройке</h2>
@@ -241,8 +241,8 @@ export default defineComponent({
                 <div class="lg:col-span-5 lg:col-start-8">
                   <Reveal delay={220}>
                     <div class="relative">
-                      <div class="absolute -inset-3 border border-white/10 sm:-inset-4" />
-                      <div class="relative space-y-3 border border-white/10 bg-white/5 p-5 backdrop-blur-md sm:space-y-4 sm:p-8">
+                      <div class="absolute -inset-2.5 border border-white/10 sm:-inset-3" />
+                      <div class="relative space-y-2.5 border border-white/10 bg-white/5 p-4 backdrop-blur-md sm:space-y-3 sm:p-6">
                         {designLayers.map((item, index) => (
                           <BriefAccordionItem
                             key={item.title}
@@ -252,8 +252,8 @@ export default defineComponent({
                             brief={item.desc}
                             detail={item.detail}
                             briefTheme="dark"
-                            panelSpace="clamp(13rem, 30vw, 18rem)"
-                            buttonClass="w-full border-b border-white/10 pb-3 text-left last:border-b-0 last:pb-0 sm:pb-4"
+                            panelSpace="clamp(7.5rem, 16vw, 10rem)"
+                            buttonClass="w-full border-b border-white/10 pb-2 text-left last:border-b-0 last:pb-0 sm:pb-2.5"
                             iconClass="mt-1 shrink-0 text-stone-300"
                             renderHeader={() => <p class="pr-3 text-base leading-relaxed text-stone-200 sm:text-lg">{item.title}</p>}
                           />

@@ -38,10 +38,10 @@ export default defineComponent({
 
       return (
         <>
-          <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-20 sm:py-24 md:py-32">
+          <section class="relative overflow-hidden border-b border-stone-200 bg-stone-50 py-16 sm:py-18 md:py-24">
             <div class="ambient-orb absolute left-0 top-0 h-[360px] w-[360px] rounded-full bg-stone-200/40 blur-3xl" />
             <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
-              <div class="mb-14 grid grid-cols-1 gap-8 sm:mb-16 sm:gap-10 md:mb-20 lg:grid-cols-12 lg:gap-8">
+              <div class="mb-10 grid grid-cols-1 gap-6 sm:mb-12 sm:gap-8 md:mb-14 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-4">
                   <Reveal>
                     <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
@@ -62,8 +62,8 @@ export default defineComponent({
                         onToggle={(id) => toggleAccordion(engineeringActiveId, id)}
                         brief={item.desc}
                         detail={item.detail}
-                        panelSpace="clamp(13rem, 30vw, 18rem)"
-                        buttonClass="group w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-6 md:p-7"
+                        panelSpace="clamp(8rem, 18vw, 11rem)"
+                        buttonClass="group w-full border border-stone-200 bg-white p-4 text-left transition-[background-color,border-color] duration-500 hover:border-stone-300 hover:bg-stone-50 sm:p-4 md:p-5"
                         iconClass="mt-1 shrink-0 text-stone-400"
                         renderHeader={() => (
                           <div class="flex-1 pr-3">
@@ -76,7 +76,7 @@ export default defineComponent({
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
+              <div class="grid grid-cols-1 items-start gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-4">
                   <Reveal>
                     <h2 class="bronze-text mb-4 overflow-visible pb-[0.16em] pt-[0.06em] text-3xl font-light leading-[1.18] tracking-tighter sm:mb-6 sm:text-4xl md:text-5xl">
@@ -97,8 +97,8 @@ export default defineComponent({
                         onToggle={(id) => toggleAccordion(budgetActiveId, id)}
                         brief={item.desc}
                         detail={item.detail}
-                        panelSpace="clamp(13rem, 30vw, 18rem)"
-                        buttonClass="group w-full border border-stone-200 bg-white px-4 py-4 text-left transition-[border-color,box-shadow] duration-500 hover:border-stone-300 hover:shadow-[0_18px_50px_rgba(28,25,23,0.06)] sm:px-6 sm:py-5"
+                        panelSpace="clamp(8rem, 18vw, 11rem)"
+                        buttonClass="group w-full border border-stone-200 bg-white px-4 py-3.5 text-left transition-[border-color,box-shadow] duration-500 hover:border-stone-300 hover:shadow-[0_18px_50px_rgba(28,25,23,0.06)] sm:px-5 sm:py-4"
                         headerClass="flex flex-col gap-2 sm:gap-3 md:flex-row md:items-start md:justify-between"
                         iconClass="mt-1 shrink-0 text-stone-400"
                         renderHeader={() => (
@@ -114,10 +114,10 @@ export default defineComponent({
             </div>
           </section>
 
-          <section class="relative overflow-hidden bg-stone-950 py-20 text-stone-50 sm:py-24 md:py-32">
+          <section class="relative overflow-hidden bg-stone-950 py-16 text-stone-50 sm:py-18 md:py-24">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_38%)]" />
             <div class="relative z-10 mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
-              <div class="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
+              <div class="grid grid-cols-1 items-start gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-8">
                 <div class="lg:col-span-5">
                   <Reveal>
                     <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 sm:mb-4 sm:text-xs">Во время стройки</div>
@@ -163,18 +163,18 @@ export default defineComponent({
                 loading="lazy"
                 decoding="async"
                 class={[
-                  'absolute inset-0 h-full w-full object-cover object-center',
+                  'absolute inset-0 h-full w-full object-cover object-center md:object-[center_32%] lg:object-[center_28%]',
                   isMobileValue ? '' : 'will-change-transform',
                 ]}
-                style={{ transform: isMobileValue ? 'scale(1.02)' : 'scale(1.04)' }}
+                style={{ transform: isMobileValue ? 'scale(1.02)' : 'scale(1.01)' }}
               />
               <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(12,10,9,0.18)_0%,rgba(12,10,9,0.26)_36%,rgba(12,10,9,0.4)_100%)]" />
             </div>
 
-            <div class="relative z-10 mx-auto max-w-7xl px-5 py-16 sm:px-6 sm:py-20 md:min-h-[860px] md:px-12 md:py-24 lg:min-h-[920px] lg:py-28">
-              <div class="mx-auto w-full max-w-[300px] sm:max-w-3xl md:max-w-[56rem] md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:items-start md:gap-5 lg:gap-6">
+            <div class="relative z-10 mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-16 md:min-h-[720px] md:px-12 md:py-18 lg:min-h-[780px] lg:py-20">
+              <div class="mx-auto w-full max-w-[300px] sm:max-w-3xl md:max-w-[56rem] md:grid md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:items-start md:gap-4 lg:gap-5">
                 <Reveal>
-                  <div class="max-w-[300px] border border-white/30 bg-white/60 px-4 py-5 backdrop-blur-md sm:max-w-2xl sm:px-8 sm:py-9 md:max-w-none">
+                  <div class="max-w-[300px] border border-white/30 bg-white/60 px-4 py-5 backdrop-blur-md sm:max-w-2xl sm:px-7 sm:py-7 md:max-w-none">
                     <h2 class="mb-4 break-words text-xl font-light leading-[1.08] tracking-tighter text-stone-950 sm:mb-5 sm:text-3xl md:mb-6 md:text-6xl">
                       Сдача и жизнь в доме
                     </h2>
@@ -185,7 +185,7 @@ export default defineComponent({
                 </Reveal>
 
                 <div
-                  class="handover-stage-grid mt-6 grid max-w-[300px] grid-cols-1 gap-2 sm:mt-8 sm:max-w-3xl sm:gap-3 md:mt-10 md:max-w-none lg:mt-12"
+                  class="handover-stage-grid mt-5 grid max-w-[300px] grid-cols-1 gap-2 sm:mt-6 sm:max-w-3xl sm:gap-2.5 md:mt-8 md:max-w-none lg:mt-9"
                   style={{ overflowAnchor: 'none' }}
                 >
                   {constructionStages.map((item, index) => (
@@ -196,8 +196,8 @@ export default defineComponent({
                         onToggle={(id) => toggleAccordion(constructionActiveId, id)}
                         brief={item.desc}
                         detail={item.detail}
-                        panelSpace="clamp(13rem, 30vw, 18rem)"
-                        buttonClass="h-full w-full border border-white/30 bg-white/55 px-3 py-2.5 text-left text-xs font-medium text-stone-900 transition-colors duration-300 hover:bg-white/70 sm:px-5 sm:py-3 sm:text-sm"
+                        panelSpace="clamp(7rem, 15vw, 9rem)"
+                        buttonClass="h-full w-full border border-white/30 bg-white/55 px-3 py-2 text-left text-xs font-medium text-stone-900 transition-colors duration-300 hover:bg-white/70 sm:px-4 sm:py-2.5 sm:text-sm"
                         headerClass="flex items-center justify-between gap-2 sm:gap-3"
                         iconClass=""
                         iconSize={14}
