@@ -56,7 +56,7 @@ export default defineComponent({
                 Готовы построить <span class="font-medium italic">будущее?</span>
               </h2>
               <p class="mx-auto mb-8 max-w-2xl text-base text-stone-600 sm:mb-12 sm:text-lg">
-                Закажите резиденцию от Santilli Architecture и испытайте пересечение высококлассного дизайна и структурной неуязвимости.
+                Закажите дом от ЭвоСтройТех и испытайте сочетание выразительной архитектуры, инженерной прочности и бескомпромиссного комфорта.
               </p>
               <button
                 onClick={props.openModal}
@@ -77,7 +77,7 @@ export default defineComponent({
                   <div class="flex h-6 w-6 items-center justify-center bg-white">
                     <div class="h-2 w-2 border border-stone-900" />
                   </div>
-                  <span class="text-lg font-medium tracking-tight text-white">SANTILLI</span>
+                  <span class="text-lg font-medium tracking-tight text-white">ЭвоСтройТех</span>
                 </div>
                 <p class="max-w-sm text-sm leading-relaxed text-stone-500 sm:text-base">
                   Открываем будущее элитной недвижимости с помощью передовой технологии SCIP и бескомпромиссного архитектурного дизайна.

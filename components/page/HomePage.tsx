@@ -28,17 +28,18 @@ const HomeFaqSection = defineAsyncComponent(() => import('~/components/page/home
 export default defineComponent({
   name: 'IndexPage',
   setup() {
-    useSeoMeta({
-      title: 'Santilli Architecture',
-      description:
-        'Архитектурный лендинг Santilli Architecture о технологии SCIP, проектировании, строительстве и сопровождении частных резиденций.',
-    });
+      useSeoMeta({
+        title: 'ЭвоСтройТех',
+        description:
+          'ЭвоСтройТех — лендинг о технологии SCIP, проектировании, строительстве и сопровождении монолитных домов нового поколения.',
+      });
 
     const rootRef = ref<HTMLElement | null>(null);
     const isMenuOpen = ref(false);
     const isLoading = ref(true);
     const isFadingOut = ref(false);
     const isModalOpen = ref(false);
+    const applicantType = ref<'individual' | 'company'>('individual');
     const logoSrc = withSiteBase('/image/logo.webp');
     const badgeImageSrc = withSiteBase('/image/23.webp');
 
@@ -155,7 +156,7 @@ export default defineComponent({
               <div class={['transform transition-[transform,opacity] duration-[1800ms] ease-out', isFadingOutValue ? 'scale-[1.03] opacity-0' : 'scale-100 opacity-100']}>
                 <img
                   src={logoSrc}
-                  alt="Santilli Architecture Logo"
+                  alt="ЭвоСтройТех Logo"
                   loading="eager"
                   decoding="async"
                   class="w-64 object-contain md:w-96"
@@ -166,15 +167,20 @@ export default defineComponent({
 
           <div
             class={[
-              'fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto p-3 transition-all duration-500 sm:p-6',
+              'fixed inset-0 z-[200] overflow-y-auto p-3 transition-all duration-500 sm:p-6',
               isModalOpenValue ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0',
             ]}
           >
-            <div class="absolute inset-0 bg-stone-900/60 backdrop-blur-sm transition-opacity" onClick={closeModal} />
+            <div class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm transition-opacity" onClick={closeModal} />
 
             <div
               class={[
-                'relative w-full max-w-lg bg-white p-5 shadow-2xl transition-all duration-500 ease-out sm:p-8 md:p-12',
+                'relative z-10 mx-auto flex min-h-full w-full max-w-lg items-center py-4 sm:py-8',
+              ]}
+            >
+              <div
+                class={[
+                  'relative w-full bg-white p-5 shadow-2xl transition-all duration-500 ease-out sm:p-8 md:p-12',
                 isModalOpenValue ? 'translate-y-0 scale-100' : 'translate-y-8 scale-95',
               ]}
             >
@@ -183,7 +189,9 @@ export default defineComponent({
               </button>
 
               <div class="mb-6 sm:mb-10">
-                <h3 class="bronze-text mb-2 text-2xl font-light tracking-tight sm:mb-3 sm:text-3xl">Частная консультация</h3>
+                <h3 class="bronze-text mb-2 text-2xl font-light tracking-tight sm:mb-3 sm:text-3xl">
+                  {applicantType.value === 'company' ? 'Заявка для юридического лица' : 'Частная консультация'}
+                </h3>
                 <p class="text-xs leading-relaxed text-stone-500 sm:text-sm">
                   Оставьте свои контактные данные, и наш ведущий архитектор свяжется с вами для обсуждения вашего проекта.
                 </p>
@@ -195,52 +203,265 @@ export default defineComponent({
                   event.preventDefault();
                 }}
               >
-                <div class="space-y-1">
-                  <label for="name" class="text-xs font-bold uppercase tracking-widest text-stone-400">
-                    Ваше Имя
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
-                  />
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      applicantType.value = 'individual';
+                    }}
+                    class={[
+                      'border px-4 py-3 text-sm font-medium transition-colors',
+                      applicantType.value === 'individual'
+                        ? 'border-stone-900 bg-stone-900 text-white'
+                        : 'border-stone-200 bg-stone-50 text-stone-700 hover:border-stone-300 hover:bg-stone-100',
+                    ]}
+                  >
+                    Частное лицо
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      applicantType.value = 'company';
+                    }}
+                    class={[
+                      'border px-4 py-3 text-sm font-medium transition-colors',
+                      applicantType.value === 'company'
+                        ? 'border-stone-900 bg-stone-900 text-white'
+                        : 'border-stone-200 bg-stone-50 text-stone-700 hover:border-stone-300 hover:bg-stone-100',
+                    ]}
+                  >
+                    Юрлицо
+                  </button>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div class="space-y-1">
-                    <label for="phone" class="text-xs font-bold uppercase tracking-widest text-stone-400">
-                      Телефон
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      required
-                      class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
-                    />
-                  </div>
-                  <div class="space-y-1">
-                    <label for="email" class="text-xs font-bold uppercase tracking-widest text-stone-400">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
-                    />
-                  </div>
-                </div>
+                {applicantType.value === 'company' ? (
+                  <>
+                    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                      <div class="space-y-1">
+                        <label for="company-first-name" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Имя *
+                        </label>
+                        <input
+                          type="text"
+                          id="company-first-name"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                      <div class="space-y-1">
+                        <label for="company-last-name" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Фамилия *
+                        </label>
+                        <input
+                          type="text"
+                          id="company-last-name"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                      <div class="space-y-1">
+                        <label for="company-name" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Компания *
+                        </label>
+                        <input
+                          type="text"
+                          id="company-name"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                      <div class="space-y-1">
+                        <label for="company-city" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Город *
+                        </label>
+                        <input
+                          type="text"
+                          id="company-city"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                      <div class="space-y-1">
+                        <label for="company-activity" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Деятельность *
+                        </label>
+                        <select
+                          id="company-activity"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        >
+                          <option value="">Выберите направление</option>
+                          <option value="developer">Девелопмент</option>
+                          <option value="construction">Строительство</option>
+                          <option value="architecture">Архитектура и дизайн</option>
+                          <option value="manufacturing">Производство</option>
+                          <option value="other">Другое</option>
+                        </select>
+                      </div>
+                      <div class="space-y-1">
+                        <label for="company-country" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Страна *
+                        </label>
+                        <select
+                          id="company-country"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        >
+                          <option value="">Выберите страну</option>
+                          <option value="ru">Россия</option>
+                          <option value="kz">Казахстан</option>
+                          <option value="by">Беларусь</option>
+                          <option value="ae">ОАЭ</option>
+                          <option value="other">Другая страна</option>
+                        </select>
+                      </div>
+                      <div class="space-y-1 sm:col-span-2">
+                        <label for="company-address" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Адрес *
+                        </label>
+                        <input
+                          type="text"
+                          id="company-address"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                    </div>
 
-                <div class="space-y-1">
-                  <label for="details" class="text-xs font-bold uppercase tracking-widest text-stone-400">
-                    Кратко о проекте (опционально)
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      <div class="space-y-1">
+                        <label for="company-email" class="flex min-h-[2.5rem] items-end text-xs font-bold uppercase tracking-widest leading-tight text-stone-400">
+                          Адрес электронной почты *
+                        </label>
+                        <input
+                          type="email"
+                          id="company-email"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                      <div class="space-y-1">
+                        <label for="company-phone" class="flex min-h-[2.5rem] items-end text-xs font-bold uppercase tracking-widest leading-tight text-stone-400">
+                          Телефон *
+                        </label>
+                        <input
+                          type="tel"
+                          id="company-phone"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="space-y-1">
+                      <label for="company-area" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                        Площадь дома или объекта
+                      </label>
+                      <input
+                        type="text"
+                        id="company-area"
+                        placeholder="Например, 500 м²"
+                        class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                      />
+                    </div>
+
+                    <div class="space-y-1">
+                      <label for="company-message" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                        Сообщение *
+                      </label>
+                      <textarea
+                        id="company-message"
+                        rows={4}
+                        required
+                        class="w-full resize-none border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                      />
+                    </div>
+
+                    <div class="space-y-3 border-t border-stone-100 pt-3">
+                      <label class="flex items-start gap-3 text-xs uppercase tracking-widest text-stone-500">
+                        <input type="checkbox" class="mt-0.5 h-4 w-4 border-stone-300 text-stone-900 focus:ring-stone-900" />
+                        <span>Новостная рассылка</span>
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div class="space-y-1">
+                      <label for="name" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                        Ваше Имя *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        required
+                        class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                      />
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      <div class="space-y-1">
+                        <label for="phone" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Телефон *
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                      <div class="space-y-1">
+                        <label for="email" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          required
+                          class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="space-y-1">
+                      <label for="area" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                        Площадь дома
+                      </label>
+                      <input
+                        type="text"
+                        id="area"
+                        placeholder="Например, 180 м²"
+                        class="w-full border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                      />
+                    </div>
+
+                    <div class="space-y-1">
+                      <label for="details" class="text-xs font-bold uppercase tracking-widest text-stone-400">
+                        Кратко о проекте (опционально)
+                      </label>
+                      <textarea
+                        id="details"
+                        rows={3}
+                        class="w-full resize-none border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
+                      />
+                    </div>
+                  </>
+                )}
+
+                <div class="space-y-3 border-t border-stone-100 pt-4">
+                  <p class="text-[11px] uppercase tracking-widest text-stone-400">* Обязательные поля</p>
+                  <label class="flex items-start gap-3 text-xs uppercase tracking-widest text-stone-500">
+                    <input type="checkbox" class="mt-0.5 h-4 w-4 border-stone-300 text-stone-900 focus:ring-stone-900" />
+                    <span>Новостная рассылка</span>
                   </label>
-                  <textarea
-                    id="details"
-                    rows={3}
-                    class="w-full resize-none border-b border-stone-200 bg-transparent py-2 text-stone-900 transition-colors focus:border-stone-900 focus:outline-none"
-                  />
+                  <label class="flex items-start gap-3 text-xs uppercase tracking-widest text-stone-500">
+                    <input type="checkbox" required class="mt-0.5 h-4 w-4 border-stone-300 text-stone-900 focus:ring-stone-900" />
+                    <span>Я согласен на обработку персональных данных *</span>
+                  </label>
+                  <label class="flex items-start gap-3 text-xs uppercase tracking-widest text-stone-500">
+                    <input type="checkbox" required class="mt-0.5 h-4 w-4 border-stone-300 text-stone-900 focus:ring-stone-900" />
+                    <span>Я принимаю политику конфиденциальности *</span>
+                  </label>
                 </div>
 
                 <button type="submit" class="mt-5 w-full bg-stone-900 px-8 py-3.5 text-sm font-medium text-white transition-colors hover:bg-stone-800 active:bg-stone-700 sm:mt-8 sm:py-4">
@@ -248,6 +469,7 @@ export default defineComponent({
                 </button>
                 <p class="mt-4 text-center text-[10px] uppercase tracking-widest text-stone-400">Ваши данные надежно защищены</p>
               </form>
+              </div>
             </div>
           </div>
 
@@ -270,7 +492,7 @@ export default defineComponent({
                   <div class="h-2.5 w-2.5 border border-white sm:h-3 sm:w-3" />
                 </div>
                 <span class={['text-lg font-medium tracking-tight transition-colors duration-500 sm:text-xl', isScrolledValue ? 'bronze-text' : 'bronze-text-light']}>
-                  SANTILLI
+                  ЭвоСтройТех
                 </span>
               </div>
 

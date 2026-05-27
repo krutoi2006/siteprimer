@@ -894,6 +894,136 @@ export default defineComponent({
           </div>
         </section>
 
+        <section class="bg-stone-950 py-12 text-white sm:py-16 md:py-20">
+          <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+            <div class="max-w-5xl">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">Основные этапы</p>
+              <h2 class="mt-4 text-3xl font-light leading-tight tracking-[-0.04em] text-white sm:text-4xl md:text-5xl">
+                Основные этапы строительства от идеи построить дом до заезда.
+              </h2>
+              <p class="mt-4 max-w-3xl text-sm leading-7 text-stone-300 sm:text-base">
+                Кратко о пути от первого звонка до жизни в готовом доме.
+              </p>
+            </div>
+
+            <div class="mt-8 grid gap-4 md:mt-10 md:grid-cols-2 xl:grid-cols-4">
+              {[
+                {
+                  step: '1',
+                  text: 'Звонок или заявка перезвонить Вам. Мы не спамим звонками. Договариваемся о встрече или звонке, и уже за один разговор Вы получите основные ответы.',
+                },
+                {
+                  step: '2',
+                  text: 'Выезд на участок. Собираем параметры, обсуждаем пожелания, смотрим грунт и особенности участка. Даём экспертные советы и предварительный расчёт.',
+                },
+                {
+                  step: '3',
+                  text: 'Фундамент. От нескольких дней для бетонных свай до одного месяца для монолитной плиты. Параллельно на заводе готовятся конструкции стен и перекрытий.',
+                },
+                {
+                  step: '4',
+                  text: 'Сборка стен и перекрытий из армированного утепления. Подготовка к нанесению бетона на стены и перекрытия занимает от 2 до 7 дней. Никаких кранов, всё руками.',
+                },
+                {
+                  step: '5',
+                  text: 'Монтаж каналов под инженерные сети и сами коммуникации до заливки бетона. Это уникально: ни пыли, ни штробления. Срок от 1 до 5 дней.',
+                },
+                {
+                  step: '6',
+                  text: 'Бетон. На стены наносят бетон под давлением, и уже через несколько дней это монолитная железобетонная высокопрочная стена.',
+                },
+                {
+                  step: '7',
+                  text: 'Отделка. Стена ровная, поэтому можно сразу клеить обои, красить или вешать фасад.',
+                },
+                {
+                  step: '8',
+                  text: 'Вы въезжаете в новый дом.',
+                },
+              ].map((item) => (
+                <div key={item.step} class="border border-white/10 bg-white/5 px-4 py-5 sm:px-5 sm:py-6">
+                  <div class="mb-4 flex items-center gap-3">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-full border border-amber-300/40 text-sm font-semibold text-amber-200">
+                      {item.step}
+                    </div>
+                    <div class="h-px flex-1 bg-gradient-to-r from-amber-200/40 to-transparent" />
+                  </div>
+                  <p class="text-sm leading-7 text-stone-200 sm:text-base">{item.text}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-8 border border-amber-300/20 bg-[linear-gradient(135deg,rgba(251,191,36,0.08),rgba(255,255,255,0.03))] px-5 py-6 sm:px-6 sm:py-7">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.28em] text-amber-200/80 sm:text-xs">Сроки среднего по площади дома</p>
+              <div class="mt-4 grid gap-4 md:grid-cols-3">
+                <div class="border border-white/10 bg-black/10 px-4 py-4">
+                  <p class="text-sm font-semibold text-white">Фундамент</p>
+                  <p class="mt-2 text-sm leading-6 text-stone-300">Неделя - 1 месяц</p>
+                </div>
+                <div class="border border-white/10 bg-black/10 px-4 py-4">
+                  <p class="text-sm font-semibold text-white">Коробка с кровлей</p>
+                  <p class="mt-2 text-sm leading-6 text-stone-300">2-3 недели</p>
+                </div>
+                <div class="border border-white/10 bg-black/10 px-4 py-4">
+                  <p class="text-sm font-semibold text-white">Дом под полный ключ</p>
+                  <p class="mt-2 text-sm leading-6 text-stone-300">2,5-3 месяца</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-stone-900 py-12 text-white sm:py-16 md:py-20">
+          <div class="mx-auto max-w-7xl px-5 sm:px-6 md:px-12">
+            <div class="max-w-5xl">
+              <p class="text-[11px] font-semibold uppercase tracking-[0.28em] text-stone-400 sm:text-xs">Для кого этот дом</p>
+              <h2 class="mt-4 text-3xl font-light leading-tight tracking-[-0.04em] text-white sm:text-4xl md:text-5xl">
+                ДЛЯ КОГО ЭТОТ ДОМ
+              </h2>
+            </div>
+
+            <div class="mt-8 grid gap-4 md:mt-10 md:grid-cols-2 xl:grid-cols-3">
+              {[
+                {
+                  title: 'Для тех, кто хочет тепла или прохлады без переплат',
+                  text: 'Стена 25 см по теплу заменяет 2 метра кирпича. Зимой дом не выстужается, летом сам держит прохладу. Экономия на отоплении — до 40% каждый месяц.',
+                },
+                {
+                  title: 'Для тех, кто ценит тишину',
+                  text: 'Базовая стена SCIP даёт 47-55 дБ — это уровень тихой библиотеки. Соседей и шум трассы вы просто не услышите. А если вы музыкант — можно сделать усиленную версию 60 дБ и выше, прямо внутри стены, без уменьшения пространства и дополнительных коробов.',
+                },
+                {
+                  title: 'Для тех, кто не хочет ждать годами',
+                  text: 'Дом под ключ — за 2,5-3 месяца.',
+                },
+                {
+                  title: 'Для тех, кто любит красивый и неповторимый дом',
+                  text: 'Арки, купола, эркеры, плавные линии, любая кровля — ЭвоСтройТех не диктует форму. Ваш дом будет таким, как вы задумали.',
+                },
+                {
+                  title: 'Для тех, кто думает о безопасности',
+                  text: 'Бетонная армированная оболочка с двух сторон плюс стальная сетка внутри дают необычное сочетание: стена останавливает пулю, выдерживает ураган, взрывную волну и даже удар коптера с боевой нагрузкой. Технология используется в военных и защитных сооружениях по всему миру, например, в здании Федерального бюро расследований в Понсе, Пуэрто-Рико. Не подземный бункер, но один из самых надёжных вариантов для частного дома или коммерческого объекта.',
+                },
+                {
+                  title: 'Для тех, кто умеет считать деньги',
+                  text: 'Дом легче кирпичного в 5 раз, но прочнее — значит, вы экономите на фундаменте. Можно строить поэтапно: сначала часть дома, въехать, а потом достраивать остальное.',
+                },
+              ].map((item, index) => (
+                <div key={item.title} class="border border-white/10 bg-white/5 px-5 py-6 sm:px-6 sm:py-7">
+                  <div class="mb-4 flex items-center gap-3">
+                    <div class="h-px w-10 bg-gradient-to-r from-amber-200/60 to-transparent" />
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-200/80">
+                      {['Тепло', 'Тишина', 'Скорость', 'Архитектура', 'Безопасность', 'Выгода'][index] ?? 'SCIP'}
+                    </p>
+                  </div>
+                  <h3 class="text-lg font-medium leading-7 text-white sm:text-xl">{item.title}</h3>
+                  <p class="mt-4 text-sm leading-7 text-stone-300 sm:text-base">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {isMetricsModalOpen.value ? (
           <div
             class="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/80 px-4 py-6 backdrop-blur-sm"

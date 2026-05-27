@@ -242,16 +242,16 @@ export const supportCards: BriefCard[] = [
 
 export const projectCards: ProjectCard[] = [
   {
-    image: withSiteBase('/image/projects/portfolio-01.webp'),
-    alt: 'Двухэтажный деревянный дом с панорамными окнами',
+    image: withSiteBase('/image/projects/portfolio-refresh-08.png'),
+    alt: 'Современная двухэтажная вилла с бассейном в вечернем освещении',
     title: 'Дом у сада',
     location: 'CLT РЕЗИДЕНЦИЯ',
     featured: true,
     delay: 0,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-02.webp'),
-    alt: 'Современный дом с внутренним двором',
+    image: withSiteBase('/image/projects/portfolio-refresh-03.png'),
+    alt: 'Современный дом с геометричной деревянной оболочкой в лесу',
     title: 'Дом с внутренним двором',
     location: 'ЧАСТНЫЙ ДОМ',
     featured: false,
@@ -266,8 +266,8 @@ export const projectCards: ProjectCard[] = [
     delay: 160,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-04.webp'),
-    alt: 'Дом на опорах с открытой террасой',
+    image: withSiteBase('/image/projects/portfolio-refresh-04.png'),
+    alt: 'Двухэтажный дом в сосновом окружении с деревянными объемами',
     title: 'Дом на опорах',
     location: 'КОНЦЕПТ',
     featured: false,
@@ -290,8 +290,8 @@ export const projectCards: ProjectCard[] = [
     delay: 400,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-07.webp'),
-    alt: 'Жилой комплекс с выразительными фронтонами',
+    image: withSiteBase('/image/projects/portfolio-refresh-01.png'),
+    alt: 'Современная вилла с консольными террасами и панорамным остеклением',
     title: 'Жилой комплекс',
     location: 'АРХИТЕКТУРНАЯ КОНЦЕПЦИЯ',
     featured: true,
@@ -322,8 +322,8 @@ export const projectCards: ProjectCard[] = [
     delay: 720,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-11.webp'),
-    alt: 'Современная вилла с панорамным остеклением',
+    image: withSiteBase('/image/projects/portfolio-refresh-07.png'),
+    alt: 'Современный деревянный дом с панорамным фасадом в лесу',
     title: 'Современная вилла',
     location: 'ЧАСТНЫЙ ДОМ',
     featured: true,
@@ -341,24 +341,24 @@ export const projectCards: ProjectCard[] = [
 
 export const portfolioGapCards: ProjectCard[] = [
   {
-    image: withSiteBase('/image/projects/portfolio-gap-01.jpg'),
-    alt: 'Светлый интерьер с круглыми колоннами и деревянным потолком',
+    image: withSiteBase('/image/projects/portfolio-refresh-02.png'),
+    alt: 'Светлая гостиная с мягкой мебелью и панорамными шторами',
     title: 'Световой зал',
     location: 'ИНТЕРЬЕР',
     featured: false,
     delay: 440,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-gap-02.jpg'),
-    alt: 'Просторный интерьер с радиальной композицией и круглыми проемами в потолке',
+    image: withSiteBase('/image/projects/portfolio-refresh-05.png'),
+    alt: 'Светлый интерьер столовой с камином и подвесными светильниками',
     title: 'Радиальная композиция',
     location: 'ИНТЕРЬЕР',
     featured: false,
     delay: 780,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-gap-03.jpg'),
-    alt: 'Каменный переход с панорамным остеклением и стеклянным ограждением',
+    image: withSiteBase('/image/projects/portfolio-refresh-06.png'),
+    alt: 'Интерьер гостиной со вторым светом, кухней и акцентной деревянной стеной',
     title: 'Каменная галерея',
     location: 'ИНТЕРЬЕР',
     featured: false,
