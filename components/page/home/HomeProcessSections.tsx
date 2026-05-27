@@ -8,7 +8,6 @@ import {
   designLayers,
   siteInsights,
 } from '~/data/siteContent';
-import { withSiteBase } from '~/utils/withSiteBase';
 
 const processSectionStyle = {
   contentVisibility: 'auto',
@@ -24,7 +23,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const processImageSrc = withSiteBase('/image/projects/portfolio-09.webp');
     const contactActiveId = ref<string | null>(null);
     const siteActiveId = ref<string | null>(null);
     const conceptActiveId = ref<string | null>(null);
@@ -40,23 +38,11 @@ export default defineComponent({
 
       return (
         <>
-          <section id="process" class="relative overflow-hidden bg-stone-950 text-stone-900" style={processSectionStyle}>
-            <div class="absolute inset-0">
-              <img
-                src={processImageSrc}
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-                class={[
-                  'absolute inset-0 h-full w-full object-cover',
-                  isMobileValue ? '' : 'inset-x-0 -bottom-24 -top-24 h-[calc(100%+12rem)] scale-[1.08] will-change-transform',
-                ]}
-                style={{ transform: isMobileValue ? 'none' : 'translateY(var(--technology-parallax)) scale(1.08)' }}
-              />
-              <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,10,9,0.92)_10%,rgba(28,25,23,0.78)_45%,rgba(28,25,23,0.42)_100%)]" />
-            </div>
+        <section id="process" class="relative overflow-hidden bg-stone-950 text-stone-900" style={processSectionStyle}>
+          <div class="absolute inset-0">
+            <div class="absolute inset-0 bg-[linear-gradient(115deg,rgba(12,10,9,0.98)_10%,rgba(28,25,23,0.9)_48%,rgba(41,37,36,0.88)_100%)]" />
+            <div class="absolute left-1/2 top-10 h-48 w-48 -translate-x-1/2 rounded-full bg-amber-200/10 blur-3xl sm:top-14 sm:h-64 sm:w-64" />
+          </div>
 
             <div class="relative z-10 mx-auto max-w-7xl px-5 py-20 sm:px-6 sm:py-24 md:px-12 md:py-40">
               <div class="grid grid-cols-1 items-end gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-10">
