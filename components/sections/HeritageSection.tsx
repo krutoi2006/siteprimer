@@ -1,5 +1,5 @@
 import { ChevronDown } from 'lucide-vue-next';
-import { defineComponent, ref, type CSSProperties } from 'vue';
+import { computed, defineComponent, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue';
 import { withSiteBase } from '~/utils/withSiteBase';
 
 export default defineComponent({
@@ -26,6 +26,7 @@ export default defineComponent({
     const isDurabilityMetricsModalOpen = ref(false);
     const isEconomicsMetricsModalOpen = ref(false);
     const activeDetailImageIndex = ref<number | null>(null);
+    const lockedScrollY = ref(0);
 
     const advantages = [
       'Самая выгодная бескомпромиссная технология',
@@ -380,6 +381,72 @@ export default defineComponent({
       return drawing ? { ...drawing, src: withSiteBase(drawing.src) } : null;
     };
 
+    const isAnyPopupOpen = computed(
+      () =>
+        isEpsModalOpen.value ||
+        isScienceModalOpen.value ||
+        isMetricsModalOpen.value ||
+        isHeatMetricsModalOpen.value ||
+        isFireMetricsModalOpen.value ||
+        isSoundMetricsModalOpen.value ||
+        isDisasterMetricsModalOpen.value ||
+        isArchitectureMetricsModalOpen.value ||
+        isEngineeringMetricsModalOpen.value ||
+        isTimelineMetricsModalOpen.value ||
+        isDurabilityMetricsModalOpen.value ||
+        isEconomicsMetricsModalOpen.value ||
+        activeDetailImageIndex.value !== null,
+    );
+
+    watch(
+      isAnyPopupOpen,
+      (isOpen) => {
+        if (!import.meta.client) {
+          return;
+        }
+
+        const { body, documentElement } = document;
+
+        if (isOpen) {
+          lockedScrollY.value = window.scrollY;
+          body.style.position = 'fixed';
+          body.style.top = `-${lockedScrollY.value}px`;
+          body.style.left = '0';
+          body.style.right = '0';
+          body.style.width = '100%';
+          body.style.overflow = 'hidden';
+          documentElement.style.overflow = 'hidden';
+          return;
+        }
+
+        const scrollY = lockedScrollY.value;
+        body.style.position = '';
+        body.style.top = '';
+        body.style.left = '';
+        body.style.right = '';
+        body.style.width = '';
+        body.style.overflow = '';
+        documentElement.style.overflow = '';
+        window.scrollTo({ top: scrollY, behavior: 'auto' });
+      },
+      { immediate: true },
+    );
+
+    onBeforeUnmount(() => {
+      if (!import.meta.client) {
+        return;
+      }
+
+      const { body, documentElement } = document;
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.width = '';
+      body.style.overflow = '';
+      documentElement.style.overflow = '';
+    });
+
     return () => (
       <>
         <section
@@ -406,6 +473,9 @@ export default defineComponent({
               <h2 class="bronze-text-light mt-5 text-3xl font-light leading-[1.02] tracking-[-0.04em] sm:text-4xl md:text-5xl">
                 Когда технология говорит фактами, а не маркетингом
               </h2>
+              <p class="mx-auto mt-4 max-w-2xl text-sm font-medium uppercase tracking-[0.22em] text-amber-200/80 sm:text-[13px]">
+                Факты, цифры и реальная физика конструкции
+              </p>
             </div>
 
             <div class="mx-auto mt-10 max-w-4xl space-y-5 sm:mt-12 sm:space-y-6">

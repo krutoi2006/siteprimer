@@ -1,5 +1,5 @@
 import { useHead } from '#imports';
-import { ArrowRight, ChevronDown } from 'lucide-vue-next';
+import { ArrowRight } from 'lucide-vue-next';
 import { defineComponent, ref, watch, type PropType } from 'vue';
 import Reveal from '~/components/ui/Reveal';
 import { withSiteBase } from '~/utils/withSiteBase';
@@ -96,17 +96,6 @@ export default defineComponent({
                 </button>
               </div>
             </Reveal>
-          </div>
-
-          <div
-            class={[
-              'absolute bottom-4 left-1/2 z-40 -translate-x-1/2 cursor-pointer text-white/50 transition-opacity duration-1000 sm:bottom-8',
-              props.isMobile ? '' : 'animate-bounce',
-              isReadyValue ? 'opacity-100' : 'opacity-0',
-            ]}
-            onClick={(event: MouseEvent) => props.navigateToSection(event, 'vision')}
-          >
-            <ChevronDown size={24} />
           </div>
         </section>
       );

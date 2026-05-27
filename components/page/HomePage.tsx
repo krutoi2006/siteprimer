@@ -40,6 +40,7 @@ export default defineComponent({
     const isFadingOut = ref(false);
     const isModalOpen = ref(false);
     const applicantType = ref<'individual' | 'company'>('individual');
+    const lockedScrollY = ref(0);
     const logoSrc = withSiteBase('/image/logo.webp');
     const badgeImageSrc = withSiteBase('/image/23.webp');
 
@@ -106,7 +107,30 @@ export default defineComponent({
           return;
         }
 
-        document.body.style.overflow = modalOpen || menuOpen || loading ? 'hidden' : 'unset';
+        const shouldLock = modalOpen || menuOpen || loading;
+        const { body, documentElement } = document;
+
+        if (shouldLock) {
+          lockedScrollY.value = window.scrollY;
+          body.style.position = 'fixed';
+          body.style.top = `-${lockedScrollY.value}px`;
+          body.style.left = '0';
+          body.style.right = '0';
+          body.style.width = '100%';
+          body.style.overflow = 'hidden';
+          documentElement.style.overflow = 'hidden';
+          return;
+        }
+
+        const scrollY = lockedScrollY.value;
+        body.style.position = '';
+        body.style.top = '';
+        body.style.left = '';
+        body.style.right = '';
+        body.style.width = '';
+        body.style.overflow = '';
+        documentElement.style.overflow = '';
+        window.scrollTo({ top: scrollY, behavior: 'auto' });
       },
       { immediate: true },
     );
@@ -124,7 +148,13 @@ export default defineComponent({
         window.clearTimeout(removeTimer);
       }
 
-      document.body.style.overflow = 'unset';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     });
 
     return () => {
