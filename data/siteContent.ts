@@ -242,7 +242,7 @@ export const supportCards: BriefCard[] = [
 
 export const projectCards: ProjectCard[] = [
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-08.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5153.PNG'),
     alt: 'Современная двухэтажная вилла с бассейном в вечернем освещении',
     title: 'Дом у сада',
     location: 'CLT РЕЗИДЕНЦИЯ',
@@ -250,7 +250,7 @@ export const projectCards: ProjectCard[] = [
     delay: 0,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-03.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5122.PNG'),
     alt: 'Современный дом с геометричной деревянной оболочкой в лесу',
     title: 'Дом с внутренним двором',
     location: 'ЧАСТНЫЙ ДОМ',
@@ -258,7 +258,7 @@ export const projectCards: ProjectCard[] = [
     delay: 80,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-03.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5128.PNG'),
     alt: 'Навес и гараж современного дома',
     title: 'Гаражный павильон',
     location: 'ВЪЕЗДНАЯ ГРУППА',
@@ -266,7 +266,7 @@ export const projectCards: ProjectCard[] = [
     delay: 160,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-04.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5130.PNG'),
     alt: 'Двухэтажный дом в сосновом окружении с деревянными объемами',
     title: 'Дом на опорах',
     location: 'КОНЦЕПТ',
@@ -274,7 +274,7 @@ export const projectCards: ProjectCard[] = [
     delay: 240,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-05.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5142.PNG'),
     alt: 'Подъезд к дому на опорах',
     title: 'Подъездная галерея',
     location: 'КОНЦЕПТ',
@@ -282,7 +282,7 @@ export const projectCards: ProjectCard[] = [
     delay: 320,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-06.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5147.PNG'),
     alt: 'Внутренний проезд под консольной частью дома',
     title: 'Внутренний проезд',
     location: 'КОНЦЕПТ',
@@ -290,7 +290,7 @@ export const projectCards: ProjectCard[] = [
     delay: 400,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-01.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5159.PNG'),
     alt: 'Современная вилла с консольными террасами и панорамным остеклением',
     title: 'Жилой комплекс',
     location: 'АРХИТЕКТУРНАЯ КОНЦЕПЦИЯ',
@@ -298,7 +298,7 @@ export const projectCards: ProjectCard[] = [
     delay: 480,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-08.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5151.PNG'),
     alt: 'Минималистичный дом у воды',
     title: 'Дом у воды',
     location: 'ЧАСТНАЯ РЕЗИДЕНЦИЯ',
@@ -306,7 +306,7 @@ export const projectCards: ProjectCard[] = [
     delay: 560,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-09.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5154.PNG'),
     alt: 'Культурный центр с цилиндрическими объемами',
     title: 'Культурный центр',
     location: 'ОБЩЕСТВЕННОЕ ПРОСТРАНСТВО',
@@ -314,7 +314,7 @@ export const projectCards: ProjectCard[] = [
     delay: 640,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-10.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5161.PNG'),
     alt: 'Интерьер атриума с круговым обходом',
     title: 'Атриум',
     location: 'ИНТЕРЬЕР',
@@ -322,7 +322,7 @@ export const projectCards: ProjectCard[] = [
     delay: 720,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-07.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5167.PNG'),
     alt: 'Современный деревянный дом с панорамным фасадом в лесу',
     title: 'Современная вилла',
     location: 'ЧАСТНЫЙ ДОМ',
@@ -330,7 +330,7 @@ export const projectCards: ProjectCard[] = [
     delay: 800,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-12.webp'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5170.PNG'),
     alt: 'Интерьер столовой с панорамным видом',
     title: 'Столовая зона',
     location: 'ИНТЕРЬЕР',
@@ -341,7 +341,7 @@ export const projectCards: ProjectCard[] = [
 
 export const portfolioGapCards: ProjectCard[] = [
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-02.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5138.PNG'),
     alt: 'Светлая гостиная с мягкой мебелью и панорамными шторами',
     title: 'Световой зал',
     location: 'ИНТЕРЬЕР',
@@ -349,7 +349,7 @@ export const portfolioGapCards: ProjectCard[] = [
     delay: 440,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-05.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5148.PNG'),
     alt: 'Светлый интерьер столовой с камином и подвесными светильниками',
     title: 'Радиальная композиция',
     location: 'ИНТЕРЬЕР',
@@ -357,7 +357,7 @@ export const portfolioGapCards: ProjectCard[] = [
     delay: 780,
   },
   {
-    image: withSiteBase('/image/projects/portfolio-refresh-06.png'),
+    image: withSiteBase('/image/projects/featured-replacement/IMG_5162.PNG'),
     alt: 'Интерьер гостиной со вторым светом, кухней и акцентной деревянной стеной',
     title: 'Каменная галерея',
     location: 'ИНТЕРЬЕР',

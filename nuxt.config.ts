@@ -28,12 +28,12 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Santilli Architecture',
+      title: 'ЭвоСтройТех',
       meta: [
         {
           name: 'description',
           content:
-            'Архитектурный лендинг Santilli Architecture о технологии SCIP, авторском проектировании и строительстве.',
+            'Архитектурный лендинг ЭвоСтройТех о технологии SCIP, авторском проектировании и строительстве.',
         },
       ],
     },

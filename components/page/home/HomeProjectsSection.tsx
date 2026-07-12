@@ -14,6 +14,7 @@ const projectSectionStyle = {
 } as CSSProperties;
 
 const rotatePromptLogoSrc = withSiteBase('/image/logo2.webp');
+const mobileRotatePromptImageSrc = withSiteBase('/image/projects/featured-replacement/IMG_5153.PNG');
 
 const projectGridItems = (() => {
   const items: Array<{
@@ -90,7 +91,7 @@ export default defineComponent({
           {props.isMobilePortrait ? (
             <div class="absolute inset-0 flex h-full w-full flex-col items-center justify-center">
               <img
-                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                src={mobileRotatePromptImageSrc}
                 alt="Project Background"
                 loading="lazy"
                 decoding="async"
