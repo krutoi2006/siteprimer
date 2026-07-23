@@ -390,7 +390,7 @@ export default defineComponent({
             <div class="relative mx-auto flex min-h-[92vh] max-w-6xl flex-col px-5 pb-16 pt-28 sm:px-6 sm:pb-20 sm:pt-32 md:px-12 md:pt-36">
               <div class="mx-auto max-w-5xl text-center">
                 <h1 class="bronze-text-light mt-5 text-4xl font-light uppercase leading-[0.96] tracking-[-0.05em] sm:mt-6 sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem]">
-                  ЭВОЛЮЦИОНЫЕ СТРОИТЕЛЬНЫЕ ТЕХНОЛОГИИ
+                  ЭВОЛЮЦИОННЫЕ СТРОИТЕЛЬНЫЕ ТЕХНОЛОГИИ
                 </h1>
               </div>
 
